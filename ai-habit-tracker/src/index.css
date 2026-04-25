@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@config "../tailwind.config.js";
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-background text-text antialiased;
+    /* Custom scrollbar for webkit */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      @apply bg-background;
+    }
+    &::-webkit-scrollbar-thumb {
+      @apply bg-surfaceLight rounded-full;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-white;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface border border-border rounded-2xl p-6 shadow-sm transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply hover:border-surfaceLight hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primaryHover shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply bg-surfaceLight text-text hover:bg-border;
+  }
+  
+  .btn-ghost {
+    @apply hover:bg-surfaceLight text-textMuted hover:text-text;
+  }
+  
+  .glass-panel {
+    @apply bg-surface/80 backdrop-blur-md border border-border;
+  }
+}
+
+/* Custom fade-in animation for pages */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Recharts Customization to remove default outlines */
+.recharts-wrapper {
+  @apply outline-none focus:outline-none;
+}
+.recharts-surface {
+  @apply outline-none focus:outline-none;
+}
+
+
+.btn {
+  @apply px-4 py-2 rounded transition duration-150 
+         active:scale-95 active:opacity-80;
+}
+
+.btn-primary {
+  @apply bg-purple-600 hover:bg-purple-700 text-white;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white;
+}
+
+.btn-success {
+  @apply bg-green-500 hover:bg-green-600 text-white;
+}
