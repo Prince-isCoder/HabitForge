@@ -14,12 +14,12 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
-app.use("/api/habits",    require("./routes/habitRoutes"));
-app.use("/api/auth",      require("./routes/authRoutes"));
+app.use("/api/habits", require("./routes/habitRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/dashboard", require("./routes/dashboardRoutes"));
-app.use("/api/test",      require("./routes/testRoutes"));
-app.use("/api/chat",      require("./routes/chatRoutes"));
-app.use("/api/ai",        require("./routes/aiRoutes"));
+app.use("/api/test", require("./routes/testRoutes"));
+app.use("/api/chat", require("./routes/chatRoutes"));
+app.use("/api/ai", require("./routes/aiRoutes"));
 app.use("/api/analytics", require("./routes/analyticsRoutes"));
 
 console.log("OPENROUTER KEY:", process.env.OPENROUTER_API_KEY);
@@ -54,14 +54,29 @@ const scheduleDailyReset = () => {
 };
 
 // MongoDB Connection + Server Start
+const runStartupReset = async () => {
+  try {
+    const Habit = require("./models/Habit");
+    const today = new Date().toISOString().split("T")[0];
+    const result = await Habit.updateMany(
+      { completed: true, lastCompletedDate: { $ne: today } },
+      { $set: { completed: false } }
+    );
+    console.log(`✅ Startup reset — ${result.modifiedCount} habits reset`);
+  } catch (err) {
+    console.error("❌ Startup reset failed:", err.message);
+  }
+};
+
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB Connected");
 
+    await runStartupReset(); // ← resets stale habits on boot
+
     // Start cron AFTER DB is connected
     scheduleDailyReset();
-
     app.listen(5000, () => {
       console.log("🚀 Server running on port 5000");
     });
