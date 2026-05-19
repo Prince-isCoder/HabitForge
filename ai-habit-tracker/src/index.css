@@ -2,6 +2,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @config "../tailwind.config.js";
 
+:root {
+  --background: #F8FAFC; /* slate-50 */
+  --surface: #FFFFFF;
+  --surface-light: #F1F5F9; /* slate-100 */
+  --primary: #8B5CF6;    /* violet-500 */
+  --primary-rgb: 139, 92, 246;
+  --primary-hover: #7C3AED; /* violet-600 */
+  --success: #10B981;    /* emerald-500 */
+  --danger: #EF4444;     /* red-500 */
+  --text: #0F172A;       /* slate-900 */
+  --text-muted: #64748B;  /* slate-500 */
+  --border: #E2E8F0;     /* slate-200 */
+  --heading: #1E293B;    /* slate-800 */
+}
+
+.dark {
+  --background: #0F172A; /* slate-900 */
+  --surface: #1E293B;    /* slate-800 */
+  --surface-light: #334155; /* slate-700 */
+  --primary: #8B5CF6;    /* violet-500 */
+  --primary-rgb: 139, 92, 246;
+  --primary-hover: #7C3AED; /* violet-600 */
+  --success: #10B981;    /* emerald-500 */
+  --danger: #EF4444;     /* red-500 */
+  --text: #F8FAFC;       /* slate-50 */
+  --text-muted: #94A3B8;  /* slate-400 */
+  --border: #334155;     /* slate-700 */
+  --heading: #FFFFFF;
+}
+
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
@@ -22,7 +52,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-white;
+    @apply font-semibold tracking-tight;
+    color: var(--heading);
   }
 }
 

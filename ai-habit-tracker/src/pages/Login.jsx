@@ -94,14 +94,7 @@ const AuthPage = () => {
   const handleKey = (e) => e.key === "Enter" && submit();
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0a0c12",
-      display: "flex",
-      fontFamily: "'Outfit', 'Segoe UI', sans-serif",
-      overflow: "hidden",
-      position: "relative"
-    }}>
+    <div className="min-h-screen bg-background flex font-['Outfit',_'Segoe_UI',_sans-serif] overflow-hidden relative">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
@@ -116,19 +109,19 @@ const AuthPage = () => {
         }
         .blob-1 {
           width: 520px; height: 520px;
-          background: #4f46e5;
+          @apply bg-primary;
           top: -160px; left: -140px;
           animation-delay: 0s;
         }
         .blob-2 {
           width: 380px; height: 380px;
-          background: #06b6d4;
+          @apply bg-cyan-500;
           bottom: -100px; right: -80px;
           animation-delay: -3s;
         }
         .blob-3 {
           width: 260px; height: 260px;
-          background: #8b5cf6;
+          @apply bg-violet-500;
           top: 40%; left: 55%;
           animation-delay: -5s;
         }
@@ -156,55 +149,27 @@ const AuthPage = () => {
         }
         .brand-icon {
           width: 46px; height: 46px;
-          background: linear-gradient(135deg, #4f46e5, #06b6d4);
-          border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 22px;
-          box-shadow: 0 0 24px rgba(79,70,229,0.45);
+          @apply bg-gradient-to-br from-primary to-cyan-500 rounded-2xl flex items-center justify-center text-[22px] shadow-2xl shadow-primary/45 text-white;
         }
         .brand-name {
-          font-size: 22px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
+          @apply text-[22px] font-bold text-text tracking-tight;
         }
         .hero-tag {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(79,70,229,0.12);
-          border: 1px solid rgba(79,70,229,0.25);
-          border-radius: 99px;
-          padding: 6px 16px;
-          font-size: 12px;
-          font-weight: 500;
-          color: #a5b4fc;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          margin-bottom: 28px;
+          @apply bg-primary/10 border border-primary/25 rounded-full px-4 py-1.5 text-xs font-medium text-primary tracking-widest uppercase mb-7;
           animation: fadeUp 0.5s 0.1s ease both;
         }
         .hero-title {
-          font-size: clamp(32px, 4vw, 52px);
-          font-weight: 700;
-          color: #f1f5f9;
-          line-height: 1.12;
-          letter-spacing: -0.03em;
-          margin-bottom: 20px;
+          @apply text-[clamp(32px,4vw,52px)] font-bold text-text leading-[1.12] tracking-tight mb-5;
           animation: fadeUp 0.5s 0.2s ease both;
         }
         .hero-title span {
-          background: linear-gradient(90deg, #6366f1, #06b6d4);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          @apply bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent;
         }
         .hero-sub {
-          font-size: 16px;
-          color: #64748b;
-          line-height: 1.65;
-          max-width: 400px;
-          margin-bottom: 48px;
-          font-weight: 400;
+          @apply text-base text-textMuted leading-relaxed max-w-[400px] mb-12 font-normal;
           animation: fadeUp 0.5s 0.3s ease both;
         }
         .stats-row {
@@ -214,36 +179,20 @@ const AuthPage = () => {
         }
         .stat-item { display: flex; flex-direction: column; gap: 4px; }
         .stat-num {
-          font-size: 26px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
+          @apply text-[26px] font-bold text-text tracking-tight;
         }
         .stat-label {
-          font-size: 12px;
-          color: #475569;
-          font-weight: 400;
-          letter-spacing: 0.04em;
+          @apply text-xs text-textMuted font-normal tracking-wide;
         }
         .stat-divider {
-          width: 1px;
-          background: rgba(255,255,255,0.06);
-          align-self: stretch;
+          @apply w-[1px] bg-border/40 self-stretch;
         }
 
         /* ── Right panel (card) ── */
         .right-panel {
           width: 480px;
           min-height: 100vh;
-          background: rgba(255,255,255,0.025);
-          border-left: 1px solid rgba(255,255,255,0.055);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 48px 44px;
-          position: relative;
-          z-index: 1;
-          backdrop-filter: blur(20px);
+          @apply bg-surfaceLight/10 border-l border-border/50 flex items-center justify-center px-11 py-12 relative z-[1] backdrop-blur-2xl;
           animation: slideIn 0.5s ease both;
         }
         @keyframes slideIn {
@@ -259,62 +208,33 @@ const AuthPage = () => {
 
         /* ── Tab switcher ── */
         .tab-wrap {
-          display: flex;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          padding: 4px;
-          margin-bottom: 36px;
+          @apply flex bg-surfaceLight/40 border border-border/50 rounded-2xl p-1 mb-9;
         }
         .tab-btn {
           flex: 1;
-          padding: 11px;
-          border: none;
-          border-radius: 10px;
-          font-size: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.25s ease;
+          @apply p-[11px] border-none rounded-xl text-sm font-semibold cursor-pointer transition-all tracking-wide;
           font-family: 'Outfit', sans-serif;
-          letter-spacing: 0.01em;
         }
         .tab-btn.active {
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
-          color: #fff;
-          box-shadow: 0 4px 16px rgba(79,70,229,0.35);
+          @apply bg-gradient-to-br from-primary to-primaryHover text-white shadow-lg shadow-primary/35;
         }
         .tab-btn.inactive {
-          background: transparent;
-          color: #475569;
+          @apply bg-transparent text-textMuted hover:text-text;
         }
-        .tab-btn.inactive:hover { color: #94a3b8; }
 
         /* ── Form heading ── */
         .form-title {
-          font-size: 24px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
-          margin-bottom: 6px;
+          @apply text-2xl font-bold text-text tracking-tight mb-1.5;
         }
         .form-sub {
-          font-size: 13px;
-          color: #475569;
-          margin-bottom: 32px;
-          font-weight: 400;
+          @apply text-[13px] text-textMuted mb-8 font-normal;
         }
 
         /* ── Input fields ── */
-        .field-group { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+        .field-group { @apply flex flex-col gap-4 mb-6; }
         .field-wrap { position: relative; }
         .field-label {
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: #475569;
-          margin-bottom: 8px;
-          display: block;
+          @apply text-[11px] font-bold tracking-[0.08em] uppercase text-textMuted mb-2 block;
         }
         .field-input-wrap {
           position: relative;
@@ -324,28 +244,15 @@ const AuthPage = () => {
         .field-icon {
           position: absolute;
           left: 15px;
-          color: #334155;
-          font-size: 15px;
-          pointer-events: none;
+          @apply text-textMuted/60 text-base pointer-events-none;
         }
         .field-input {
-          width: 100%;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          padding: 13px 16px 13px 42px;
-          font-size: 14px;
-          color: #e2e8f0;
+          @apply w-full bg-surfaceLight/40 border border-border/60 rounded-xl pl-[42px] pr-4 py-[13px] text-sm text-text outline-none transition-all box-border;
           font-family: 'Outfit', sans-serif;
-          outline: none;
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-          box-sizing: border-box;
         }
-        .field-input::placeholder { color: #334155; }
+        .field-input::placeholder { @apply text-textMuted/40; }
         .field-input:focus {
-          border-color: rgba(79,70,229,0.5);
-          box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-          background: rgba(255,255,255,0.06);
+          @apply border-primary/50 shadow-[0_0_0_3px_rgba(var(--primary-rgb),0.1)] bg-surfaceLight/60;
         }
         .pass-toggle {
           position: absolute;
@@ -353,93 +260,46 @@ const AuthPage = () => {
           background: none;
           border: none;
           cursor: pointer;
-          color: #475569;
-          font-size: 16px;
-          padding: 0;
-          transition: color 0.2s;
+          @apply text-textMuted text-base p-0 transition-colors hover:text-text;
         }
-        .pass-toggle:hover { color: #94a3b8; }
 
         /* ── Error ── */
         .error-box {
-          background: rgba(239,68,68,0.08);
-          border: 1px solid rgba(239,68,68,0.2);
-          border-radius: 10px;
-          padding: 11px 14px;
-          font-size: 13px;
-          color: #fca5a5;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          @apply bg-danger/10 border border-danger/20 rounded-xl px-[14px] py-[11px] text-[13px] text-danger mb-5 flex items-center gap-2;
         }
 
         /* ── Submit btn ── */
         .submit-btn {
-          width: 100%;
-          padding: 14px;
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
-          border: none;
-          border-radius: 12px;
-          color: #fff;
-          font-size: 15px;
-          font-weight: 600;
+          @apply w-full py-3.5 bg-gradient-to-br from-primary to-primaryHover border-none rounded-xl text-white text-[15px] font-semibold cursor-pointer transition-all shadow-lg shadow-primary/35 tracking-wide mb-5;
           font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-          box-shadow: 0 6px 24px rgba(79,70,229,0.38);
-          letter-spacing: 0.01em;
-          margin-bottom: 20px;
         }
         .submit-btn:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(79,70,229,0.48);
+          @apply -translate-y-0.5 shadow-xl shadow-primary/45;
         }
         .submit-btn:active:not(:disabled) { transform: scale(0.98); }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .submit-btn:disabled { @apply opacity-50 cursor-not-allowed; }
 
         /* ── Divider ── */
         .divider {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 20px;
+          @apply flex items-center gap-3 mb-5;
         }
-        .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
-        .divider-text { font-size: 11px; color: #334155; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+        .divider-line { @apply flex-1 h-[1px] bg-border/40; }
+        .divider-text { @apply text-[11px] text-textMuted font-semibold tracking-widest uppercase; }
 
         /* ── Switch link ── */
         .switch-link {
-          text-align: center;
-          font-size: 13px;
-          color: #475569;
+          @apply text-center text-[13px] text-textMuted;
         }
         .switch-link button {
           background: none;
           border: none;
-          color: #6366f1;
-          cursor: pointer;
-          font-size: 13px;
-          font-weight: 600;
+          @apply text-primary cursor-pointer text-[13px] font-bold ml-1 transition-colors hover:text-primaryHover hover:underline;
           font-family: 'Outfit', sans-serif;
-          padding: 0;
-          margin-left: 4px;
-          transition: color 0.2s;
         }
-        .switch-link button:hover { color: #818cf8; text-decoration: underline; }
 
         /* ── Success toast ── */
         .success-toast {
-          background: rgba(16,185,129,0.1);
-          border: 1px solid rgba(16,185,129,0.25);
-          border-radius: 10px;
-          padding: 11px 14px;
-          font-size: 13px;
-          color: #6ee7b7;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          @apply bg-success/10 border border-success/25 rounded-xl px-[14px] py-[11px] text-[13px] text-success mb-5 flex items-center gap-2;
         }
 
         /* ── Responsive ── */
@@ -448,7 +308,7 @@ const AuthPage = () => {
           .right-panel {
             width: 100%;
             border-left: none;
-            padding: 48px 28px;
+            @apply px-7 py-12;
           }
         }
       `}</style>
@@ -523,7 +383,7 @@ const AuthPage = () => {
           {/* Error */}
           {error && <div className="error-box">⚠ {error}</div>}
           {success && (
-            <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "11px 14px", fontSize: 13, color: "#6ee7b7", marginBottom: 20 }}>
+            <div className="success-toast">
               {success}
             </div>
           )}

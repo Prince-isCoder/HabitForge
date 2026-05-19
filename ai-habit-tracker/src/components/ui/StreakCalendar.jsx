@@ -5,11 +5,11 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 const getColor = (count) => {
-    if (count === 0) return { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.06)" };
+    if (count === 0) return { bg: "var(--surface-light)", border: "var(--border)" };
     if (count === 1) return { bg: "rgba(99,102,241,0.25)",  border: "rgba(99,102,241,0.35)" };
     if (count === 2) return { bg: "rgba(99,102,241,0.45)",  border: "rgba(99,102,241,0.55)" };
     if (count === 3) return { bg: "rgba(99,102,241,0.65)",  border: "rgba(99,102,241,0.75)" };
-    return              { bg: "rgba(99,102,241,0.9)",   border: "rgba(139,92,246,1)"    };
+    return              { bg: "var(--primary)",   border: "var(--primary)"    };
 };
 
 const StreakCalendar = () => {
@@ -24,8 +24,8 @@ const StreakCalendar = () => {
     }, []);
 
     if (loading) return (
-        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 18, padding: 24 }}>
-            <div style={{ height: 120, display: "flex", alignItems: "center", justifyContent: "center", color: "#334155", fontSize: 14 }}>
+        <div className="bg-surface border border-border rounded-[18px] p-6">
+            <div className="h-[120px] flex items-center justify-center text-textMuted text-sm">
                 Loading calendar...
             </div>
         </div>
@@ -86,14 +86,7 @@ const StreakCalendar = () => {
     const STEP = CELL + GAP;
 
     return (
-        <div style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: 18,
-            padding: "24px 28px",
-            fontFamily: "'Outfit',sans-serif",
-            position: "relative",
-        }}>
+        <div className="bg-surface border border-border rounded-[18px] p-[24px_28px] font-['Outfit'] relative">
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
                 .cal-cell {
@@ -107,69 +100,52 @@ const StreakCalendar = () => {
                 .cal-cell:hover { transform: scale(1.3); z-index: 2; }
                 .cal-tooltip {
                     position: fixed;
-                    background: rgba(12,14,22,0.97);
-                    border: 1px solid rgba(99,102,241,0.3);
-                    border-radius: 10px;
-                    padding: 8px 12px;
-                    font-size: 12px;
-                    color: #c7d2fe;
+                    @apply bg-surface/95 border border-primary/30 rounded-xl px-3 py-2 text-[12px] text-text shadow-2xl;
                     pointer-events: none;
                     z-index: 100;
                     white-space: nowrap;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
                 }
                 .stat-chip {
-                    background: rgba(255,255,255,0.04);
-                    border: 1px solid rgba(255,255,255,0.07);
-                    border-radius: 10px;
-                    padding: 10px 16px;
-                    display: flex; flex-direction: column; gap: 3px;
+                    @apply bg-surfaceLight/40 border border-border rounded-xl px-4 py-2.5 flex flex-col gap-0.5;
                 }
             `}</style>
 
             {/* Header */}
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
+            <div className="flex items-start justify-between flex-wrap gap-4 mb-6">
                 <div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "#f1f5f9", marginBottom: 4 }}>
+                    <div className="text-base font-semibold text-text mb-1">
                         🗓 Activity Calendar
                     </div>
-                    <div style={{ fontSize: 13, color: "#475569" }}>
+                    <div className="text-[13px] text-textMuted">
                         Your habit completions over the last 365 days
                     </div>
                 </div>
 
                 {/* Stats row */}
-                <div style={{ display: "flex", gap: 10 }}>
+                <div className="flex gap-2.5">
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{currentStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Current Streak</span>
+                        <span className="text-lg font-bold text-text">{currentStreak}</span>
+                        <span className="text-[11px] text-textMuted">Current Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{longestStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Longest Streak</span>
+                        <span className="text-lg font-bold text-text">{longestStreak}</span>
+                        <span className="text-[11px] text-textMuted">Longest Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{totalDays}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Active Days</span>
+                        <span className="text-lg font-bold text-text">{totalDays}</span>
+                        <span className="text-[11px] text-textMuted">Active Days</span>
                     </div>
                 </div>
             </div>
 
             {/* Calendar grid */}
-            <div style={{ overflowX: "auto", paddingBottom: 8 }}>
-                <div style={{ display: "inline-flex", gap: 0, minWidth: "max-content" }}>
+            <div className="overflow-x-auto pb-2">
+                <div className="inline-flex gap-0 min-w-max">
 
                     {/* Day labels column */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: GAP, marginRight: 6, paddingTop: 20 }}>
+                    <div className="flex flex-col gap-[3px] mr-1.5 pt-5">
                         {DAYS.map((d, i) => (
-                            <div key={d} style={{
-                                height: CELL,
-                                fontSize: 9,
-                                color: i % 2 === 0 ? "#334155" : "transparent",
-                                display: "flex", alignItems: "center",
-                                fontWeight: 500,
-                                width: 24,
-                            }}>
+                            <div key={d} className={`h-[13px] text-[9px] flex items-center font-medium w-6 ${i % 2 === 0 ? "text-textMuted/70" : "text-transparent"}`}>
                                 {d}
                             </div>
                         ))}
@@ -178,11 +154,11 @@ const StreakCalendar = () => {
                     {/* Weeks */}
                     <div>
                         {/* Month labels */}
-                        <div style={{ display: "flex", marginBottom: 4, height: 16 }}>
+                        <div className="flex mb-1 height-4">
                             {grid.map((_, wi) => {
                                 const ml = monthLabels.find(m => m.wi === wi);
                                 return (
-                                    <div key={wi} style={{ width: STEP, fontSize: 9, color: "#475569", fontWeight: 500, overflow: "visible", whiteSpace: "nowrap" }}>
+                                    <div key={wi} className="w-[16px] text-[9px] text-textMuted font-medium overflow-visible whitespace-nowrap">
                                         {ml ? ml.label : ""}
                                     </div>
                                 );
@@ -190,12 +166,12 @@ const StreakCalendar = () => {
                         </div>
 
                         {/* Grid cells */}
-                        <div style={{ display: "flex", gap: GAP }}>
+                        <div className="flex gap-[3px]">
                             {grid.map((week, wi) => (
-                                <div key={wi} style={{ display: "flex", flexDirection: "column", gap: GAP }}>
+                                <div key={wi} className="flex flex-col gap-[3px]">
                                     {week.map((cell, di) => {
                                         if (!cell) return (
-                                            <div key={di} style={{ width: CELL, height: CELL, flexShrink: 0 }} />
+                                            <div key={di} className="w-[13px] h-[13px] shrink-0" />
                                         );
                                         const { bg, border } = getColor(cell.count);
                                         return (
@@ -221,19 +197,19 @@ const StreakCalendar = () => {
             </div>
 
             {/* Legend */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, justifyContent: "flex-end" }}>
-                <span style={{ fontSize: 11, color: "#334155" }}>Less</span>
+            <div className="flex items-center gap-2 mt-4 justify-end">
+                <span className="text-[11px] text-textMuted">Less</span>
                 {[0, 1, 2, 3, 4].map(n => {
                     const { bg, border } = getColor(n);
-                    return <div key={n} style={{ width: 11, height: 11, borderRadius: 2, background: bg, border: `1px solid ${border}` }} />;
+                    return <div key={n} className="w-[11px] h-[11px] rounded-[2px]" style={{ background: bg, border: `1px solid ${border}` }} />;
                 })}
-                <span style={{ fontSize: 11, color: "#334155" }}>More</span>
+                <span className="text-[11px] text-textMuted">More</span>
             </div>
 
             {/* Tooltip */}
             {tooltip && (
                 <div className="cal-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-                    <span style={{ color: "#818cf8", fontWeight: 600 }}>{tooltip.date}</span>
+                    <span className="text-primary font-semibold">{tooltip.date}</span>
                     {" — "}
                     {tooltip.count === 0
                         ? "No habits completed"

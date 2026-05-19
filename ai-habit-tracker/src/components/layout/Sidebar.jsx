@@ -27,7 +27,6 @@ const Sidebar = () => {
   const xp = user.xp ?? 0;
   const level = user.level ?? 1;
   const levelName = user.levelName ?? "Beginner";
-  const xpForNext = user.xpForNext ?? 100;
   const xpPct = Math.min(100, Math.round((xp % 100) / 100 * 100));
 
   const logout = () => {
@@ -37,20 +36,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside style={{
-      width: 240,
-      minHeight: "100vh",
-      background: "rgba(8,10,16,0.95)",
-      borderRight: "1px solid rgba(255,255,255,0.055)",
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: "'Outfit', sans-serif",
-      position: "sticky",
-      top: 0,
-      backdropFilter: "blur(20px)",
-      zIndex: 30,
-      flexShrink: 0,
-    }}>
+    <aside className="w-[240px] min-h-screen bg-surface/95 border-r border-border flex flex-col sticky top-0 backdrop-blur-2xl z-30 shrink-0">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
@@ -62,74 +48,53 @@ const Sidebar = () => {
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
-          color: #475569;
+          @apply text-textMuted;
           text-decoration: none;
           transition: all 0.18s ease;
           position: relative;
           margin-bottom: 2px;
         }
         .nav-link-item:hover {
-          color: #94a3b8;
-          background: rgba(255,255,255,0.04);
+          @apply text-text bg-surfaceLight/40;
         }
         .nav-link-item.active {
-          color: #f1f5f9;
-          background: rgba(99,102,241,0.12);
-          border: 1px solid rgba(99,102,241,0.2);
+          @apply text-text bg-primary/10 border border-primary/20;
         }
         .nav-link-item.active .nav-icon {
-          color: #818cf8;
+          @apply text-primary;
         }
         .nav-link-item .nav-icon {
           transition: color 0.18s;
           flex-shrink: 0;
         }
         .nav-link-item:hover .nav-icon {
-          color: #6366f1;
+          @apply text-primary;
         }
         .active-dot {
           width: 6px; height: 6px;
-          background: #6366f1;
+          @apply bg-primary;
           border-radius: 50%;
           margin-left: auto;
-          box-shadow: 0 0 8px rgba(99,102,241,0.6);
+          box-shadow: 0 0 8px var(--primary);
         }
 
         .upgrade-card {
-          background: rgba(99,102,241,0.07);
-          border: 1px solid rgba(99,102,241,0.18);
-          border-radius: 16px;
-          padding: 18px;
-          margin: 0 12px 16px;
-          transition: border-color 0.2s, background 0.2s;
+          @apply bg-primary/5 border border-primary/20 rounded-2xl p-4 mx-3 mb-4 transition-all;
           cursor: default;
         }
         .upgrade-card:hover {
-          background: rgba(99,102,241,0.11);
-          border-color: rgba(99,102,241,0.3);
+          @apply bg-primary/10 border-primary/30;
         }
         .upgrade-btn {
           width: 100%;
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
+          @apply bg-primary text-white rounded-xl py-2.5 text-[13px] font-semibold transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-1.5;
           border: none;
-          border-radius: 10px;
-          color: #fff;
-          padding: 10px;
-          font-size: 13px;
-          font-weight: 600;
           cursor: pointer;
           font-family: 'Outfit', sans-serif;
           margin-top: 12px;
-          transition: transform 0.15s, box-shadow 0.15s;
-          box-shadow: 0 4px 14px rgba(79,70,229,0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
         }
         .upgrade-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 20px rgba(79,70,229,0.4);
+          @apply -translate-y-0.5 shadow-xl shadow-primary/40;
         }
 
         .logout-btn {
@@ -140,91 +105,55 @@ const Sidebar = () => {
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
-          color: #475569;
-          background: none;
+          @apply text-textMuted bg-transparent transition-all;
           border: none;
           cursor: pointer;
           font-family: 'Outfit', sans-serif;
           width: 100%;
-          transition: all 0.18s;
         }
         .logout-btn:hover {
-          color: #fca5a5;
-          background: rgba(239,68,68,0.07);
+          @apply text-danger bg-danger/5;
         }
 
         .sidebar-divider {
           height: 1px;
-          background: rgba(255,255,255,0.05);
-          margin: 8px 0;
+          @apply bg-border/50 my-2;
         }
       `}</style>
 
       {/* ── Brand ── */}
-      <div style={{
-        padding: "24px 20px 20px",
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
-        marginBottom: 12,
-      }}>
-        <div style={{
-          width: 40, height: 40,
-          background: "linear-gradient(135deg,#4f46e5,#06b6d4)",
-          borderRadius: 12,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 20,
-          boxShadow: "0 0 20px rgba(79,70,229,0.35)",
-          flexShrink: 0,
-        }}>
+      <div className="p-[24px_20px_20px] flex items-center gap-3 border-b border-border/50 mb-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-primary to-cyan-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/35 shrink-0">
           🔥
         </div>
         <div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.01em" }}>
+          <div className="text-base font-bold text-text tracking-tight">
             HabitForge
           </div>
-          <div style={{ fontSize: 11, color: "#334155", fontWeight: 400, marginTop: 1 }}>
+          <div className="text-[11px] text-textMuted font-normal mt-0.5">
             AI Habit Tracker
           </div>
         </div>
       </div>
 
       {/* ── User pill ── */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        margin: "0 12px 16px",
-        padding: "10px 12px",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        borderRadius: 12,
-      }}>
-        <div style={{
-          width: 32, height: 32,
-          borderRadius: "50%",
-          background: "linear-gradient(135deg,#4f46e5,#06b6d4)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 13, fontWeight: 700, color: "#fff",
-          flexShrink: 0,
-          boxShadow: "0 0 10px rgba(79,70,229,0.25)",
-        }}>
+      <div className="flex items-center gap-2.5 mx-3 mb-4 p-[10px_12px] bg-surfaceLight/30 border border-border/50 rounded-xl">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-[13px] font-bold text-white shrink-0 shadow-md shadow-primary/25">
           {user?.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <div className="min-w-0">
+          <div className="text-[13px] font-semibold text-text truncate">
             {user?.name || "User"}
           </div>
-          <div style={{ fontSize: 11, color: "#475569" }}>
+          <div className="text-[11px] text-textMuted">
             Level {level} · {levelName}
           </div>
         </div>
       </div>
 
       {/* ── Nav ── */}
-      <nav style={{ flex: 1, padding: "0 12px", overflowY: "auto" }}>
-        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#1e293b", padding: "4px 6px 10px", marginTop: 4 }}>
+      <nav className="flex-1 px-3 overflow-y-auto">
+        <div className="text-[10px] font-semibold tracking-widest uppercase text-textMuted/60 px-1.5 pb-2.5 mt-1">
           Navigation
         </div>
 
@@ -237,16 +166,15 @@ const Sidebar = () => {
           >
             <Icon size={17} className="nav-icon" />
             {label}
-            {/* active dot added via CSS class check below */}
             <ActiveDot path={path} />
           </NavLink>
         ))}
 
-        <div className="sidebar-divider" style={{ margin: "16px 0 12px" }} />
+        <div className="sidebar-divider !my-4" />
 
         {/* Logout in nav */}
         <button className="logout-btn" onClick={logout}>
-          <LogOut size={17} style={{ flexShrink: 0 }} />
+          <LogOut size={17} className="shrink-0" />
           Sign Out
         </button>
       </nav>
@@ -254,31 +182,24 @@ const Sidebar = () => {
       {/* ── Upgrade card ── */}
       {/* ✅ XP Progress Card */}
       <div className="upgrade-card">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Zap size={15} color="#818cf8" />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#f1f5f9" }}>
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-2">
+            <Zap size={15} className="text-primary" />
+            <span className="text-[13px] font-bold text-text">
               Level {level} — {levelName}
             </span>
           </div>
-          <span style={{ fontSize: 11, color: "#475569", fontWeight: 500 }}>
+          <span className="text-[11px] text-textMuted font-medium">
             {xp % 100}/100 XP
           </span>
         </div>
 
         {/* XP bar */}
-        <div style={{ height: 6, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden", marginBottom: 8 }}>
-          <div style={{
-            height: "100%",
-            width: `${xpPct}%`,
-            background: "linear-gradient(90deg,#4f46e5,#06b6d4)",
-            borderRadius: 99,
-            transition: "width 0.5s ease",
-            boxShadow: "0 0 8px rgba(99,102,241,0.5)"
-          }} />
+        <div className="h-1.5 bg-border/30 rounded-full overflow-hidden mb-2">
+          <div className="h-full bg-gradient-to-r from-primary to-cyan-500 rounded-full transition-all duration-500 shadow-sm shadow-primary/50" style={{ width: `${xpPct}%` }} />
         </div>
 
-        <div style={{ fontSize: 11, color: "#334155" }}>
+        <div className="text-[11px] text-textMuted">
           {100 - (xp % 100)} XP to Level {level + 1}
         </div>
       </div>
