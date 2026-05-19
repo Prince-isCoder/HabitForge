@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle2 } from "lucide-react";
 
 const AuthPage = () => {
   const [tab, setTab] = useState("login");
@@ -85,6 +86,7 @@ const AuthPage = () => {
         setSuccess("✅ Account created! Please log in.");
       }
     } catch (err) {
+      console.error(err);
       setError("Server error. Please try again.");
     } finally {
       setLoading(false);
@@ -94,370 +96,160 @@ const AuthPage = () => {
   const handleKey = (e) => e.key === "Enter" && submit();
 
   return (
-    <div className="min-h-screen bg-background flex font-['Outfit',_'Segoe_UI',_sans-serif] overflow-hidden relative">
+    <div className="min-h-screen bg-background flex font-['Inter',_sans-serif] overflow-hidden relative">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-
-        /* ── Animated background blobs ── */
-        .blob {
+        .auth-blob {
           position: absolute;
           border-radius: 50%;
-          filter: blur(90px);
-          opacity: 0.18;
-          animation: float 8s ease-in-out infinite;
+          filter: blur(120px);
+          opacity: 0.15;
+          animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
-        .blob-1 {
-          width: 520px; height: 520px;
-          @apply bg-primary;
-          top: -160px; left: -140px;
-          animation-delay: 0s;
-        }
-        .blob-2 {
-          width: 380px; height: 380px;
-          @apply bg-cyan-500;
-          bottom: -100px; right: -80px;
-          animation-delay: -3s;
-        }
-        .blob-3 {
-          width: 260px; height: 260px;
-          @apply bg-violet-500;
-          top: 40%; left: 55%;
-          animation-delay: -5s;
-        }
         @keyframes float {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-28px) scale(1.04); }
-        }
-
-        /* ── Left panel ── */
-        .left-panel {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 60px 72px;
-          position: relative;
-          z-index: 1;
-        }
-        .brand-row {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          margin-bottom: 56px;
-          animation: fadeUp 0.5s ease both;
-        }
-        .brand-icon {
-          width: 46px; height: 46px;
-          @apply bg-gradient-to-br from-primary to-cyan-500 rounded-2xl flex items-center justify-center text-[22px] shadow-2xl shadow-primary/45 text-white;
-        }
-        .brand-name {
-          @apply text-[22px] font-bold text-text tracking-tight;
-        }
-        .hero-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          @apply bg-primary/10 border border-primary/25 rounded-full px-4 py-1.5 text-xs font-medium text-primary tracking-widest uppercase mb-7;
-          animation: fadeUp 0.5s 0.1s ease both;
-        }
-        .hero-title {
-          @apply text-[clamp(32px,4vw,52px)] font-bold text-text leading-[1.12] tracking-tight mb-5;
-          animation: fadeUp 0.5s 0.2s ease both;
-        }
-        .hero-title span {
-          @apply bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent;
-        }
-        .hero-sub {
-          @apply text-base text-textMuted leading-relaxed max-w-[400px] mb-12 font-normal;
-          animation: fadeUp 0.5s 0.3s ease both;
-        }
-        .stats-row {
-          display: flex;
-          gap: 36px;
-          animation: fadeUp 0.5s 0.4s ease both;
-        }
-        .stat-item { display: flex; flex-direction: column; gap: 4px; }
-        .stat-num {
-          @apply text-[26px] font-bold text-text tracking-tight;
-        }
-        .stat-label {
-          @apply text-xs text-textMuted font-normal tracking-wide;
-        }
-        .stat-divider {
-          @apply w-[1px] bg-border/40 self-stretch;
-        }
-
-        /* ── Right panel (card) ── */
-        .right-panel {
-          width: 480px;
-          min-height: 100vh;
-          @apply bg-surfaceLight/10 border-l border-border/50 flex items-center justify-center px-11 py-12 relative z-[1] backdrop-blur-2xl;
-          animation: slideIn 0.5s ease both;
-        }
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateX(40px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(18px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-inner { width: 100%; }
-
-        /* ── Tab switcher ── */
-        .tab-wrap {
-          @apply flex bg-surfaceLight/40 border border-border/50 rounded-2xl p-1 mb-9;
-        }
-        .tab-btn {
-          flex: 1;
-          @apply p-[11px] border-none rounded-xl text-sm font-semibold cursor-pointer transition-all tracking-wide;
-          font-family: 'Outfit', sans-serif;
-        }
-        .tab-btn.active {
-          @apply bg-gradient-to-br from-primary to-primaryHover text-white shadow-lg shadow-primary/35;
-        }
-        .tab-btn.inactive {
-          @apply bg-transparent text-textMuted hover:text-text;
-        }
-
-        /* ── Form heading ── */
-        .form-title {
-          @apply text-2xl font-bold text-text tracking-tight mb-1.5;
-        }
-        .form-sub {
-          @apply text-[13px] text-textMuted mb-8 font-normal;
-        }
-
-        /* ── Input fields ── */
-        .field-group { @apply flex flex-col gap-4 mb-6; }
-        .field-wrap { position: relative; }
-        .field-label {
-          @apply text-[11px] font-bold tracking-[0.08em] uppercase text-textMuted mb-2 block;
-        }
-        .field-input-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-        .field-icon {
-          position: absolute;
-          left: 15px;
-          @apply text-textMuted/60 text-base pointer-events-none;
-        }
-        .field-input {
-          @apply w-full bg-surfaceLight/40 border border-border/60 rounded-xl pl-[42px] pr-4 py-[13px] text-sm text-text outline-none transition-all box-border;
-          font-family: 'Outfit', sans-serif;
-        }
-        .field-input::placeholder { @apply text-textMuted/40; }
-        .field-input:focus {
-          @apply border-primary/50 shadow-[0_0_0_3px_rgba(var(--primary-rgb),0.1)] bg-surfaceLight/60;
-        }
-        .pass-toggle {
-          position: absolute;
-          right: 14px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          @apply text-textMuted text-base p-0 transition-colors hover:text-text;
-        }
-
-        /* ── Error ── */
-        .error-box {
-          @apply bg-danger/10 border border-danger/20 rounded-xl px-[14px] py-[11px] text-[13px] text-danger mb-5 flex items-center gap-2;
-        }
-
-        /* ── Submit btn ── */
-        .submit-btn {
-          @apply w-full py-3.5 bg-gradient-to-br from-primary to-primaryHover border-none rounded-xl text-white text-[15px] font-semibold cursor-pointer transition-all shadow-lg shadow-primary/35 tracking-wide mb-5;
-          font-family: 'Outfit', sans-serif;
-        }
-        .submit-btn:hover:not(:disabled) {
-          @apply -translate-y-0.5 shadow-xl shadow-primary/45;
-        }
-        .submit-btn:active:not(:disabled) { transform: scale(0.98); }
-        .submit-btn:disabled { @apply opacity-50 cursor-not-allowed; }
-
-        /* ── Divider ── */
-        .divider {
-          @apply flex items-center gap-3 mb-5;
-        }
-        .divider-line { @apply flex-1 h-[1px] bg-border/40; }
-        .divider-text { @apply text-[11px] text-textMuted font-semibold tracking-widest uppercase; }
-
-        /* ── Switch link ── */
-        .switch-link {
-          @apply text-center text-[13px] text-textMuted;
-        }
-        .switch-link button {
-          background: none;
-          border: none;
-          @apply text-primary cursor-pointer text-[13px] font-bold ml-1 transition-colors hover:text-primaryHover hover:underline;
-          font-family: 'Outfit', sans-serif;
-        }
-
-        /* ── Success toast ── */
-        .success-toast {
-          @apply bg-success/10 border border-success/25 rounded-xl px-[14px] py-[11px] text-[13px] text-success mb-5 flex items-center gap-2;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 860px) {
-          .left-panel { display: none; }
-          .right-panel {
-            width: 100%;
-            border-left: none;
-            @apply px-7 py-12;
-          }
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
         }
       `}</style>
 
       {/* Background blobs */}
-      <div className="blob blob-1" />
-      <div className="blob blob-2" />
-      <div className="blob blob-3" />
+      <div className="auth-blob w-[600px] h-[600px] bg-primary top-[-200px] left-[-200px]" />
+      <div className="auth-blob w-[500px] h-[500px] bg-cyan-500 bottom-[-150px] right-[-100px] animation-delay-[-5s]" />
+      <div className="auth-blob w-[400px] h-[400px] bg-violet-500 top-[20%] right-[10%] animation-delay-[-10s]" />
 
-      {/* Left Panel */}
-      <div className="left-panel">
-        <div className="brand-row">
-          <div className="brand-icon">🔥</div>
-          <span className="brand-name">HabitForge</span>
+      {/* Left Branding Panel */}
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-16 relative z-10">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-2xl shadow-xl shadow-primary/20 text-white font-bold">🔥</div>
+          <span className="text-2xl font-bold tracking-tight text-text">HabitForge</span>
         </div>
 
-        <div className="hero-tag">
-          <span style={{ width: 6, height: 6, background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
-          AI-Powered Tracking
+        <div className="max-w-xl">
+          <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 text-xs font-bold text-primary uppercase tracking-[0.2em] mb-8 w-fit">
+            <Sparkles size={14} /> AI-Powered Growth
+          </div>
+          <h1 className="text-6xl font-bold tracking-tight leading-[1.05] mb-8">
+            Master your life,<br />
+            <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">one habit at a time.</span>
+          </h1>
+          <p className="text-xl text-textMuted leading-relaxed mb-12">
+            Experience the next generation of habit tracking. Our AI analyzes your behavior to provide personalized insights that keep you consistent.
+          </p>
+
+          <div className="grid grid-cols-2 gap-8">
+             {[
+               { label: "Completion Rate", val: "+45%", desc: "Average increase" },
+               { label: "Active Users", val: "10k+", desc: "Tracking daily" }
+             ].map((s, i) => (
+               <div key={i} className="space-y-1">
+                 <div className="text-3xl font-bold text-text">{s.val}</div>
+                 <div className="text-xs font-bold text-textMuted uppercase tracking-widest">{s.label}</div>
+                 <div className="text-[10px] text-textMuted/60">{s.desc}</div>
+               </div>
+             ))}
+          </div>
         </div>
 
-        <h1 className="hero-title">
-          Build habits that<br />
-          <span>actually stick.</span>
-        </h1>
-
-        <p className="hero-sub">
-          Your personal AI coach tracks streaks, spots patterns, and nudges you
-          exactly when motivation dips — so you never break the chain.
-        </p>
-
-        <div className="stats-row">
-          <div className="stat-item">
-            <span className="stat-num">21</span>
-            <span className="stat-label">Days to a habit</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-num">3×</span>
-            <span className="stat-label">Better with AI coach</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-num">∞</span>
-            <span className="stat-label">Streaks possible</span>
-          </div>
+        <div className="text-sm text-textMuted/60 font-medium">
+          © 2024 HabitForge Inc. Professional Grade Tracking.
         </div>
       </div>
 
-      {/* Right Panel */}
-      <div className="right-panel">
-        <div className="form-inner">
+      {/* Right Form Panel */}
+      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
+        <div className="w-full max-w-sm space-y-10">
+          <div className="space-y-3">
+             {tab !== "forgot" && tab !== "reset" && (
+                <div className="flex bg-surfaceLight/50 p-1 rounded-2xl border border-border/50 mb-10">
+                  <button className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'login' ? 'bg-surface text-text shadow-sm' : 'text-textMuted hover:text-text'}`} onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log In</button>
+                  <button className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'signup' ? 'bg-surface text-text shadow-sm' : 'text-textMuted hover:text-text'}`} onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign Up</button>
+                </div>
+             )}
 
-          {/* Tab switcher */}
-          {tab !== "forgot" && tab !== "reset" && (
-            <div className="tab-wrap">
-              <button className={`tab-btn ${tab === "login" ? "active" : "inactive"}`} onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log In</button>
-              <button className={`tab-btn ${tab === "signup" ? "active" : "inactive"}`} onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign Up</button>
+             <h2 className="text-3xl font-bold tracking-tight">
+                {tab === "login" ? "Welcome back" : tab === "signup" ? "Get started" : "Security Check"}
+             </h2>
+             <p className="text-textMuted font-medium">
+                {tab === "login" ? "Enter your details to access your dashboard." : tab === "signup" ? "Create an account to start your journey." : "Follow the steps to regain access."}
+             </p>
+          </div>
+
+          {error && (
+            <div className="bg-danger/10 border border-danger/20 rounded-2xl p-4 flex items-center gap-3 text-sm text-danger font-bold animate-popIn">
+               <span className="text-lg">⚠</span> {error}
             </div>
           )}
 
-          <div className="form-title">
-            {tab === "login" ? "Welcome back 👋" : tab === "signup" ? "Create account ✨" : tab === "forgot" ? "Forgot Password 🔑" : "Reset Password 🔒"}
-          </div>
-          <div className="form-sub">
-            {tab === "login" ? "Enter your credentials to continue tracking."
-              : tab === "signup" ? "Start your habit journey today. It's free."
-              : tab === "forgot" ? "Enter your email — we'll send a reset link to Mailtrap."
-              : "Enter your new password below."}
-          </div>
-
-          {/* Error */}
-          {error && <div className="error-box">⚠ {error}</div>}
           {success && (
-            <div className="success-toast">
-              {success}
+            <div className="bg-success/10 border border-success/20 rounded-2xl p-4 flex items-center gap-3 text-sm text-success font-bold animate-popIn">
+               <CheckCircle2 size={18} /> {success}
             </div>
           )}
 
-          {/* Fields */}
-          {/* Fields */}
-          <div className="field-group">
+          <div className="space-y-5">
             {tab === "signup" && (
-              <div className="field-wrap">
-                <label className="field-label">Full Name</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">👤</span>
-                  <input className="field-input" name="name" value={form.name} onChange={handle} onKeyDown={handleKey} placeholder="John Doe" />
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Full Name</label>
+                <div className="relative">
+                  <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/40" />
+                  <input className="input-field !pl-12" name="name" value={form.name} onChange={handle} onKeyDown={handleKey} placeholder="John Doe" />
                 </div>
               </div>
             )}
 
             {(tab === "login" || tab === "signup" || tab === "forgot") && (
-              <div className="field-wrap">
-                <label className="field-label">Email Address</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">✉</span>
-                  <input className="field-input" name="email" type="email" value={form.email} onChange={handle} onKeyDown={handleKey} placeholder="you@example.com" />
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Email Address</label>
+                <div className="relative">
+                  <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/40" />
+                  <input className="input-field !pl-12" name="email" type="email" value={form.email} onChange={handle} onKeyDown={handleKey} placeholder="you@example.com" />
                 </div>
               </div>
             )}
 
             {(tab === "login" || tab === "signup" || tab === "reset") && (
-              <div className="field-wrap">
-                <label className="field-label">{tab === "reset" ? "New Password" : "Password"}</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">🔒</span>
-                  <input className="field-input" name="password" type={showPass ? "text" : "password"} value={form.password} onChange={handle} onKeyDown={handleKey} placeholder={tab === "signup" ? "Min. 6 characters" : tab === "reset" ? "Enter new password" : "Your password"} style={{ paddingRight: 44 }} />
-                  <button className="pass-toggle" onClick={() => setShowPass(!showPass)} type="button" tabIndex={-1}>{showPass ? "🙈" : "👁"}</button>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-1">
+                   <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest">Password</label>
+                   {tab === 'login' && <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline" onClick={() => setTab("forgot")}>Forgot?</button>}
+                </div>
+                <div className="relative">
+                  <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/40" />
+                  <input className="input-field !pl-12 pr-12" name="password" type={showPass ? "text" : "password"} value={form.password} onChange={handle} onKeyDown={handleKey} placeholder="••••••••" />
+                  <button className="absolute right-4 top-1/2 -translate-y-1/2 text-textMuted/40 hover:text-text transition-colors" onClick={() => setShowPass(!showPass)} type="button">
+                     {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Submit */}
-          <button className="submit-btn" onClick={submit} disabled={loading}>
-            {loading ? "Please wait..."
-              : tab === "login" ? "Log In →"
-              : tab === "signup" ? "Create Account →"
-              : tab === "forgot" ? "Send Reset Link →"
-              : "Reset Password →"}
+          <button
+            className="w-full btn btn-primary !py-4 !rounded-2xl text-base gap-3 group"
+            onClick={submit}
+            disabled={loading}
+          >
+            {loading ? "Processing..." : (
+               <>
+                 {tab === 'login' ? 'Access Dashboard' : tab === 'signup' ? 'Create Account' : 'Verify Identity'}
+                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+               </>
+            )}
           </button>
 
-          <div className="divider">
-            <div className="divider-line" />
-            <span className="divider-text">or</span>
-            <div className="divider-line" />
+          <div className="text-center">
+             {tab === 'forgot' || tab === 'reset' ? (
+                <button className="text-sm font-bold text-textMuted hover:text-primary transition-colors" onClick={() => setTab("login")}>Back to Login</button>
+             ) : (
+                <p className="text-sm text-textMuted font-medium">
+                   {tab === 'login' ? "Don't have an account?" : "Already a member?"}
+                   <button className="ml-2 text-primary font-bold hover:underline" onClick={() => setTab(tab === 'login' ? 'signup' : 'login')}>
+                      {tab === 'login' ? 'Sign up for free' : 'Sign in here'}
+                   </button>
+                </p>
+             )}
           </div>
-
-          <div className="switch-link">
-            {tab === "login" && (
-              <>
-                <button onClick={() => { setTab("forgot"); setError(""); setSuccess(""); }}>Forgot password?</button>
-                {" · "}
-                <button onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign up free</button>
-              </>
-            )}
-            {tab === "signup" && (
-              <>Already have an account?
-                <button onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log in</button>
-              </>
-            )}
-            {(tab === "forgot" || tab === "reset") && (
-              <>Remember it?
-                <button onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Back to Login</button>
-              </>
-            )}
-          </div>
-
         </div>
       </div>
     </div>

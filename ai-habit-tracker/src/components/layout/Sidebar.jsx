@@ -36,7 +36,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="w-[240px] min-h-screen bg-surface/95 border-r border-border flex flex-col sticky top-0 backdrop-blur-2xl z-30 shrink-0">
+    <aside className="w-[260px] min-h-screen bg-surface border-r border-border flex flex-col sticky top-0 z-30 shrink-0">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
@@ -44,175 +44,119 @@ const Sidebar = () => {
           display: flex;
           align-items: center;
           gap: 12px;
-          padding: 11px 14px;
+          padding: 12px 16px;
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
           @apply text-textMuted;
           text-decoration: none;
-          transition: all 0.18s ease;
+          transition: all 0.2s ease;
           position: relative;
-          margin-bottom: 2px;
+          margin-bottom: 4px;
         }
         .nav-link-item:hover {
-          @apply text-text bg-surfaceLight/40;
+          @apply text-text bg-surfaceLight/50;
         }
         .nav-link-item.active {
-          @apply text-text bg-primary/10 border border-primary/20;
+          @apply text-primary bg-primary/5;
         }
-        .nav-link-item.active .nav-icon {
-          @apply text-primary;
+        .nav-link-item.active::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 8px;
+          bottom: 8px;
+          width: 4px;
+          @apply bg-primary rounded-r-full;
         }
         .nav-link-item .nav-icon {
-          transition: color 0.18s;
+          transition: color 0.2s;
           flex-shrink: 0;
-        }
-        .nav-link-item:hover .nav-icon {
-          @apply text-primary;
-        }
-        .active-dot {
-          width: 6px; height: 6px;
-          @apply bg-primary;
-          border-radius: 50%;
-          margin-left: auto;
-          box-shadow: 0 0 8px var(--primary);
         }
 
         .upgrade-card {
-          @apply bg-primary/5 border border-primary/20 rounded-2xl p-4 mx-3 mb-4 transition-all;
+          @apply bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 mx-4 mb-6 transition-all;
           cursor: default;
-        }
-        .upgrade-card:hover {
-          @apply bg-primary/10 border-primary/30;
-        }
-        .upgrade-btn {
-          width: 100%;
-          @apply bg-primary text-white rounded-xl py-2.5 text-[13px] font-semibold transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-1.5;
-          border: none;
-          cursor: pointer;
-          font-family: 'Outfit', sans-serif;
-          margin-top: 12px;
-        }
-        .upgrade-btn:hover {
-          @apply -translate-y-0.5 shadow-xl shadow-primary/40;
-        }
-
-        .logout-btn {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 11px 14px;
-          border-radius: 12px;
-          font-size: 14px;
-          font-weight: 500;
-          @apply text-textMuted bg-transparent transition-all;
-          border: none;
-          cursor: pointer;
-          font-family: 'Outfit', sans-serif;
-          width: 100%;
-        }
-        .logout-btn:hover {
-          @apply text-danger bg-danger/5;
-        }
-
-        .sidebar-divider {
-          height: 1px;
-          @apply bg-border/50 my-2;
         }
       `}</style>
 
       {/* ── Brand ── */}
-      <div className="p-[24px_20px_20px] flex items-center gap-3 border-b border-border/50 mb-3">
-        <div className="w-10 h-10 bg-gradient-to-br from-primary to-cyan-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/35 shrink-0">
+      <div className="p-8 flex items-center gap-3">
+        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/20 shrink-0 text-white">
           🔥
         </div>
         <div>
-          <div className="text-base font-bold text-text tracking-tight">
+          <div className="text-lg font-bold text-text tracking-tight leading-none">
             HabitForge
           </div>
-          <div className="text-[11px] text-textMuted font-normal mt-0.5">
-            AI Habit Tracker
-          </div>
-        </div>
-      </div>
-
-      {/* ── User pill ── */}
-      <div className="flex items-center gap-2.5 mx-3 mb-4 p-[10px_12px] bg-surfaceLight/30 border border-border/50 rounded-xl">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-[13px] font-bold text-white shrink-0 shadow-md shadow-primary/25">
-          {user?.name?.charAt(0)?.toUpperCase() || "U"}
-        </div>
-        <div className="min-w-0">
-          <div className="text-[13px] font-semibold text-text truncate">
-            {user?.name || "User"}
-          </div>
-          <div className="text-[11px] text-textMuted">
-            Level {level} · {levelName}
+          <div className="text-[11px] text-textMuted font-medium mt-1 uppercase tracking-wider">
+            AI tracking
           </div>
         </div>
       </div>
 
       {/* ── Nav ── */}
-      <nav className="flex-1 px-3 overflow-y-auto">
-        <div className="text-[10px] font-semibold tracking-widest uppercase text-textMuted/60 px-1.5 pb-2.5 mt-1">
-          Navigation
+      <nav className="flex-1 px-4 overflow-y-auto">
+        <div className="text-[11px] font-bold tracking-[0.12em] uppercase text-textMuted/50 px-3 pb-4 mt-2">
+          Menu
         </div>
 
-        {navItems.map(({ path, icon: Icon, label }) => (
+        {navItems.map((item) => (
           <NavLink
-            key={path}
-            to={path}
-            end={path === "/"}
+            key={item.path}
+            to={item.path}
+            end={item.path === "/"}
             className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}
           >
-            <Icon size={17} className="nav-icon" />
-            {label}
-            <ActiveDot path={path} />
+            <item.icon size={18} className="nav-icon" />
+            <span className="truncate">{item.label}</span>
           </NavLink>
         ))}
 
-        <div className="sidebar-divider !my-4" />
+        <div className="h-px bg-border/50 my-6 mx-3" />
 
-        {/* Logout in nav */}
-        <button className="logout-btn" onClick={logout}>
-          <LogOut size={17} className="shrink-0" />
+        {/* User section in sidebar bottom if needed, but for now just logout */}
+        <button
+          onClick={logout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-textMuted hover:text-danger hover:bg-danger/5 transition-all"
+        >
+          <LogOut size={18} />
           Sign Out
         </button>
       </nav>
 
-      {/* ── Upgrade card ── */}
-      {/* ✅ XP Progress Card */}
-      <div className="upgrade-card">
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="flex items-center gap-2">
-            <Zap size={15} className="text-primary" />
-            <span className="text-[13px] font-bold text-text">
-              Level {level} — {levelName}
-            </span>
+      {/* ── User & XP ── */}
+      <div className="p-4 mt-auto">
+        <div className="upgrade-card">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white shadow-md shadow-primary/20">
+              {user?.name?.charAt(0)?.toUpperCase() || "U"}
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-bold text-text truncate">
+                {user?.name || "User"}
+              </div>
+              <div className="text-[11px] text-textMuted font-semibold uppercase tracking-wider">
+                Lvl {level} · {levelName}
+              </div>
+            </div>
           </div>
-          <span className="text-[11px] text-textMuted font-medium">
-            {xp % 100}/100 XP
-          </span>
-        </div>
 
-        {/* XP bar */}
-        <div className="h-1.5 bg-border/30 rounded-full overflow-hidden mb-2">
-          <div className="h-full bg-gradient-to-r from-primary to-cyan-500 rounded-full transition-all duration-500 shadow-sm shadow-primary/50" style={{ width: `${xpPct}%` }} />
-        </div>
+          <div className="h-1.5 bg-background rounded-full overflow-hidden mb-2">
+            <div
+              className="h-full bg-primary rounded-full transition-all duration-700 shadow-[0_0_8px_rgba(var(--primary-rgb),0.4)]"
+              style={{ width: `${xpPct}%` }}
+            />
+          </div>
 
-        <div className="text-[11px] text-textMuted">
-          {100 - (xp % 100)} XP to Level {level + 1}
+          <div className="text-[10px] text-textMuted font-bold text-right uppercase tracking-widest">
+             {xp % 100} / 100 XP
+          </div>
         </div>
       </div>
 
     </aside>
   );
-};
-
-/* Tiny helper — shows active dot only when route matches */
-const ActiveDot = ({ path }) => {
-  const current = window.location.pathname;
-  const isActive = path === "/" ? current === "/" : current.startsWith(path);
-  return isActive ? <span className="active-dot" /> : null;
 };
 
 export default Sidebar;

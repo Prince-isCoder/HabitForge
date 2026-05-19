@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { mockChatHistory } from '../services/dummyData';
 import { cn } from '../utils/cn';
 
 // ✅ Markdown-style formatter for AI responses

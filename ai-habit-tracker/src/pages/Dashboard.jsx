@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDashboardData, getCalendar } from "../services/api";
-import { Zap, Brain, Flame, TrendingUp, Plus } from "lucide-react";
+import { Zap, Brain, Flame, TrendingUp, Plus, LayoutGrid, Calendar } from "lucide-react";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -73,226 +73,178 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="font-['Outfit'] min-h-screen bg-background text-text p-8">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .db-card { @apply bg-surfaceLight/30 border border-border rounded-[18px] p-6 transition-colors; }
-        .db-card:hover { @apply border-primary/25; }
-        .stat-card { @apply bg-surfaceLight/30 border border-border rounded-2xl p-[22px] flex items-center gap-4; }
-        .stat-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .insight-item { @apply bg-primary/5 border border-primary/10 rounded-xl p-[11px_14px] text-sm text-textMuted mb-2; }
-        .action-item { @apply bg-cyan-500/5 border border-cyan-500/10 rounded-xl p-[11px_14px] text-sm text-textMuted mb-2; }
-        .ai-modal { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); @apply bg-surface/98 border border-primary/30 rounded-[18px] p-6 z-[100] w-[90%] max-w-[420px] shadow-2xl backdrop-blur-2xl; animation: popIn 0.2s ease; }
-        @keyframes popIn { from { opacity:0; transform: translateX(-50%) scale(0.95); } to { opacity:1; transform: translateX(-50%) scale(1); } }
-        .suggest-btn { @apply bg-gradient-to-br from-primary to-primaryHover border-none rounded-xl text-white p-[11px_22px] text-sm font-semibold cursor-pointer font-['Outfit'] flex items-center gap-2 transition-all shadow-lg shadow-primary/30; }
-        .suggest-btn:hover { @apply -translate-y-0.5 shadow-xl shadow-primary/40; }
-        .modal-add-btn { @apply bg-gradient-to-br from-success to-emerald-600 border-none rounded-lg text-white p-[9px_18px] text-sm font-semibold cursor-pointer font-['Outfit'] transition-opacity; }
-        .modal-skip-btn { @apply bg-danger/10 border border-danger/20 rounded-lg text-danger p-[9px_18px] text-sm font-semibold cursor-pointer font-['Outfit']; }
-        .section-title { @apply text-[13px] font-bold tracking-widest uppercase text-textMuted mb-3.5; }
-      `}</style>
-
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
       {/* AI Habit Modal */}
       {aiHabit && (
-        <div className="ai-modal">
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="w-9 h-9 bg-gradient-to-br from-violet-500 to-primary rounded-lg flex items-center justify-center text-lg">🤖</div>
-            <div>
-              <div className="font-semibold text-[15px] text-text">AI Suggestion</div>
-              <div className="text-xs text-textMuted">Personalized for you</div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+          <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
+              <div>
+                <h3 className="font-bold text-lg">AI Smart Suggestion</h3>
+                <p className="text-sm text-textMuted">Tailored for your current goals</p>
+              </div>
             </div>
-          </div>
-          <div className="bg-primary/5 border border-primary/20 rounded-xl p-[14px_16px] text-base font-semibold text-primary mb-[18px]">
-            ✨ {aiHabit}
-          </div>
-          <div className="flex gap-2.5">
-            <button className="modal-add-btn" onClick={addAiHabit}>Add Habit</button>
-            <button className="modal-skip-btn" onClick={skipAiHabit}>Skip</button>
+            <div className="bg-primary/5 border border-primary/10 rounded-2xl p-5 text-xl font-bold text-primary mb-8 text-center">
+              “{aiHabit}”
+            </div>
+            <div className="flex gap-4">
+              <button className="flex-1 btn btn-primary py-3" onClick={addAiHabit}>Add Habit</button>
+              <button className="flex-1 btn btn-secondary py-3" onClick={skipAiHabit}>Maybe later</button>
+            </div>
           </div>
         </div>
       )}
 
       {suggestion && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-success/10 border border-success/30 rounded-xl p-[12px_20px] text-success text-sm font-medium z-[99] flex gap-3 items-center">
-          {suggestion}
-          <button onClick={() => setSuggestion("")} className="bg-none border-none text-success cursor-pointer text-lg leading-none">×</button>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-surface border border-success/30 rounded-2xl px-6 py-4 text-success font-bold z-[99] flex gap-4 items-center shadow-xl">
+          <span className="text-xl">✅</span> {suggestion}
+          <button onClick={() => setSuggestion("")} className="ml-4 text-textMuted hover:text-text transition-colors">×</button>
         </div>
       )}
 
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <div className="text-[13px] text-textMuted font-medium mb-1.5 tracking-widest">
-              {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
-            </div>
-            <h1 className="text-[28px] font-bold text-text tracking-tight m-0">
-              Welcome back, <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">{user?.name?.split(" ")[0] || "there"} 👋</span>
-            </h1>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div className="flex items-center gap-2 text-textMuted font-bold text-xs uppercase tracking-[0.2em] mb-3">
+             <Calendar size={14} /> {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
           </div>
-          <button className="suggest-btn" onClick={generateHabit}>
-            <Zap size={16} /> Suggest Habit
-          </button>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            Hi, <span className="bg-gradient-to-r from-primary to-primaryHover bg-clip-text text-transparent">{user?.name?.split(" ")[0] || "there"}</span> 👋
+          </h1>
+          <p className="text-textMuted mt-3 text-lg">Ready to conquer your goals today?</p>
         </div>
+        <button
+          className="btn btn-primary px-8 py-4 text-base gap-2 rounded-2xl"
+          onClick={generateHabit}
+        >
+          <Zap size={20} /> Suggest Habit
+        </button>
       </div>
 
       {!data ? (
-        <div className="flex gap-4 mb-7">
-          {[1, 2, 3].map(i => <div key={i} className="flex-1 h-[90px] bg-surface border border-border rounded-2xl" />)}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {[1, 2, 3].map(i => <div key={i} className="h-32 bg-surface/50 border border-border rounded-3xl animate-pulse" />)}
         </div>
       ) : (
         <>
-          {/* Stat Cards */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4 mb-7">
-            <div className="stat-card">
-              <div className="stat-icon bg-primary/10"><Flame size={20} className="text-primary" /></div>
-              <div>
-                <div className="text-2xl font-bold text-text">{habits.length}</div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Active Habits</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon bg-success/10"><TrendingUp size={20} className="text-success" /></div>
-              <div>
-                <div className="text-2xl font-bold text-text">{habits.filter(h => h.completed).length}</div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Completed Today</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon bg-cyan-500/10"><Zap size={20} className="text-cyan-500" /></div>
-              <div>
-                <div className="text-2xl font-bold text-text">
-                  {habits.length ? Math.round((habits.filter(h => h.completed).length / habits.length) * 100) : 0}%
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              { label: "Active Habits", val: habits.length, icon: <LayoutGrid className="text-primary" />, color: "bg-primary/10" },
+              { label: "Done Today", val: habits.filter(h => h.completed).length, icon: <TrendingUp className="text-success" />, color: "bg-success/10" },
+              { label: "Completion", val: `${habits.length ? Math.round((habits.filter(h => h.completed).length / habits.length) * 100) : 0}%`, icon: <Zap className="text-orange-500" />, color: "bg-orange-500/10" },
+              { label: "Current Streak", val: `${streakStats?.current ?? 0}d`, icon: <Flame className="text-danger" />, color: "bg-danger/10" }
+            ].map((stat, i) => (
+              <div key={i} className="card card-hover flex flex-col justify-between group">
+                <div className={`w-12 h-12 ${stat.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                   {React.cloneElement(stat.icon, { size: 24 })}
                 </div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Completion Rate</div>
+                <div>
+                  <div className="text-3xl font-bold mb-1 tracking-tight">{stat.val}</div>
+                  <div className="text-xs font-bold text-textMuted uppercase tracking-widest">{stat.label}</div>
+                </div>
               </div>
-            </div>
-
-            {/* ✅ Streak Stats */}
-            <div className="stat-card !border-orange-400/20 !bg-orange-400/5">
-              <div className="stat-icon bg-orange-400/10">
-                <span className="text-xl">🔥</span>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-text">{streakStats?.current ?? "—"}</div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Current Streak</div>
-              </div>
-            </div>
-            <div className="stat-card !border-yellow-500/20 !bg-yellow-500/5">
-              <div className="stat-icon bg-yellow-500/10">
-                <span className="text-xl">🏆</span>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-text">{streakStats?.longest ?? "—"}</div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Longest Streak</div>
-              </div>
-            </div>
-            <div className="stat-card !border-primary/20 !bg-primary/5">
-              <div className="stat-icon bg-primary/10">
-                <span className="text-xl">📅</span>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-text">{streakStats?.activeDays ?? "—"}</div>
-                <div className="text-xs text-textMuted font-medium mt-0.5">Active Days</div>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* AI Coach + Insights + Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="col-span-full">
-              <div className="db-card bg-gradient-to-br from-primary/10 to-cyan-500/5 !border-primary/20">
-                <div className="flex items-center gap-3 mb-3.5">
-                  <div className="w-[38px] h-[38px] bg-gradient-to-br from-primary to-cyan-500 rounded-xl flex items-center justify-center text-lg">🤖</div>
-                  <div className="font-semibold text-base text-text">AI Coach</div>
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+            {/* AI Coach Main Card */}
+            <div className="xl:col-span-2">
+              <div className="card bg-gradient-to-br from-surface to-primary/[0.03] border-primary/10 !p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+                       <Bot size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold">Personal AI Coach</h2>
+                      <p className="text-sm text-textMuted font-medium">Daily Analysis & Feedback</p>
+                    </div>
+                  </div>
+                  <div className="hidden md:flex gap-2">
+                    <span className="bg-primary/5 text-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-primary/10">Insight Mode</span>
+                  </div>
                 </div>
-                <div className="text-[15px] text-textMuted leading-[1.8]">
+
+                <div className="space-y-6 text-base text-text/80 leading-relaxed max-w-3xl">
                   {data.coach.split("\n").map((line, i) => {
-                    if (!line.trim()) return <br key={i} />;
+                    if (!line.trim()) return <div key={i} className="h-4" />;
 
                     // Bold **text**
                     const parts = line.split(/\*\*(.*?)\*\*/g);
                     const formatted = parts.map((part, j) =>
-                      j % 2 === 1
-                        ? <strong key={j} className="text-primary font-semibold">{part}</strong>
-                        : part
+                      j % 2 === 1 ? <strong key={j} className="text-text font-bold">{part}</strong> : part
                     );
 
-                    // Bullet points
                     const isBullet = line.trim().startsWith("-") || line.trim().startsWith("•");
-                    // Section headers (lines ending with :)
-                    const isHeader = line.trim().endsWith(":") && line.trim().length < 40;
+                    const isHeader = line.trim().endsWith(":") && line.trim().length < 50;
 
                     if (isHeader) return (
-                      <div key={i} className="font-bold text-primary text-[13px] tracking-widest uppercase mt-3.5 mb-1.5">
+                      <div key={i} className="text-primary font-bold text-sm uppercase tracking-widest pt-4">
                         {formatted}
                       </div>
                     );
 
                     if (isBullet) return (
-                      <div key={i} className="flex gap-2.5 items-start mb-1.5 pl-1">
-                        <span className="text-primary mt-0.5 shrink-0">•</span>
-                        <span>{formatted}</span>
+                      <div key={i} className="flex gap-3 items-start pl-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0" />
+                        <span className="text-textMuted">{formatted}</span>
                       </div>
                     );
 
-                    return <div key={i} className="mb-1.5">{formatted}</div>;
+                    return <p key={i} className="text-textMuted">{formatted}</p>;
                   })}
                 </div>
               </div>
             </div>
 
-            <div className="db-card">
-              <div className="flex items-center gap-2.5 mb-4">
-                <Brain size={18} className="text-primary" />
-                <div className="section-title !m-0">Insights</div>
+            {/* Quick Stats & Badges */}
+            <div className="space-y-8">
+              <div className="card !p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <Brain size={20} className="text-primary" />
+                  <h3 className="font-bold text-sm uppercase tracking-widest">Key Insights</h3>
+                </div>
+                <div className="space-y-4">
+                  {data.insights.slice(0, 3).map((item, i) => (
+                    <div key={i} className="bg-background border border-border/50 rounded-2xl p-4 flex gap-4 group hover:border-primary/30 transition-all">
+                       <span className="text-lg grayscale group-hover:grayscale-0 transition-all">💡</span>
+                       <p className="text-sm text-textMuted font-medium leading-relaxed">{item}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              {data.insights.map((item, i) => <div key={i} className="insight-item">💡 {item}</div>)}
-            </div>
 
-            <div className="db-card">
-              <div className="flex items-center gap-2.5 mb-4">
-                <Zap size={18} className="text-cyan-500" />
-                <div className="section-title !m-0">Actions</div>
+              <div className="card !p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-lg">🏅</span>
+                  <h3 className="font-bold text-sm uppercase tracking-widest">Recent Badges</h3>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {(() => {
+                    const u = JSON.parse(localStorage.getItem("user")) || {};
+                    const badges = u.badges || [];
+                    const BADGE_DEFS = {
+                      first_habit: { emoji: "🌱", name: "First Step" },
+                      streak_7: { emoji: "🔥", name: "On Fire" },
+                      perfect_day: { emoji: "💯", name: "Perfect Day" },
+                      xp_100: { emoji: "⚡", name: "Century" },
+                      level_3: { emoji: "🏆", name: "Disciplined" },
+                    };
+                    return Object.entries(BADGE_DEFS).map(([id, badge]) => {
+                      const unlocked = badges.includes(id);
+                      return (
+                        <div key={id} className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl transition-all border ${unlocked ? 'bg-primary/10 border-primary/20 grayscale-0 shadow-sm shadow-primary/5' : 'bg-background border-border/50 grayscale opacity-30'}`} title={badge.name}>
+                          {badge.emoji}
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
               </div>
-              {data.actions.map((item, i) => <div key={i} className="action-item">⚡ {item}</div>)}
             </div>
           </div>
-
-          {/* ✅ Feature 6 — Badges */}
-          {(() => {
-            const u = JSON.parse(localStorage.getItem("user")) || {};
-            const badges = u.badges || [];
-            const BADGE_DEFS = {
-              first_habit: { name: "First Step", emoji: "🌱", desc: "Complete your first habit" },
-              streak_7: { name: "On Fire", emoji: "🔥", desc: "Achieve a 7-day streak" },
-              perfect_day: { name: "Perfect Day", emoji: "💯", desc: "Complete all habits in one day" },
-              xp_100: { name: "Century", emoji: "⚡", desc: "Earn 100 XP" },
-              level_3: { name: "Disciplined", emoji: "🏆", desc: "Reach Level 3" },
-              legend: { name: "Legend", emoji: "👑", desc: "Reach Level 5" },
-            };
-            return (
-              <div className="db-card mt-5">
-                <div className="text-[13px] font-bold tracking-widest uppercase text-textMuted mb-4">
-                  🏅 Achievements
-                </div>
-                <div className="flex flex-wrap gap-2.5">
-                  {Object.entries(BADGE_DEFS).map(([id, badge]) => {
-                    const unlocked = badges.includes(id);
-                    return (
-                      <div key={id} className={`bg-surfaceLight/30 border border-border rounded-xl p-[10px_16px] flex items-center gap-2.5 transition-all ${unlocked ? "border-primary/30 bg-primary/5 opacity-100 grayscale-0" : "opacity-40 grayscale"}`}>
-                        <span className="text-[22px]">{badge.emoji}</span>
-                        <div>
-                          <div className={`text-[13px] font-bold ${unlocked ? "text-text" : "text-textMuted"}`}>{badge.name}</div>
-                          <div className="text-[11px] text-textMuted/70">{badge.desc}</div>
-                        </div>
-                        {unlocked && <span className="text-[10px] bg-success/15 text-success px-2 py-0.5 rounded-full font-bold ml-1">EARNED</span>}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })()}
         </>
       )}
     </div>

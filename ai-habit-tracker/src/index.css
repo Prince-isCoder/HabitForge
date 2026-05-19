@@ -6,9 +6,9 @@
   --background: #F8FAFC; /* slate-50 */
   --surface: #FFFFFF;
   --surface-light: #F1F5F9; /* slate-100 */
-  --primary: #8B5CF6;    /* violet-500 */
-  --primary-rgb: 139, 92, 246;
-  --primary-hover: #7C3AED; /* violet-600 */
+  --primary: #6366F1;    /* indigo-500 */
+  --primary-rgb: 99, 102, 241;
+  --primary-hover: #4F46E5; /* indigo-600 */
   --success: #10B981;    /* emerald-500 */
   --danger: #EF4444;     /* red-500 */
   --text: #0F172A;       /* slate-900 */
@@ -18,17 +18,17 @@
 }
 
 .dark {
-  --background: #0F172A; /* slate-900 */
-  --surface: #1E293B;    /* slate-800 */
-  --surface-light: #334155; /* slate-700 */
-  --primary: #8B5CF6;    /* violet-500 */
-  --primary-rgb: 139, 92, 246;
-  --primary-hover: #7C3AED; /* violet-600 */
-  --success: #10B981;    /* emerald-500 */
-  --danger: #EF4444;     /* red-500 */
-  --text: #F8FAFC;       /* slate-50 */
+  --background: #0B0E14; /* darker background */
+  --surface: #151921;    /* deeper surface */
+  --surface-light: #212936;
+  --primary: #818CF8;    /* indigo-400 */
+  --primary-rgb: 129, 140, 248;
+  --primary-hover: #6366F1; /* indigo-500 */
+  --success: #34D399;    /* emerald-400 */
+  --danger: #F87171;     /* red-400 */
+  --text: #F1F5F9;       /* slate-100 */
   --text-muted: #94A3B8;  /* slate-400 */
-  --border: #334155;     /* slate-700 */
+  --border: #212936;     /* slate-700ish */
   --heading: #FFFFFF;
 }
 
@@ -41,7 +41,7 @@
     @apply bg-background text-text antialiased;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
     &::-webkit-scrollbar-track {
       @apply bg-background;
@@ -59,27 +59,31 @@
 
 @layer components {
   .card {
-    @apply bg-surface border border-border rounded-2xl p-6 shadow-sm transition-all duration-300;
+    @apply bg-surface border border-border rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] transition-all duration-300;
   }
   
   .card-hover {
-    @apply hover:border-surfaceLight hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+    @apply hover:border-primary/20 hover:shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] hover:-translate-y-0.5;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98];
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primaryHover shadow-sm;
+    @apply bg-primary text-white hover:bg-primaryHover shadow-lg shadow-primary/20;
   }
   
   .btn-secondary {
-    @apply bg-surfaceLight text-text hover:bg-border;
+    @apply bg-surfaceLight text-text hover:bg-border border border-border;
   }
   
   .btn-ghost {
     @apply hover:bg-surfaceLight text-textMuted hover:text-text;
+  }
+
+  .input-field {
+    @apply w-full bg-surfaceLight/50 border border-border rounded-xl px-4 py-3 text-sm text-text outline-none transition-all placeholder:text-textMuted/40 focus:bg-surface focus:border-primary/40 focus:ring-4 focus:ring-primary/5;
   }
   
   .glass-panel {
@@ -103,22 +107,4 @@
 }
 .recharts-surface {
   @apply outline-none focus:outline-none;
-}
-
-
-.btn {
-  @apply px-4 py-2 rounded transition duration-150 
-         active:scale-95 active:opacity-80;
-}
-
-.btn-primary {
-  @apply bg-purple-600 hover:bg-purple-700 text-white;
-}
-
-.btn-danger {
-  @apply bg-red-600 hover:bg-red-700 text-white;
-}
-
-.btn-success {
-  @apply bg-green-500 hover:bg-green-600 text-white;
 }

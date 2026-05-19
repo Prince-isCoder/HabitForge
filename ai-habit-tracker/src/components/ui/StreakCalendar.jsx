@@ -6,9 +6,9 @@ const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 const getColor = (count) => {
     if (count === 0) return { bg: "var(--surface-light)", border: "var(--border)" };
-    if (count === 1) return { bg: "rgba(99,102,241,0.25)",  border: "rgba(99,102,241,0.35)" };
-    if (count === 2) return { bg: "rgba(99,102,241,0.45)",  border: "rgba(99,102,241,0.55)" };
-    if (count === 3) return { bg: "rgba(99,102,241,0.65)",  border: "rgba(99,102,241,0.75)" };
+    if (count === 1) return { bg: "rgba(var(--primary-rgb), 0.2)",  border: "rgba(var(--primary-rgb), 0.3)" };
+    if (count === 2) return { bg: "rgba(var(--primary-rgb), 0.4)",  border: "rgba(var(--primary-rgb), 0.5)" };
+    if (count === 3) return { bg: "rgba(var(--primary-rgb), 0.7)",  border: "rgba(var(--primary-rgb), 0.8)" };
     return              { bg: "var(--primary)",   border: "var(--primary)"    };
 };
 
@@ -24,10 +24,9 @@ const StreakCalendar = () => {
     }, []);
 
     if (loading) return (
-        <div className="bg-surface border border-border rounded-[18px] p-6">
-            <div className="h-[120px] flex items-center justify-center text-textMuted text-sm">
-                Loading calendar...
-            </div>
+        <div className="card !p-12 flex flex-col items-center justify-center animate-pulse">
+            <div className="w-12 h-12 bg-surfaceLight rounded-full mb-4" />
+            <div className="text-textMuted text-sm font-medium">Loading activity data...</div>
         </div>
     );
 
@@ -52,7 +51,7 @@ const StreakCalendar = () => {
     const monthLabels = [];
     let lastMonth = -1;
     grid.forEach((week, wi) => {
-        week.forEach((cell, di) => {
+        week.forEach((cell) => {
             if (!cell) return;
             const m = new Date(cell.date).getMonth();
             if (m !== lastMonth) {
@@ -81,97 +80,85 @@ const StreakCalendar = () => {
         return best;
     })();
 
-    const CELL = 13;
-    const GAP  = 3;
-    const STEP = CELL + GAP;
+    const CELL = 14;
+    const GAP  = 4;
 
     return (
-        <div className="bg-surface border border-border rounded-[18px] p-[24px_28px] font-['Outfit'] relative">
+        <div className="card !p-8 relative">
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
                 .cal-cell {
                     width: ${CELL}px; height: ${CELL}px;
                     border-radius: 3px;
                     cursor: pointer;
-                    transition: transform 0.1s;
+                    transition: all 0.1s;
                     border: 1px solid transparent;
                     flex-shrink: 0;
                 }
-                .cal-cell:hover { transform: scale(1.3); z-index: 2; }
+                .cal-cell:hover { transform: scale(1.4); z-index: 2; border-color: var(--primary); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3); }
                 .cal-tooltip {
                     position: fixed;
-                    @apply bg-surface/95 border border-primary/30 rounded-xl px-3 py-2 text-[12px] text-text shadow-2xl;
+                    @apply bg-surface/98 border border-primary/20 rounded-xl px-4 py-2.5 text-[11px] text-text shadow-2xl backdrop-blur-md;
                     pointer-events: none;
                     z-index: 100;
                     white-space: nowrap;
-                }
-                .stat-chip {
-                    @apply bg-surfaceLight/40 border border-border rounded-xl px-4 py-2.5 flex flex-col gap-0.5;
+                    animation: popIn 0.15s ease-out;
                 }
             `}</style>
 
-            {/* Header */}
-            <div className="flex items-start justify-between flex-wrap gap-4 mb-6">
+            {/* Header Content */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
-                    <div className="text-base font-semibold text-text mb-1">
-                        🗓 Activity Calendar
-                    </div>
-                    <div className="text-[13px] text-textMuted">
-                        Your habit completions over the last 365 days
-                    </div>
+                    <h3 className="font-bold text-lg mb-1">Consistency Heatmap</h3>
+                    <p className="text-xs text-textMuted font-medium uppercase tracking-widest">365-day tracking history</p>
                 </div>
 
-                {/* Stats row */}
-                <div className="flex gap-2.5">
-                    <div className="stat-chip">
-                        <span className="text-lg font-bold text-text">{currentStreak}</span>
-                        <span className="text-[11px] text-textMuted">Current Streak</span>
-                    </div>
-                    <div className="stat-chip">
-                        <span className="text-lg font-bold text-text">{longestStreak}</span>
-                        <span className="text-[11px] text-textMuted">Longest Streak</span>
-                    </div>
-                    <div className="stat-chip">
-                        <span className="text-lg font-bold text-text">{totalDays}</span>
-                        <span className="text-[11px] text-textMuted">Active Days</span>
-                    </div>
+                <div className="flex gap-4">
+                    {[
+                        { label: "Active Days", val: totalDays },
+                        { label: "Longest", val: `${longestStreak}d` },
+                        { label: "Current", val: `${currentStreak}d` }
+                    ].map((s, i) => (
+                        <div key={i} className="bg-surfaceLight/30 border border-border rounded-xl px-4 py-2 flex flex-col items-center min-w-[80px]">
+                            <span className="text-lg font-bold text-text leading-tight">{s.val}</span>
+                            <span className="text-[9px] font-bold text-textMuted uppercase tracking-widest">{s.label}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Calendar grid */}
-            <div className="overflow-x-auto pb-2">
+            {/* Grid Container */}
+            <div className="overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
                 <div className="inline-flex gap-0 min-w-max">
-
-                    {/* Day labels column */}
-                    <div className="flex flex-col gap-[3px] mr-1.5 pt-5">
+                    {/* Weekdays Labels */}
+                    <div className="flex flex-col gap-[4px] mr-3 pt-6">
                         {DAYS.map((d, i) => (
-                            <div key={d} className={`h-[13px] text-[9px] flex items-center font-medium w-6 ${i % 2 === 0 ? "text-textMuted/70" : "text-transparent"}`}>
+                            <div key={d} className={`h-[14px] text-[10px] flex items-center font-bold w-6 ${i % 2 === 0 ? "text-textMuted/60" : "text-transparent"}`}>
                                 {d}
                             </div>
                         ))}
                     </div>
 
-                    {/* Weeks */}
+                    {/* The Grid */}
                     <div>
-                        {/* Month labels */}
-                        <div className="flex mb-1 height-4">
+                        {/* Month labels header */}
+                        <div className="flex mb-2 height-4">
                             {grid.map((_, wi) => {
                                 const ml = monthLabels.find(m => m.wi === wi);
                                 return (
-                                    <div key={wi} className="w-[16px] text-[9px] text-textMuted font-medium overflow-visible whitespace-nowrap">
+                                    <div key={wi} className="w-[18px] text-[9px] text-textMuted font-bold uppercase tracking-tighter overflow-visible whitespace-nowrap">
                                         {ml ? ml.label : ""}
                                     </div>
                                 );
                             })}
                         </div>
 
-                        {/* Grid cells */}
-                        <div className="flex gap-[3px]">
+                        {/* Cells */}
+                        <div className="flex gap-[4px]">
                             {grid.map((week, wi) => (
-                                <div key={wi} className="flex flex-col gap-[3px]">
+                                <div key={wi} className="flex flex-col gap-[4px]">
                                     {week.map((cell, di) => {
                                         if (!cell) return (
-                                            <div key={di} className="w-[13px] h-[13px] shrink-0" />
+                                            <div key={di} className="w-[14px] h-[14px] shrink-0 opacity-20" />
                                         );
                                         const { bg, border } = getColor(cell.count);
                                         return (
@@ -180,9 +167,9 @@ const StreakCalendar = () => {
                                                 className="cal-cell"
                                                 style={{ background: bg, borderColor: border }}
                                                 onMouseEnter={e => setTooltip({
-                                                    x: e.clientX + 12,
-                                                    y: e.clientY - 36,
-                                                    date: cell.date,
+                                                    x: e.clientX + 15,
+                                                    y: e.clientY - 45,
+                                                    date: new Date(cell.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                                                     count: cell.count
                                                 })}
                                                 onMouseLeave={() => setTooltip(null)}
@@ -197,24 +184,24 @@ const StreakCalendar = () => {
             </div>
 
             {/* Legend */}
-            <div className="flex items-center gap-2 mt-4 justify-end">
-                <span className="text-[11px] text-textMuted">Less</span>
-                {[0, 1, 2, 3, 4].map(n => {
-                    const { bg, border } = getColor(n);
-                    return <div key={n} className="w-[11px] h-[11px] rounded-[2px]" style={{ background: bg, border: `1px solid ${border}` }} />;
-                })}
-                <span className="text-[11px] text-textMuted">More</span>
+            <div className="flex items-center gap-3 mt-8 justify-end">
+                <span className="text-[10px] font-bold text-textMuted uppercase tracking-widest">Less</span>
+                <div className="flex gap-1">
+                    {[0, 1, 2, 3, 4].map(n => {
+                        const { bg, border } = getColor(n);
+                        return <div key={n} className="w-[11px] h-[11px] rounded-[2px]" style={{ background: bg, border: `1px solid ${border}` }} />;
+                    })}
+                </div>
+                <span className="text-[10px] font-bold text-textMuted uppercase tracking-widest">More</span>
             </div>
 
             {/* Tooltip */}
             {tooltip && (
                 <div className="cal-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-                    <span className="text-primary font-semibold">{tooltip.date}</span>
-                    {" — "}
-                    {tooltip.count === 0
-                        ? "No habits completed"
-                        : `${tooltip.count} habit${tooltip.count > 1 ? "s" : ""} completed`
-                    }
+                    <div className="font-bold mb-0.5">{tooltip.date}</div>
+                    <div className="text-textMuted font-medium">
+                        {tooltip.count === 0 ? "No activity logged" : `${tooltip.count} habit${tooltip.count > 1 ? "s" : ""} completed`}
+                    </div>
                 </div>
             )}
         </div>
