@@ -17,7 +17,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
-  // ✅ Re-read user from localStorage whenever XP updates
   useEffect(() => {
     const refresh = () => setUser(JSON.parse(localStorage.getItem("user")) || {});
     window.addEventListener("xpUpdated", refresh);
@@ -27,7 +26,6 @@ const Sidebar = () => {
   const xp = user.xp ?? 0;
   const level = user.level ?? 1;
   const levelName = user.levelName ?? "Beginner";
-  const xpForNext = user.xpForNext ?? 100;
   const xpPct = Math.min(100, Math.round((xp % 100) / 100 * 100));
 
   const logout = () => {
@@ -37,23 +35,8 @@ const Sidebar = () => {
   };
 
   return (
-    <aside style={{
-      width: 240,
-      minHeight: "100vh",
-      background: "rgba(8,10,16,0.95)",
-      borderRight: "1px solid rgba(255,255,255,0.055)",
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: "'Outfit', sans-serif",
-      position: "sticky",
-      top: 0,
-      backdropFilter: "blur(20px)",
-      zIndex: 30,
-      flexShrink: 0,
-    }}>
+    <aside className="w-60 min-h-screen bg-surface border-r border-border flex flex-col font-sans sticky top-0 backdrop-blur-xl z-30 shrink-0">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-
         .nav-link-item {
           display: flex;
           align-items: center;
@@ -62,232 +45,116 @@ const Sidebar = () => {
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
-          color: #475569;
+          color: var(--text-muted);
           text-decoration: none;
           transition: all 0.18s ease;
           position: relative;
           margin-bottom: 2px;
         }
         .nav-link-item:hover {
-          color: #94a3b8;
-          background: rgba(255,255,255,0.04);
+          color: var(--text);
+          background: rgba(var(--primary), 0.04);
         }
         .nav-link-item.active {
-          color: #f1f5f9;
-          background: rgba(99,102,241,0.12);
-          border: 1px solid rgba(99,102,241,0.2);
+          color: var(--text);
+          background: rgba(139, 92, 246, 0.12);
+          border: 1px solid rgba(139, 92, 246, 0.2);
         }
         .nav-link-item.active .nav-icon {
-          color: #818cf8;
+          color: var(--primary);
         }
         .nav-link-item .nav-icon {
           transition: color 0.18s;
           flex-shrink: 0;
         }
-        .nav-link-item:hover .nav-icon {
-          color: #6366f1;
-        }
         .active-dot {
           width: 6px; height: 6px;
-          background: #6366f1;
+          background: var(--primary);
           border-radius: 50%;
           margin-left: auto;
-          box-shadow: 0 0 8px rgba(99,102,241,0.6);
-        }
-
-        .upgrade-card {
-          background: rgba(99,102,241,0.07);
-          border: 1px solid rgba(99,102,241,0.18);
-          border-radius: 16px;
-          padding: 18px;
-          margin: 0 12px 16px;
-          transition: border-color 0.2s, background 0.2s;
-          cursor: default;
-        }
-        .upgrade-card:hover {
-          background: rgba(99,102,241,0.11);
-          border-color: rgba(99,102,241,0.3);
-        }
-        .upgrade-btn {
-          width: 100%;
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
-          border: none;
-          border-radius: 10px;
-          color: #fff;
-          padding: 10px;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          font-family: 'Outfit', sans-serif;
-          margin-top: 12px;
-          transition: transform 0.15s, box-shadow 0.15s;
-          box-shadow: 0 4px 14px rgba(79,70,229,0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-        }
-        .upgrade-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 20px rgba(79,70,229,0.4);
-        }
-
-        .logout-btn {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 11px 14px;
-          border-radius: 12px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #475569;
-          background: none;
-          border: none;
-          cursor: pointer;
-          font-family: 'Outfit', sans-serif;
-          width: 100%;
-          transition: all 0.18s;
-        }
-        .logout-btn:hover {
-          color: #fca5a5;
-          background: rgba(239,68,68,0.07);
-        }
-
-        .sidebar-divider {
-          height: 1px;
-          background: rgba(255,255,255,0.05);
-          margin: 8px 0;
+          box-shadow: 0 0 8px var(--primary);
         }
       `}</style>
 
-      {/* ── Brand ── */}
-      <div style={{
-        padding: "24px 20px 20px",
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
-        marginBottom: 12,
-      }}>
-        <div style={{
-          width: 40, height: 40,
-          background: "linear-gradient(135deg,#4f46e5,#06b6d4)",
-          borderRadius: 12,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 20,
-          boxShadow: "0 0 20px rgba(79,70,229,0.35)",
-          flexShrink: 0,
-        }}>
+      {/* Brand */}
+      <div className="p-6 pb-5 flex items-center gap-3 border-b border-border mb-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-primary to-cyan-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/30 shrink-0">
           🔥
         </div>
         <div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.01em" }}>
-            HabitForge
-          </div>
-          <div style={{ fontSize: 11, color: "#334155", fontWeight: 400, marginTop: 1 }}>
-            AI Habit Tracker
-          </div>
+          <div className="text-base font-bold text-text tracking-tight">HabitForge</div>
+          <div className="text-[11px] text-textMuted font-normal mt-0.5">AI Habit Tracker</div>
         </div>
       </div>
 
-      {/* ── User pill ── */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        margin: "0 12px 16px",
-        padding: "10px 12px",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        borderRadius: 12,
-      }}>
-        <div style={{
-          width: 32, height: 32,
-          borderRadius: "50%",
-          background: "linear-gradient(135deg,#4f46e5,#06b6d4)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 13, fontWeight: 700, color: "#fff",
-          flexShrink: 0,
-          boxShadow: "0 0 10px rgba(79,70,229,0.25)",
-        }}>
+      {/* User pill */}
+      <div className="flex items-center gap-2.5 mx-3 mb-4 p-2.5 bg-surfaceLight/30 border border-border/50 rounded-xl">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-[13px] font-bold text-white shrink-0 shadow-sm shadow-primary/25">
           {user?.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <div className="min-w-0">
+          <div className="text-[13px] font-semibold text-text truncate">
             {user?.name || "User"}
           </div>
-          <div style={{ fontSize: 11, color: "#475569" }}>
+          <div className="text-[11px] text-textMuted">
             Level {level} · {levelName}
           </div>
         </div>
       </div>
 
-      {/* ── Nav ── */}
-      <nav style={{ flex: 1, padding: "0 12px", overflowY: "auto" }}>
-        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#1e293b", padding: "4px 6px 10px", marginTop: 4 }}>
+      {/* Nav */}
+      <nav className="flex-1 px-3 overflow-y-auto">
+        <div className="text-[10px] font-bold tracking-widest uppercase text-textMuted/60 px-1.5 pb-2.5 mt-1">
           Navigation
         </div>
 
-        {navItems.map(({ path, icon: Icon, label }) => (
+        {navItems.map((item) => (
           <NavLink
-            key={path}
-            to={path}
-            end={path === "/"}
+            key={item.path}
+            to={item.path}
+            end={item.path === "/"}
             className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}
           >
-            <Icon size={17} className="nav-icon" />
-            {label}
-            {/* active dot added via CSS class check below */}
-            <ActiveDot path={path} />
+            <item.icon size={17} className="nav-icon" />
+            {item.label}
+            <ActiveDot path={item.path} />
           </NavLink>
         ))}
 
-        <div className="sidebar-divider" style={{ margin: "16px 0 12px" }} />
+        <div className="h-px bg-border my-4 mx-1" />
 
-        {/* Logout in nav */}
-        <button className="logout-btn" onClick={logout}>
-          <LogOut size={17} style={{ flexShrink: 0 }} />
+        <button className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-textMuted hover:text-danger hover:bg-danger/10 w-full transition-all" onClick={logout}>
+          <LogOut size={17} className="shrink-0" />
           Sign Out
         </button>
       </nav>
 
-      {/* ── Upgrade card ── */}
-      {/* ✅ XP Progress Card */}
-      <div className="upgrade-card">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Zap size={15} color="#818cf8" />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#f1f5f9" }}>
-              Level {level} — {levelName}
+      {/* XP Card */}
+      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4.5 mx-3 mb-4">
+        <div className="flex items-center justify-between mb-2.5">
+          <div className="flex items-center gap-2">
+            <Zap size={15} className="text-primary" />
+            <span className="text-[13px] font-bold text-text">
+              Level {level}
             </span>
           </div>
-          <span style={{ fontSize: 11, color: "#475569", fontWeight: 500 }}>
+          <span className="text-[11px] text-textMuted font-medium">
             {xp % 100}/100 XP
           </span>
         </div>
 
-        {/* XP bar */}
-        <div style={{ height: 6, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden", marginBottom: 8 }}>
-          <div style={{
-            height: "100%",
-            width: `${xpPct}%`,
-            background: "linear-gradient(90deg,#4f46e5,#06b6d4)",
-            borderRadius: 99,
-            transition: "width 0.5s ease",
-            boxShadow: "0 0 8px rgba(99,102,241,0.5)"
-          }} />
+        <div className="h-1.5 bg-textMuted/10 rounded-full overflow-hidden mb-2">
+          <div className="h-full bg-gradient-to-r from-primary to-cyan-500 rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(139,92,246,0.5)]" style={{ width: `${xpPct}%` }} />
         </div>
 
-        <div style={{ fontSize: 11, color: "#334155" }}>
+        <div className="text-[11px] text-textMuted/70">
           {100 - (xp % 100)} XP to Level {level + 1}
         </div>
       </div>
-
     </aside>
   );
 };
 
-/* Tiny helper — shows active dot only when route matches */
 const ActiveDot = ({ path }) => {
   const current = window.location.pathname;
   const isActive = path === "/" ? current === "/" : current.startsWith(path);
