@@ -85,6 +85,7 @@ const AuthPage = () => {
         setSuccess("✅ Account created! Please log in.");
       }
     } catch (err) {
+      console.error(err);
       setError("Server error. Please try again.");
     } finally {
       setLoading(false);
@@ -94,17 +95,8 @@ const AuthPage = () => {
   const handleKey = (e) => e.key === "Enter" && submit();
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0a0c12",
-      display: "flex",
-      fontFamily: "'Outfit', 'Segoe UI', sans-serif",
-      overflow: "hidden",
-      position: "relative"
-    }}>
+    <div className="min-h-screen bg-background flex font-sans overflow-hidden relative">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-
         /* ── Animated background blobs ── */
         .blob {
           position: absolute;
@@ -116,7 +108,7 @@ const AuthPage = () => {
         }
         .blob-1 {
           width: 520px; height: 520px;
-          background: #4f46e5;
+          background: var(--primary);
           top: -160px; left: -140px;
           animation-delay: 0s;
         }
@@ -137,115 +129,6 @@ const AuthPage = () => {
           50% { transform: translateY(-28px) scale(1.04); }
         }
 
-        /* ── Left panel ── */
-        .left-panel {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 60px 72px;
-          position: relative;
-          z-index: 1;
-        }
-        .brand-row {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          margin-bottom: 56px;
-          animation: fadeUp 0.5s ease both;
-        }
-        .brand-icon {
-          width: 46px; height: 46px;
-          background: linear-gradient(135deg, #4f46e5, #06b6d4);
-          border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 22px;
-          box-shadow: 0 0 24px rgba(79,70,229,0.45);
-        }
-        .brand-name {
-          font-size: 22px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
-        }
-        .hero-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(79,70,229,0.12);
-          border: 1px solid rgba(79,70,229,0.25);
-          border-radius: 99px;
-          padding: 6px 16px;
-          font-size: 12px;
-          font-weight: 500;
-          color: #a5b4fc;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          margin-bottom: 28px;
-          animation: fadeUp 0.5s 0.1s ease both;
-        }
-        .hero-title {
-          font-size: clamp(32px, 4vw, 52px);
-          font-weight: 700;
-          color: #f1f5f9;
-          line-height: 1.12;
-          letter-spacing: -0.03em;
-          margin-bottom: 20px;
-          animation: fadeUp 0.5s 0.2s ease both;
-        }
-        .hero-title span {
-          background: linear-gradient(90deg, #6366f1, #06b6d4);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .hero-sub {
-          font-size: 16px;
-          color: #64748b;
-          line-height: 1.65;
-          max-width: 400px;
-          margin-bottom: 48px;
-          font-weight: 400;
-          animation: fadeUp 0.5s 0.3s ease both;
-        }
-        .stats-row {
-          display: flex;
-          gap: 36px;
-          animation: fadeUp 0.5s 0.4s ease both;
-        }
-        .stat-item { display: flex; flex-direction: column; gap: 4px; }
-        .stat-num {
-          font-size: 26px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
-        }
-        .stat-label {
-          font-size: 12px;
-          color: #475569;
-          font-weight: 400;
-          letter-spacing: 0.04em;
-        }
-        .stat-divider {
-          width: 1px;
-          background: rgba(255,255,255,0.06);
-          align-self: stretch;
-        }
-
-        /* ── Right panel (card) ── */
-        .right-panel {
-          width: 480px;
-          min-height: 100vh;
-          background: rgba(255,255,255,0.025);
-          border-left: 1px solid rgba(255,255,255,0.055);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 48px 44px;
-          position: relative;
-          z-index: 1;
-          backdrop-filter: blur(20px);
-          animation: slideIn 0.5s ease both;
-        }
         @keyframes slideIn {
           from { opacity: 0; transform: translateX(40px); }
           to   { opacity: 1; transform: translateX(0); }
@@ -253,203 +136,6 @@ const AuthPage = () => {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(18px); }
           to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-inner { width: 100%; }
-
-        /* ── Tab switcher ── */
-        .tab-wrap {
-          display: flex;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          padding: 4px;
-          margin-bottom: 36px;
-        }
-        .tab-btn {
-          flex: 1;
-          padding: 11px;
-          border: none;
-          border-radius: 10px;
-          font-size: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.25s ease;
-          font-family: 'Outfit', sans-serif;
-          letter-spacing: 0.01em;
-        }
-        .tab-btn.active {
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
-          color: #fff;
-          box-shadow: 0 4px 16px rgba(79,70,229,0.35);
-        }
-        .tab-btn.inactive {
-          background: transparent;
-          color: #475569;
-        }
-        .tab-btn.inactive:hover { color: #94a3b8; }
-
-        /* ── Form heading ── */
-        .form-title {
-          font-size: 24px;
-          font-weight: 700;
-          color: #f1f5f9;
-          letter-spacing: -0.02em;
-          margin-bottom: 6px;
-        }
-        .form-sub {
-          font-size: 13px;
-          color: #475569;
-          margin-bottom: 32px;
-          font-weight: 400;
-        }
-
-        /* ── Input fields ── */
-        .field-group { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
-        .field-wrap { position: relative; }
-        .field-label {
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: #475569;
-          margin-bottom: 8px;
-          display: block;
-        }
-        .field-input-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-        .field-icon {
-          position: absolute;
-          left: 15px;
-          color: #334155;
-          font-size: 15px;
-          pointer-events: none;
-        }
-        .field-input {
-          width: 100%;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          padding: 13px 16px 13px 42px;
-          font-size: 14px;
-          color: #e2e8f0;
-          font-family: 'Outfit', sans-serif;
-          outline: none;
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-          box-sizing: border-box;
-        }
-        .field-input::placeholder { color: #334155; }
-        .field-input:focus {
-          border-color: rgba(79,70,229,0.5);
-          box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-          background: rgba(255,255,255,0.06);
-        }
-        .pass-toggle {
-          position: absolute;
-          right: 14px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: #475569;
-          font-size: 16px;
-          padding: 0;
-          transition: color 0.2s;
-        }
-        .pass-toggle:hover { color: #94a3b8; }
-
-        /* ── Error ── */
-        .error-box {
-          background: rgba(239,68,68,0.08);
-          border: 1px solid rgba(239,68,68,0.2);
-          border-radius: 10px;
-          padding: 11px 14px;
-          font-size: 13px;
-          color: #fca5a5;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        /* ── Submit btn ── */
-        .submit-btn {
-          width: 100%;
-          padding: 14px;
-          background: linear-gradient(135deg, #4f46e5, #4338ca);
-          border: none;
-          border-radius: 12px;
-          color: #fff;
-          font-size: 15px;
-          font-weight: 600;
-          font-family: 'Outfit', sans-serif;
-          cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-          box-shadow: 0 6px 24px rgba(79,70,229,0.38);
-          letter-spacing: 0.01em;
-          margin-bottom: 20px;
-        }
-        .submit-btn:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(79,70,229,0.48);
-        }
-        .submit-btn:active:not(:disabled) { transform: scale(0.98); }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* ── Divider ── */
-        .divider {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 20px;
-        }
-        .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
-        .divider-text { font-size: 11px; color: #334155; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
-
-        /* ── Switch link ── */
-        .switch-link {
-          text-align: center;
-          font-size: 13px;
-          color: #475569;
-        }
-        .switch-link button {
-          background: none;
-          border: none;
-          color: #6366f1;
-          cursor: pointer;
-          font-size: 13px;
-          font-weight: 600;
-          font-family: 'Outfit', sans-serif;
-          padding: 0;
-          margin-left: 4px;
-          transition: color 0.2s;
-        }
-        .switch-link button:hover { color: #818cf8; text-decoration: underline; }
-
-        /* ── Success toast ── */
-        .success-toast {
-          background: rgba(16,185,129,0.1);
-          border: 1px solid rgba(16,185,129,0.25);
-          border-radius: 10px;
-          padding: 11px 14px;
-          font-size: 13px;
-          color: #6ee7b7;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 860px) {
-          .left-panel { display: none; }
-          .right-panel {
-            width: 100%;
-            border-left: none;
-            padding: 48px 28px;
-          }
         }
       `}</style>
 
@@ -459,112 +145,107 @@ const AuthPage = () => {
       <div className="blob blob-3" />
 
       {/* Left Panel */}
-      <div className="left-panel">
-        <div className="brand-row">
-          <div className="brand-icon">🔥</div>
-          <span className="brand-name">HabitForge</span>
+      <div className="flex-1 hidden lg:flex flex-col justify-center px-20 relative z-10">
+        <div className="flex items-center gap-3.5 mb-14 animate-[fadeUp_0.5s_ease_both]">
+          <div className="w-12 h-12 bg-gradient-to-br from-primary to-cyan-500 rounded-2xl flex items-center justify-center text-2xl shadow-xl shadow-primary/40">🔥</div>
+          <span className="text-2xl font-bold text-text tracking-tight">HabitForge</span>
         </div>
 
-        <div className="hero-tag">
-          <span style={{ width: 6, height: 6, background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
+        <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 rounded-full px-4 py-1.5 text-xs font-medium text-primary uppercase tracking-wider mb-7 animate-[fadeUp_0.5s_0.1s_ease_both]">
+          <span className="w-1.5 h-1.5 bg-success rounded-full" />
           AI-Powered Tracking
         </div>
 
-        <h1 className="hero-title">
+        <h1 className="text-5xl lg:text-6xl font-bold text-text leading-[1.1] tracking-tight mb-5 animate-[fadeUp_0.5s_0.2s_ease_both]">
           Build habits that<br />
-          <span>actually stick.</span>
+          <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">actually stick.</span>
         </h1>
 
-        <p className="hero-sub">
+        <p className="text-lg text-textMuted leading-relaxed max-w-md mb-12 animate-[fadeUp_0.5s_0.3s_ease_both]">
           Your personal AI coach tracks streaks, spots patterns, and nudges you
           exactly when motivation dips — so you never break the chain.
         </p>
 
-        <div className="stats-row">
-          <div className="stat-item">
-            <span className="stat-num">21</span>
-            <span className="stat-label">Days to a habit</span>
+        <div className="flex gap-9 animate-[fadeUp_0.5s_0.4s_ease_both]">
+          <div className="flex flex-col gap-1">
+            <span className="text-2xl font-bold text-text tracking-tight">21</span>
+            <span className="text-xs text-textMuted uppercase tracking-wider">Days to a habit</span>
           </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-num">3×</span>
-            <span className="stat-label">Better with AI coach</span>
+          <div className="w-px bg-border/50 self-stretch" />
+          <div className="flex flex-col gap-1">
+            <span className="text-2xl font-bold text-text tracking-tight">3×</span>
+            <span className="text-xs text-textMuted uppercase tracking-wider">Better with AI coach</span>
           </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-num">∞</span>
-            <span className="stat-label">Streaks possible</span>
+          <div className="w-px bg-border/50 self-stretch" />
+          <div className="flex flex-col gap-1">
+            <span className="text-2xl font-bold text-text tracking-tight">∞</span>
+            <span className="text-xs text-textMuted uppercase tracking-wider">Streaks possible</span>
           </div>
         </div>
       </div>
 
       {/* Right Panel */}
-      <div className="right-panel">
-        <div className="form-inner">
+      <div className="w-full lg:w-[480px] min-h-screen bg-surface/30 border-l border-border/50 flex items-center justify-center p-11 relative z-10 backdrop-blur-2xl animate-[slideIn_0.5s_ease_both]">
+        <div className="w-full">
 
           {/* Tab switcher */}
           {tab !== "forgot" && tab !== "reset" && (
-            <div className="tab-wrap">
-              <button className={`tab-btn ${tab === "login" ? "active" : "inactive"}`} onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log In</button>
-              <button className={`tab-btn ${tab === "signup" ? "active" : "inactive"}`} onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign Up</button>
+            <div className="flex bg-surfaceLight/20 border border-border/50 rounded-2xl p-1 mb-9">
+              <button className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${tab === "login" ? "bg-gradient-to-br from-primary to-primaryHover text-white shadow-lg shadow-primary/30" : "text-textMuted hover:text-text"}`} onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log In</button>
+              <button className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${tab === "signup" ? "bg-gradient-to-br from-primary to-primaryHover text-white shadow-lg shadow-primary/30" : "text-textMuted hover:text-text"}`} onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign Up</button>
             </div>
           )}
 
-          <div className="form-title">
+          <div className="text-2xl font-bold text-text tracking-tight mb-1.5">
             {tab === "login" ? "Welcome back 👋" : tab === "signup" ? "Create account ✨" : tab === "forgot" ? "Forgot Password 🔑" : "Reset Password 🔒"}
           </div>
-          <div className="form-sub">
+          <div className="text-[13px] text-textMuted mb-8">
             {tab === "login" ? "Enter your credentials to continue tracking."
               : tab === "signup" ? "Start your habit journey today. It's free."
               : tab === "forgot" ? "Enter your email — we'll send a reset link to Mailtrap."
               : "Enter your new password below."}
           </div>
 
-          {/* Error */}
-          {error && <div className="error-box">⚠ {error}</div>}
-          {success && (
-            <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "11px 14px", fontSize: 13, color: "#6ee7b7", marginBottom: 20 }}>
-              {success}
-            </div>
-          )}
+          {/* Error & Success */}
+          {error && <div className="bg-danger/10 border border-danger/20 rounded-xl px-4 py-3 text-[13px] text-danger mb-5 flex items-center gap-2">⚠ {error}</div>}
+          {success && <div className="bg-success/10 border border-success/20 rounded-xl px-4 py-3 text-[13px] text-success mb-5 flex items-center gap-2">{success}</div>}
 
           {/* Fields */}
-          {/* Fields */}
-          <div className="field-group">
+          <div className="space-y-4 mb-6">
             {tab === "signup" && (
-              <div className="field-wrap">
-                <label className="field-label">Full Name</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">👤</span>
-                  <input className="field-input" name="name" value={form.name} onChange={handle} onKeyDown={handleKey} placeholder="John Doe" />
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-widest text-textMuted mb-2 ml-1">Full Name</label>
+                <div className="relative flex items-center">
+                  <span className="absolute left-4 text-textMuted/50 text-sm">👤</span>
+                  <input className="w-full bg-surfaceLight/20 border border-border/50 rounded-xl pl-11 pr-4 py-3.5 text-sm text-text placeholder:text-textMuted/30 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all" name="name" value={form.name} onChange={handle} onKeyDown={handleKey} placeholder="John Doe" />
                 </div>
               </div>
             )}
 
             {(tab === "login" || tab === "signup" || tab === "forgot") && (
-              <div className="field-wrap">
-                <label className="field-label">Email Address</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">✉</span>
-                  <input className="field-input" name="email" type="email" value={form.email} onChange={handle} onKeyDown={handleKey} placeholder="you@example.com" />
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-widest text-textMuted mb-2 ml-1">Email Address</label>
+                <div className="relative flex items-center">
+                  <span className="absolute left-4 text-textMuted/50 text-sm">✉</span>
+                  <input className="w-full bg-surfaceLight/20 border border-border/50 rounded-xl pl-11 pr-4 py-3.5 text-sm text-text placeholder:text-textMuted/30 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all" name="email" type="email" value={form.email} onChange={handle} onKeyDown={handleKey} placeholder="you@example.com" />
                 </div>
               </div>
             )}
 
             {(tab === "login" || tab === "signup" || tab === "reset") && (
-              <div className="field-wrap">
-                <label className="field-label">{tab === "reset" ? "New Password" : "Password"}</label>
-                <div className="field-input-wrap">
-                  <span className="field-icon">🔒</span>
-                  <input className="field-input" name="password" type={showPass ? "text" : "password"} value={form.password} onChange={handle} onKeyDown={handleKey} placeholder={tab === "signup" ? "Min. 6 characters" : tab === "reset" ? "Enter new password" : "Your password"} style={{ paddingRight: 44 }} />
-                  <button className="pass-toggle" onClick={() => setShowPass(!showPass)} type="button" tabIndex={-1}>{showPass ? "🙈" : "👁"}</button>
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-widest text-textMuted mb-2 ml-1">{tab === "reset" ? "New Password" : "Password"}</label>
+                <div className="relative flex items-center">
+                  <span className="absolute left-4 text-textMuted/50 text-sm">🔒</span>
+                  <input className="w-full bg-surfaceLight/20 border border-border/50 rounded-xl pl-11 pr-12 py-3.5 text-sm text-text placeholder:text-textMuted/30 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all" name="password" type={showPass ? "text" : "password"} value={form.password} onChange={handle} onKeyDown={handleKey} placeholder={tab === "signup" ? "Min. 6 characters" : tab === "reset" ? "Enter new password" : "Your password"} />
+                  <button className="absolute right-4 text-textMuted/50 hover:text-textMuted transition-colors text-base" onClick={() => setShowPass(!showPass)} type="button" tabIndex={-1}>{showPass ? "🙈" : "👁"}</button>
                 </div>
               </div>
             )}
           </div>
 
           {/* Submit */}
-          <button className="submit-btn" onClick={submit} disabled={loading}>
+          <button className="w-full py-4 bg-gradient-to-br from-primary to-primaryHover text-white rounded-xl text-[15px] font-semibold shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-0.5 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-5" onClick={submit} disabled={loading}>
             {loading ? "Please wait..."
               : tab === "login" ? "Log In →"
               : tab === "signup" ? "Create Account →"
@@ -572,28 +253,28 @@ const AuthPage = () => {
               : "Reset Password →"}
           </button>
 
-          <div className="divider">
-            <div className="divider-line" />
-            <span className="divider-text">or</span>
-            <div className="divider-line" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex-1 h-px bg-border/50" />
+            <span className="text-[11px] text-textMuted font-medium uppercase tracking-wider">or</span>
+            <div className="flex-1 h-px bg-border/50" />
           </div>
 
-          <div className="switch-link">
+          <div className="text-center text-[13px] text-textMuted">
             {tab === "login" && (
-              <>
-                <button onClick={() => { setTab("forgot"); setError(""); setSuccess(""); }}>Forgot password?</button>
-                {" · "}
-                <button onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign up free</button>
-              </>
+              <div className="space-x-1.5">
+                <button className="text-primary font-semibold hover:underline transition-all" onClick={() => { setTab("forgot"); setError(""); setSuccess(""); }}>Forgot password?</button>
+                <span className="text-border/50">·</span>
+                <button className="text-primary font-semibold hover:underline transition-all" onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}>Sign up free</button>
+              </div>
             )}
             {tab === "signup" && (
               <>Already have an account?
-                <button onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log in</button>
+                <button className="ml-1 text-primary font-semibold hover:underline transition-all" onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Log in</button>
               </>
             )}
             {(tab === "forgot" || tab === "reset") && (
               <>Remember it?
-                <button onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Back to Login</button>
+                <button className="ml-1 text-primary font-semibold hover:underline transition-all" onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Back to Login</button>
               </>
             )}
           </div>
