@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { mockChatHistory } from '../services/dummyData';
 import { cn } from '../utils/cn';
 
 // ✅ Markdown-style formatter for AI responses
@@ -14,7 +13,7 @@ const formatMessage = (text) => {
     const parts = line.split(/\*\*(.*?)\*\*/g);
     const formatted = parts.map((part, j) =>
       j % 2 === 1
-        ? <strong key={j} style={{ color: "#e2e8f0", fontWeight: 600 }}>{part}</strong>
+        ? <strong key={j} style={{ color: "var(--text)", fontWeight: 600 }}>{part}</strong>
         : part
     );
 
@@ -27,7 +26,7 @@ const formatMessage = (text) => {
     if (isHeader) return (
       <div key={i} style={{
         fontWeight: 700,
-        color: "#38bdf8",
+        color: "var(--primary)",
         fontSize: 13,
         letterSpacing: "0.05em",
         textTransform: "uppercase",
@@ -46,7 +45,7 @@ const formatMessage = (text) => {
         marginBottom: 5,
         paddingLeft: 2
       }}>
-        <span style={{ color: "#38bdf8", flexShrink: 0, marginTop: 2 }}>•</span>
+        <span style={{ color: "var(--primary)", flexShrink: 0, marginTop: 2 }}>•</span>
         <span>{formatted}</span>
       </div>
     );
@@ -117,8 +116,9 @@ const AICoach = () => {
 
   return (
     <div style={{
-      fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-      background: 'linear-gradient(135deg, #0f1117 0%, #141824 50%, #0f1117 100%)',
+      fontFamily: "'Outfit', sans-serif",
+      background: 'var(--background)',
+      color: 'var(--text)',
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
@@ -126,13 +126,13 @@ const AICoach = () => {
       padding: '24px',
     }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
         .coach-card {
           width: 100%;
           max-width: 720px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
           border-radius: 24px;
           overflow: hidden;
           backdrop-filter: blur(12px);
@@ -141,7 +141,7 @@ const AICoach = () => {
 
         .coach-header {
           padding: 20px 28px;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
+          border-bottom: 1px solid var(--border);
           background: linear-gradient(90deg, rgba(56,189,248,0.06) 0%, transparent 100%);
           display: flex;
           align-items: center;
@@ -153,9 +153,7 @@ const AICoach = () => {
           height: 42px;
           background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
           border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: flex; align-items: center; justify-content: center;
           box-shadow: 0 0 20px rgba(56,189,248,0.35);
           flex-shrink: 0;
         }
@@ -163,13 +161,13 @@ const AICoach = () => {
         .header-title {
           font-size: 16px;
           font-weight: 600;
-          color: #f0f6ff;
+          color: var(--text);
           letter-spacing: -0.01em;
         }
 
         .header-sub {
           font-size: 12px;
-          color: #4a90b8;
+          color: var(--text-muted);
           margin-top: 2px;
           font-weight: 400;
         }
@@ -210,7 +208,7 @@ const AICoach = () => {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          color: rgba(255,255,255,0.18);
+          color: var(--text-muted);
           font-size: 13px;
           font-weight: 400;
           letter-spacing: 0.02em;
@@ -257,8 +255,8 @@ const AICoach = () => {
         }
 
         .msg-avatar.user-av {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
         }
 
         .msg-bubble {
@@ -273,14 +271,14 @@ const AICoach = () => {
         .msg-bubble.ai-bubble {
           background: rgba(56,189,248,0.07);
           border: 1px solid rgba(56,189,248,0.14);
-          color: #cce9f8;
+          color: var(--text);
           border-top-left-radius: 4px;
         }
 
         .msg-bubble.user-bubble {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: #e8f0f8;
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
+          color: var(--text);
           border-top-right-radius: 4px;
           text-align: right;
         }
@@ -291,8 +289,7 @@ const AICoach = () => {
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin-bottom: 4px;
-          opacity: 0.5;
-          color: #94b8cc;
+          color: var(--text-muted);
         }
 
         .msg-label.right { text-align: right; }
@@ -333,8 +330,8 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          background: rgba(0,0,0,0.15);
+          border-top: 1px solid var(--border);
+          background: rgba(0,0,0,0.05);
           display: flex;
           gap: 12px;
           align-items: flex-end;
@@ -342,8 +339,8 @@ const AICoach = () => {
 
         .input-wrapper {
           flex: 1;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
           border-radius: 14px;
           overflow: hidden;
           transition: border-color 0.2s, box-shadow 0.2s;
@@ -359,16 +356,16 @@ const AICoach = () => {
           background: transparent;
           border: none;
           outline: none;
-          color: #e2f0f8;
+          color: var(--text);
           font-size: 14px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Outfit', sans-serif;
           font-weight: 400;
           padding: 13px 16px;
           resize: none;
           line-height: 1.5;
         }
 
-        .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+        .chat-input::placeholder { color: var(--text-muted); }
 
         .send-btn {
           width: 46px;
@@ -401,7 +398,7 @@ const AICoach = () => {
         .footer-hint {
           text-align: center;
           font-size: 11px;
-          color: rgba(255,255,255,0.18);
+          color: var(--text-muted);
           margin-top: 10px;
           letter-spacing: 0.02em;
         }
@@ -436,7 +433,7 @@ const AICoach = () => {
             <div key={i} className={cn("msg-row", c.role === "user" ? "user" : "")}>
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
-                  ? <User size={15} color="rgba(255,255,255,0.6)" />
+                  ? <User size={15} color="var(--text-muted)" />
                   : <Bot size={15} color="#fff" />
                 }
               </div>
