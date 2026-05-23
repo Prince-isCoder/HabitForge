@@ -1,38 +1,82 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @config "../tailwind.config.js";
 
 @layer base {
+  :root {
+    --background: #ffffff;
+    --surface: #f8fafc;
+    --surface-light: #f1f5f9;
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --sidebar-bg: rgba(248, 250, 252, 0.95);
+    --navbar-bg: rgba(255, 255, 255, 0.85);
+    --card-bg: rgba(0, 0, 0, 0.03);
+    --card-border: rgba(0, 0, 0, 0.07);
+  }
+
+  .dark {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-light: #334155;
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --sidebar-bg: rgba(8, 10, 16, 0.95);
+    --navbar-bg: rgba(10, 12, 18, 0.85);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.07);
+  }
+
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-background text-text antialiased;
+    background-color: var(--background);
+    color: var(--text);
+    @apply antialiased;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 8px;
     }
     &::-webkit-scrollbar-track {
-      @apply bg-background;
+      background-color: var(--background);
     }
     &::-webkit-scrollbar-thumb {
-      @apply bg-surfaceLight rounded-full;
+      background-color: var(--surface-light);
+      border-radius: 9999px;
     }
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-white;
+    @apply font-semibold tracking-tight;
+    color: var(--text);
   }
 }
 
 @layer components {
   .card {
-    @apply bg-surface border border-border rounded-2xl p-6 shadow-sm transition-all duration-300;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    @apply rounded-2xl p-6 shadow-sm transition-all duration-300;
   }
   
   .card-hover {
-    @apply hover:border-surfaceLight hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+    @apply hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+    &:hover {
+      border-color: var(--surface-light);
+    }
   }
 
   .btn {
@@ -40,19 +84,30 @@
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primaryHover shadow-sm;
+    background-color: var(--primary);
+    @apply text-white hover:bg-primaryHover shadow-sm;
   }
   
   .btn-secondary {
-    @apply bg-surfaceLight text-text hover:bg-border;
+    background-color: var(--surface-light);
+    color: var(--text);
+    &:hover {
+      background-color: var(--border);
+    }
   }
   
   .btn-ghost {
-    @apply hover:bg-surfaceLight text-textMuted hover:text-text;
+    color: var(--text-muted);
+    &:hover {
+      background-color: var(--surface-light);
+      color: var(--text);
+    }
   }
   
   .glass-panel {
-    @apply bg-surface/80 backdrop-blur-md border border-border;
+    background-color: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
   }
 }
 

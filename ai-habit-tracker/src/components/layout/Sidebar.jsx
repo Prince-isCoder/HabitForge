@@ -27,7 +27,6 @@ const Sidebar = () => {
   const xp = user.xp ?? 0;
   const level = user.level ?? 1;
   const levelName = user.levelName ?? "Beginner";
-  const xpForNext = user.xpForNext ?? 100;
   const xpPct = Math.min(100, Math.round((xp % 100) / 100 * 100));
 
   const logout = () => {
@@ -40,8 +39,8 @@ const Sidebar = () => {
     <aside style={{
       width: 240,
       minHeight: "100vh",
-      background: "rgba(8,10,16,0.95)",
-      borderRight: "1px solid rgba(255,255,255,0.055)",
+      background: "var(--sidebar-bg)",
+      borderRight: "1px solid var(--border)",
       display: "flex",
       flexDirection: "column",
       fontFamily: "'Outfit', sans-serif",
@@ -62,18 +61,18 @@ const Sidebar = () => {
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
-          color: #475569;
+          color: var(--text-muted);
           text-decoration: none;
           transition: all 0.18s ease;
           position: relative;
           margin-bottom: 2px;
         }
         .nav-link-item:hover {
-          color: #94a3b8;
-          background: rgba(255,255,255,0.04);
+          color: var(--text);
+          background: var(--card-bg);
         }
         .nav-link-item.active {
-          color: #f1f5f9;
+          color: var(--text);
           background: rgba(99,102,241,0.12);
           border: 1px solid rgba(99,102,241,0.2);
         }
@@ -140,7 +139,7 @@ const Sidebar = () => {
           border-radius: 12px;
           font-size: 14px;
           font-weight: 500;
-          color: #475569;
+          color: var(--text-muted);
           background: none;
           border: none;
           cursor: pointer;
@@ -155,7 +154,7 @@ const Sidebar = () => {
 
         .sidebar-divider {
           height: 1px;
-          background: rgba(255,255,255,0.05);
+          background: var(--border);
           margin: 8px 0;
         }
       `}</style>
@@ -166,7 +165,7 @@ const Sidebar = () => {
         display: "flex",
         alignItems: "center",
         gap: 12,
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
+        borderBottom: "1px solid var(--border)",
         marginBottom: 12,
       }}>
         <div style={{
@@ -181,10 +180,10 @@ const Sidebar = () => {
           🔥
         </div>
         <div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", letterSpacing: "-0.01em" }}>
             HabitForge
           </div>
-          <div style={{ fontSize: 11, color: "#334155", fontWeight: 400, marginTop: 1 }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 400, marginTop: 1 }}>
             AI Habit Tracker
           </div>
         </div>
@@ -197,8 +196,8 @@ const Sidebar = () => {
         gap: 10,
         margin: "0 12px 16px",
         padding: "10px 12px",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        background: "var(--card-bg)",
+        border: "1px solid var(--card-border)",
         borderRadius: 12,
       }}>
         <div style={{
@@ -213,10 +212,10 @@ const Sidebar = () => {
           {user?.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#cbd5e1", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
             {user?.name || "User"}
           </div>
-          <div style={{ fontSize: 11, color: "#475569" }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
             Level {level} · {levelName}
           </div>
         </div>
@@ -224,23 +223,26 @@ const Sidebar = () => {
 
       {/* ── Nav ── */}
       <nav style={{ flex: 1, padding: "0 12px", overflowY: "auto" }}>
-        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#1e293b", padding: "4px 6px 10px", marginTop: 4 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", padding: "4px 6px 10px", marginTop: 4 }}>
           Navigation
         </div>
 
-        {navItems.map(({ path, icon: Icon, label }) => (
-          <NavLink
-            key={path}
-            to={path}
-            end={path === "/"}
-            className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}
-          >
-            <Icon size={17} className="nav-icon" />
-            {label}
-            {/* active dot added via CSS class check below */}
-            <ActiveDot path={path} />
-          </NavLink>
-        ))}
+        {navItems.map((item) => {
+          const { path, icon: Icon, label } = item;
+          return (
+            <NavLink
+              key={path}
+              to={path}
+              end={path === "/"}
+              className={({ isActive }) => `nav-link-item ${isActive ? "active" : ""}`}
+            >
+              <Icon size={17} className="nav-icon" />
+              {label}
+              {/* active dot added via CSS class check below */}
+              <ActiveDot path={path} />
+            </NavLink>
+          );
+        })}
 
         <div className="sidebar-divider" style={{ margin: "16px 0 12px" }} />
 
@@ -257,17 +259,17 @@ const Sidebar = () => {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <Zap size={15} color="#818cf8" />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#f1f5f9" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text)" }}>
               Level {level} — {levelName}
             </span>
           </div>
-          <span style={{ fontSize: 11, color: "#475569", fontWeight: 500 }}>
+          <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 500 }}>
             {xp % 100}/100 XP
           </span>
         </div>
 
         {/* XP bar */}
-        <div style={{ height: 6, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden", marginBottom: 8 }}>
+        <div style={{ height: 6, background: "var(--card-bg)", borderRadius: 99, overflow: "hidden", marginBottom: 8 }}>
           <div style={{
             height: "100%",
             width: `${xpPct}%`,
@@ -278,7 +280,7 @@ const Sidebar = () => {
           }} />
         </div>
 
-        <div style={{ fontSize: 11, color: "#334155" }}>
+        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
           {100 - (xp % 100)} XP to Level {level + 1}
         </div>
       </div>
