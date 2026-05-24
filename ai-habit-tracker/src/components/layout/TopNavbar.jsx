@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search, LogOut } from 'lucide-react';
+import { Bell, Search, LogOut, Moon, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 const TopNavbar = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
@@ -19,37 +21,45 @@ const TopNavbar = () => {
   };
 
   return (
-    <header style={{ height: 68, background: "rgba(10,12,18,0.85)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", position: "sticky", top: 0, zIndex: 20, fontFamily: "'Outfit',sans-serif" }}>
+    <header className="flex items-center justify-between sticky top-0 z-20 px-7 h-[68px] bg-surface/80 backdrop-blur-xl border-b border-border font-['Outfit']">
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');`}</style>
 
       {/* Search */}
-      <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
-        <Search style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", color: "#334155" }} size={15} />
+      <div className="relative flex-1 max-w-[360px]">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-textMuted" size={15} />
         <input
           type="text"
           placeholder="Search habits, insights..."
-          style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 99, paddingLeft: 38, paddingRight: 16, paddingTop: 9, paddingBottom: 9, fontSize: 13, color: "#94a3b8", fontFamily: "'Outfit',sans-serif", outline: "none", boxSizing: "border-box" }}
+          className="w-full bg-surfaceLight/30 border border-border rounded-full pl-10 pr-4 py-2 text-[13px] text-text placeholder:text-textMuted outline-none"
         />
       </div>
 
       {/* Right */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div className="flex items-center gap-2">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="w-[38px] h-[38px] bg-surfaceLight/30 border border-border rounded-[10px] flex items-center justify-center cursor-pointer transition-colors hover:bg-surfaceLight/50"
+        >
+          {theme === 'dark' ? <Sun size={16} className="text-text" /> : <Moon size={16} className="text-text" />}
+        </button>
+
         {/* Bell */}
-        <button style={{ width: 38, height: 38, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative" }}>
-          <div style={{ position: "absolute", top: 8, right: 8, width: 7, height: 7, background: "#ef4444", borderRadius: "50%", border: "2px solid #0a0c12" }} />
-          <Bell size={16} color="#475569" />
+        <button className="w-[38px] h-[38px] bg-surfaceLight/30 border border-border rounded-[10px] flex items-center justify-center cursor-pointer relative transition-colors hover:bg-surfaceLight/50">
+          <div className="absolute top-2 right-2 w-[7px] h-[7px] bg-danger rounded-full border-2 border-surface" />
+          <Bell size={16} className="text-textMuted" />
         </button>
 
         {/* Divider */}
-        <div style={{ width: 1, height: 28, background: "rgba(255,255,255,0.07)", margin: "0 8px" }} />
+        <div className="w-px h-7 bg-border mx-2" />
 
         {/* Avatar + Name */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#f1f5f9" }}>{user?.name || "User"}</div>
-            <div style={{ fontSize: 11, color: "#475569" }}>Level {user?.level ?? 1}</div>
+        <div className="flex items-center gap-[10px]">
+          <div className="text-right">
+            <div className="text-[13px] font-semibold text-text">{user?.name || "User"}</div>
+            <div className="text-[11px] text-textMuted">Level {user?.level ?? 1}</div>
           </div>
-          <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,#4f46e5,#06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, color: "#fff", boxShadow: "0 0 12px rgba(79,70,229,0.3)" }}>
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#06b6d4] flex items-center justify-center font-bold text-sm text-white shadow-[0_0_12px_rgba(79,70,229,0.3)]">
             {user?.name?.charAt(0)?.toUpperCase() || "U"}
           </div>
         </div>
@@ -57,7 +67,7 @@ const TopNavbar = () => {
         {/* Logout */}
         <button
           onClick={logout}
-          style={{ display: "flex", alignItems: "center", gap: 7, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.18)", borderRadius: 10, padding: "8px 14px", color: "#fca5a5", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Outfit',sans-serif", marginLeft: 4, transition: "background 0.2s" }}
+          className="flex items-center gap-[7px] bg-danger/10 border border-danger/20 rounded-[10px] px-[14px] py-2 text-danger text-[13px] font-semibold cursor-pointer ml-1 transition-all hover:bg-danger/20"
         >
           <LogOut size={14} /> Logout
         </button>

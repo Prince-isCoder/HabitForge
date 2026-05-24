@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { mockChatHistory } from '../services/dummyData';
 import { cn } from '../utils/cn';
 
 // ✅ Markdown-style formatter for AI responses
@@ -14,7 +13,7 @@ const formatMessage = (text) => {
     const parts = line.split(/\*\*(.*?)\*\*/g);
     const formatted = parts.map((part, j) =>
       j % 2 === 1
-        ? <strong key={j} style={{ color: "#e2e8f0", fontWeight: 600 }}>{part}</strong>
+        ? <strong key={j} className="text-primary font-semibold">{part}</strong>
         : part
     );
 
@@ -25,34 +24,20 @@ const formatMessage = (text) => {
     const isBullet = line.trim().startsWith("-") || line.trim().startsWith("•");
 
     if (isHeader) return (
-      <div key={i} style={{
-        fontWeight: 700,
-        color: "#38bdf8",
-        fontSize: 13,
-        letterSpacing: "0.05em",
-        textTransform: "uppercase",
-        marginTop: 12,
-        marginBottom: 4
-      }}>
+      <div key={i} className="font-bold text-primary text-[13px] tracking-wider uppercase mt-3 mb-1">
         {formatted}
       </div>
     );
 
     if (isBullet) return (
-      <div key={i} style={{
-        display: "flex",
-        gap: 8,
-        alignItems: "flex-start",
-        marginBottom: 5,
-        paddingLeft: 2
-      }}>
-        <span style={{ color: "#38bdf8", flexShrink: 0, marginTop: 2 }}>•</span>
+      <div key={i} className="flex gap-2 items-start mb-1.5 pl-0.5">
+        <span className="text-primary flex-shrink-0 mt-0.5">•</span>
         <span>{formatted}</span>
       </div>
     );
 
     return (
-      <div key={i} style={{ marginBottom: 5 }}>
+      <div key={i} className="mb-1.5">
         {formatted}
       </div>
     );
@@ -116,33 +101,25 @@ const AICoach = () => {
   };
 
   return (
-    <div style={{
-      fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-      background: 'linear-gradient(135deg, #0f1117 0%, #141824 50%, #0f1117 100%)',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px',
-    }}>
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 font-['Outfit']">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
         .coach-card {
           width: 100%;
           max-width: 720px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--surface);
+          border: 1px solid var(--border);
           border-radius: 24px;
           overflow: hidden;
           backdrop-filter: blur(12px);
-          box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,179,237,0.04);
+          box-shadow: 0 32px 80px rgba(0,0,0,0.1), 0 0 0 1px var(--border);
         }
 
         .coach-header {
           padding: 20px 28px;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-          background: linear-gradient(90deg, rgba(56,189,248,0.06) 0%, transparent 100%);
+          border-bottom: 1px solid var(--border);
+          background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 6%, transparent) 0%, transparent 100%);
           display: flex;
           align-items: center;
           gap: 14px;
@@ -163,13 +140,13 @@ const AICoach = () => {
         .header-title {
           font-size: 16px;
           font-weight: 600;
-          color: #f0f6ff;
+          color: var(--text);
           letter-spacing: -0.01em;
         }
 
         .header-sub {
           font-size: 12px;
-          color: #4a90b8;
+          color: var(--textMuted);
           margin-top: 2px;
           font-weight: 400;
         }
@@ -196,12 +173,12 @@ const AICoach = () => {
           flex-direction: column;
           gap: 18px;
           scrollbar-width: thin;
-          scrollbar-color: rgba(56,189,248,0.2) transparent;
+          scrollbar-color: color-mix(in srgb, var(--primary) 20%, transparent) transparent;
         }
 
         .chat-area::-webkit-scrollbar { width: 4px; }
         .chat-area::-webkit-scrollbar-track { background: transparent; }
-        .chat-area::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.2); border-radius: 4px; }
+        .chat-area::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--primary) 20%, transparent); border-radius: 4px; }
 
         .empty-state {
           flex: 1;
@@ -210,17 +187,18 @@ const AICoach = () => {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          color: rgba(255,255,255,0.18);
+          color: var(--textMuted);
           font-size: 13px;
           font-weight: 400;
           letter-spacing: 0.02em;
+          opacity: 0.5;
         }
 
         .empty-icon {
           width: 48px;
           height: 48px;
-          background: rgba(56,189,248,0.06);
-          border: 1px solid rgba(56,189,248,0.12);
+          background: color-mix(in srgb, var(--primary) 6%, transparent);
+          border: 1px solid color-mix(in srgb, var(--primary) 12%, transparent);
           border-radius: 16px;
           display: flex;
           align-items: center;
@@ -257,8 +235,8 @@ const AICoach = () => {
         }
 
         .msg-avatar.user-av {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--surfaceLight);
+          border: 1px solid var(--border);
         }
 
         .msg-bubble {
@@ -271,18 +249,18 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          background: rgba(56,189,248,0.07);
-          border: 1px solid rgba(56,189,248,0.14);
-          color: #cce9f8;
+          background: color-mix(in srgb, var(--primary) 7%, transparent);
+          border: 1px solid color-mix(in srgb, var(--primary) 14%, transparent);
+          color: var(--text);
           border-top-left-radius: 4px;
         }
 
         .msg-bubble.user-bubble {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: #e8f0f8;
+          background: var(--surfaceLight);
+          border: 1px solid var(--border);
+          color: var(--text);
           border-top-right-radius: 4px;
-          text-align: right;
+          text-align: left;
         }
 
         .msg-label {
@@ -291,22 +269,15 @@ const AICoach = () => {
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin-bottom: 4px;
-          opacity: 0.5;
-          color: #94b8cc;
+          color: var(--textMuted);
+          opacity: 0.7;
         }
 
-        .msg-label.right { text-align: right; }
-
-        .typing-row {
-          display: flex;
-          gap: 12px;
-          align-items: flex-start;
-          animation: msgIn 0.25s ease-out;
-        }
+        .msg-row.user .msg-label { text-align: right; }
 
         .typing-bubble {
-          background: rgba(56,189,248,0.07);
-          border: 1px solid rgba(56,189,248,0.14);
+          background: color-mix(in srgb, var(--primary) 7%, transparent);
+          border: 1px solid color-mix(in srgb, var(--primary) 14%, transparent);
           border-radius: 16px;
           border-top-left-radius: 4px;
           padding: 14px 18px;
@@ -318,7 +289,7 @@ const AICoach = () => {
         .typing-dot {
           width: 6px;
           height: 6px;
-          background: #38bdf8;
+          background: var(--primary);
           border-radius: 50%;
           animation: bounce 1.2s infinite ease-in-out;
         }
@@ -333,8 +304,8 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          background: rgba(0,0,0,0.15);
+          border-top: 1px solid var(--border);
+          background: color-mix(in srgb, var(--background) 15%, transparent);
           display: flex;
           gap: 12px;
           align-items: flex-end;
@@ -342,16 +313,16 @@ const AICoach = () => {
 
         .input-wrapper {
           flex: 1;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--surfaceLight);
+          border: 1px solid var(--border);
           border-radius: 14px;
           overflow: hidden;
           transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .input-wrapper:focus-within {
-          border-color: rgba(56,189,248,0.4);
-          box-shadow: 0 0 0 3px rgba(56,189,248,0.07);
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 7%, transparent);
         }
 
         .chat-input {
@@ -359,16 +330,16 @@ const AICoach = () => {
           background: transparent;
           border: none;
           outline: none;
-          color: #e2f0f8;
+          color: var(--text);
           font-size: 14px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Outfit', sans-serif;
           font-weight: 400;
           padding: 13px 16px;
           resize: none;
           line-height: 1.5;
         }
 
-        .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+        .chat-input::placeholder { color: var(--textMuted); }
 
         .send-btn {
           width: 46px;
@@ -401,9 +372,10 @@ const AICoach = () => {
         .footer-hint {
           text-align: center;
           font-size: 11px;
-          color: rgba(255,255,255,0.18);
+          color: var(--textMuted);
           margin-top: 10px;
           letter-spacing: 0.02em;
+          opacity: 0.5;
         }
       `}</style>
 
@@ -426,7 +398,7 @@ const AICoach = () => {
           {chat.length === 0 && !loading && (
             <div className="empty-state">
               <div className="empty-icon">
-                <Bot size={22} color="rgba(56,189,248,0.5)" />
+                <Bot size={22} className="text-primary opacity-50" />
               </div>
               <span>Ask your AI coach anything about your habits</span>
             </div>
@@ -436,12 +408,12 @@ const AICoach = () => {
             <div key={i} className={cn("msg-row", c.role === "user" ? "user" : "")}>
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
-                  ? <User size={15} color="rgba(255,255,255,0.6)" />
+                  ? <User size={15} className="text-textMuted" />
                   : <Bot size={15} color="#fff" />
                 }
               </div>
               <div>
-                <div className={cn("msg-label", c.role === "user" ? "right" : "")}>
+                <div className="msg-label">
                   {c.role === "user" ? "You" : "Coach"}
                 </div>
                 <div className={cn("msg-bubble", c.role === "user" ? "user-bubble" : "ai-bubble")}>
@@ -452,7 +424,7 @@ const AICoach = () => {
           ))}
 
           {loading && (
-            <div className="typing-row">
+            <div className="msg-row">
               <div className="msg-avatar ai">
                 <Bot size={15} color="#fff" />
               </div>

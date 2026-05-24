@@ -84,7 +84,7 @@ const AuthPage = () => {
         setForm({ name: "", email: "", password: "" });
         setSuccess("✅ Account created! Please log in.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Server error. Please try again.");
     } finally {
       setLoading(false);
@@ -94,14 +94,7 @@ const AuthPage = () => {
   const handleKey = (e) => e.key === "Enter" && submit();
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0a0c12",
-      display: "flex",
-      fontFamily: "'Outfit', 'Segoe UI', sans-serif",
-      overflow: "hidden",
-      position: "relative"
-    }}>
+    <div className="min-h-screen bg-background flex font-['Outfit'] overflow-hidden relative">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
@@ -110,7 +103,7 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(90px);
-          opacity: 0.18;
+          opacity: 0.12;
           animation: float 8s ease-in-out infinite;
           pointer-events: none;
         }
@@ -165,20 +158,20 @@ const AuthPage = () => {
         .brand-name {
           font-size: 22px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
         }
         .hero-tag {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(79,70,229,0.12);
-          border: 1px solid rgba(79,70,229,0.25);
+          background: color-mix(in srgb, var(--primary) 12%, transparent);
+          border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
           border-radius: 99px;
           padding: 6px 16px;
           font-size: 12px;
           font-weight: 500;
-          color: #a5b4fc;
+          color: var(--primary);
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin-bottom: 28px;
@@ -187,7 +180,7 @@ const AuthPage = () => {
         .hero-title {
           font-size: clamp(32px, 4vw, 52px);
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           line-height: 1.12;
           letter-spacing: -0.03em;
           margin-bottom: 20px;
@@ -200,7 +193,7 @@ const AuthPage = () => {
         }
         .hero-sub {
           font-size: 16px;
-          color: #64748b;
+          color: var(--textMuted);
           line-height: 1.65;
           max-width: 400px;
           margin-bottom: 48px;
@@ -216,18 +209,18 @@ const AuthPage = () => {
         .stat-num {
           font-size: 26px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
         }
         .stat-label {
           font-size: 12px;
-          color: #475569;
+          color: var(--textMuted);
           font-weight: 400;
           letter-spacing: 0.04em;
         }
         .stat-divider {
           width: 1px;
-          background: rgba(255,255,255,0.06);
+          background: var(--border);
           align-self: stretch;
         }
 
@@ -235,8 +228,8 @@ const AuthPage = () => {
         .right-panel {
           width: 480px;
           min-height: 100vh;
-          background: rgba(255,255,255,0.025);
-          border-left: 1px solid rgba(255,255,255,0.055);
+          background: var(--surface);
+          border-left: 1px solid var(--border);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -260,8 +253,8 @@ const AuthPage = () => {
         /* ── Tab switcher ── */
         .tab-wrap {
           display: flex;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--surfaceLight);
+          border: 1px solid var(--border);
           border-radius: 14px;
           padding: 4px;
           margin-bottom: 36px;
@@ -277,29 +270,27 @@ const AuthPage = () => {
           transition: all 0.25s ease;
           font-family: 'Outfit', sans-serif;
           letter-spacing: 0.01em;
+          background: transparent;
+          color: var(--textMuted);
         }
         .tab-btn.active {
           background: linear-gradient(135deg, #4f46e5, #4338ca);
           color: #fff;
           box-shadow: 0 4px 16px rgba(79,70,229,0.35);
         }
-        .tab-btn.inactive {
-          background: transparent;
-          color: #475569;
-        }
-        .tab-btn.inactive:hover { color: #94a3b8; }
+        .tab-btn.inactive:hover { color: var(--text); }
 
         /* ── Form heading ── */
         .form-title {
           font-size: 24px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
           margin-bottom: 6px;
         }
         .form-sub {
           font-size: 13px;
-          color: #475569;
+          color: var(--textMuted);
           margin-bottom: 32px;
           font-weight: 400;
         }
@@ -312,7 +303,7 @@ const AuthPage = () => {
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #475569;
+          color: var(--textMuted);
           margin-bottom: 8px;
           display: block;
         }
@@ -324,28 +315,28 @@ const AuthPage = () => {
         .field-icon {
           position: absolute;
           left: 15px;
-          color: #334155;
+          color: var(--textMuted);
           font-size: 15px;
           pointer-events: none;
         }
         .field-input {
           width: 100%;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: var(--surfaceLight);
+          border: 1px solid var(--border);
           border-radius: 12px;
           padding: 13px 16px 13px 42px;
           font-size: 14px;
-          color: #e2e8f0;
+          color: var(--text);
           font-family: 'Outfit', sans-serif;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
           box-sizing: border-box;
         }
-        .field-input::placeholder { color: #334155; }
+        .field-input::placeholder { color: var(--textMuted); opacity: 0.5; }
         .field-input:focus {
-          border-color: rgba(79,70,229,0.5);
-          box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-          background: rgba(255,255,255,0.06);
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent);
+          background: var(--surfaceLight);
         }
         .pass-toggle {
           position: absolute;
@@ -353,21 +344,21 @@ const AuthPage = () => {
           background: none;
           border: none;
           cursor: pointer;
-          color: #475569;
+          color: var(--textMuted);
           font-size: 16px;
           padding: 0;
           transition: color 0.2s;
         }
-        .pass-toggle:hover { color: #94a3b8; }
+        .pass-toggle:hover { color: var(--text); }
 
         /* ── Error ── */
         .error-box {
-          background: rgba(239,68,68,0.08);
-          border: 1px solid rgba(239,68,68,0.2);
+          background: color-mix(in srgb, var(--danger) 8%, transparent);
+          border: 1px solid color-mix(in srgb, var(--danger) 20%, transparent);
           border-radius: 10px;
           padding: 11px 14px;
           font-size: 13px;
-          color: #fca5a5;
+          color: var(--danger);
           margin-bottom: 20px;
           display: flex;
           align-items: center;
@@ -405,19 +396,19 @@ const AuthPage = () => {
           gap: 12px;
           margin-bottom: 20px;
         }
-        .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
-        .divider-text { font-size: 11px; color: #334155; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider-text { font-size: 11px; color: var(--textMuted); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
 
         /* ── Switch link ── */
         .switch-link {
           text-align: center;
           font-size: 13px;
-          color: #475569;
+          color: var(--textMuted);
         }
         .switch-link button {
           background: none;
           border: none;
-          color: #6366f1;
+          color: var(--primary);
           cursor: pointer;
           font-size: 13px;
           font-weight: 600;
@@ -426,16 +417,16 @@ const AuthPage = () => {
           margin-left: 4px;
           transition: color 0.2s;
         }
-        .switch-link button:hover { color: #818cf8; text-decoration: underline; }
+        .switch-link button:hover { color: var(--primary); text-decoration: underline; }
 
         /* ── Success toast ── */
         .success-toast {
-          background: rgba(16,185,129,0.1);
-          border: 1px solid rgba(16,185,129,0.25);
+          background: color-mix(in srgb, var(--success) 10%, transparent);
+          border: 1px solid color-mix(in srgb, var(--success) 25%, transparent);
           border-radius: 10px;
           padding: 11px 14px;
           font-size: 13px;
-          color: #6ee7b7;
+          color: var(--success);
           margin-bottom: 20px;
           display: flex;
           align-items: center;
@@ -466,7 +457,7 @@ const AuthPage = () => {
         </div>
 
         <div className="hero-tag">
-          <span style={{ width: 6, height: 6, background: '#34d399', borderRadius: '50%', display: 'inline-block' }} />
+          <span style={{ width: 6, height: 6, background: 'var(--success)', borderRadius: '50%', display: 'inline-block' }} />
           AI-Powered Tracking
         </div>
 
@@ -523,12 +514,11 @@ const AuthPage = () => {
           {/* Error */}
           {error && <div className="error-box">⚠ {error}</div>}
           {success && (
-            <div style={{ background: "rgba(16,185,129,0.08)", border: "1px solid rgba(16,185,129,0.2)", borderRadius: 10, padding: "11px 14px", fontSize: 13, color: "#6ee7b7", marginBottom: 20 }}>
+            <div className="success-toast">
               {success}
             </div>
           )}
 
-          {/* Fields */}
           {/* Fields */}
           <div className="field-group">
             {tab === "signup" && (

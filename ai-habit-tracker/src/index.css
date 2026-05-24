@@ -2,57 +2,110 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @config "../tailwind.config.js";
 
+:root {
+  --background: #ffffff;
+  --surface: #f8fafc;
+  --surfaceLight: #f1f5f9;
+  --primary: #8B5CF6;
+  --primaryHover: #7C3AED;
+  --success: #10B981;
+  --danger: #EF4444;
+  --text: #0f172a;
+  --textMuted: #64748b;
+  --border: #e2e8f0;
+}
+
+.dark {
+  --background: #0F172A;
+  --surface: #1E293B;
+  --surfaceLight: #334155;
+  --primary: #8B5CF6;
+  --primaryHover: #7C3AED;
+  --success: #10B981;
+  --danger: #EF4444;
+  --text: #F8FAFC;
+  --textMuted: #94A3B8;
+  --border: #334155;
+}
+
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-background text-text antialiased;
+    background-color: var(--background);
+    color: var(--text);
+    @apply antialiased;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 8px;
     }
     &::-webkit-scrollbar-track {
-      @apply bg-background;
+      background-color: var(--background);
     }
     &::-webkit-scrollbar-thumb {
-      @apply bg-surfaceLight rounded-full;
+      background-color: var(--surfaceLight);
+      @apply rounded-full;
     }
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-white;
+    @apply font-semibold tracking-tight;
+    color: var(--text);
   }
 }
 
 @layer components {
   .card {
-    @apply bg-surface border border-border rounded-2xl p-6 shadow-sm transition-all duration-300;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    @apply rounded-2xl p-6 shadow-sm transition-all duration-300;
   }
   
   .card-hover {
-    @apply hover:border-surfaceLight hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+    @apply hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1;
+    &:hover {
+        border-color: var(--surfaceLight);
+    }
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50;
+    &:focus-visible {
+        --tw-ring-color: var(--primary);
+    }
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primaryHover shadow-sm;
+    background-color: var(--primary);
+    color: white;
+    @apply shadow-sm;
+    &:hover {
+        background-color: var(--primaryHover);
+    }
   }
   
   .btn-secondary {
-    @apply bg-surfaceLight text-text hover:bg-border;
+    background-color: var(--surfaceLight);
+    color: var(--text);
+    &:hover {
+        background-color: var(--border);
+    }
   }
   
   .btn-ghost {
-    @apply hover:bg-surfaceLight text-textMuted hover:text-text;
+    color: var(--textMuted);
+    &:hover {
+        background-color: var(--surfaceLight);
+        color: var(--text);
+    }
   }
   
   .glass-panel {
-    @apply bg-surface/80 backdrop-blur-md border border-border;
+    background-color: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
   }
 }
 

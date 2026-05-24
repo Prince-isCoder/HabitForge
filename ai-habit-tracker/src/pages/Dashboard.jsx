@@ -73,38 +73,38 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div style={{ fontFamily: "'Outfit', sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
+    <div className="min-h-screen bg-background text-text p-8 font-['Outfit']">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .db-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 24px; transition: border-color 0.2s; }
-        .db-card:hover { border-color: rgba(99,102,241,0.25); }
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 22px; display: flex; align-items: center; gap: 16px; }
+        .db-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 24px; transition: border-color 0.2s; }
+        .db-card:hover { border-color: var(--primary); }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; align-items: center; gap: 16px; }
         .stat-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .insight-item { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.12); border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #94a3b8; margin-bottom: 8px; }
-        .action-item { background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.12); border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #94a3b8; margin-bottom: 8px; }
-        .ai-modal { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); background: rgba(15,18,28,0.98); border: 1px solid rgba(139,92,246,0.35); border-radius: 18px; padding: 24px; z-index: 100; width: 90%; max-width: 420px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); backdrop-filter: blur(20px); animation: popIn 0.2s ease; }
+        .insight-item { background: color-mix(in srgb, var(--primary) 6%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 12%, transparent); border-radius: 10px; padding: 11px 14px; font-size: 14px; color: var(--textMuted); margin-bottom: 8px; }
+        .action-item { background: color-mix(in srgb, #06b6d4 6%, transparent); border: 1px solid color-mix(in srgb, #06b6d4 12%, transparent); border-radius: 10px; padding: 11px 14px; font-size: 14px; color: var(--textMuted); margin-bottom: 8px; }
+        .ai-modal { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--primary); border-radius: 18px; padding: 24px; z-index: 100; width: 90%; max-width: 420px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); backdrop-filter: blur(20px); animation: popIn 0.2s ease; }
         @keyframes popIn { from { opacity:0; transform: translateX(-50%) scale(0.95); } to { opacity:1; transform: translateX(-50%) scale(1); } }
-        .suggest-btn { background: linear-gradient(135deg,#4f46e5,#4338ca); border: none; border-radius: 11px; color: #fff; padding: 11px 22px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; display: flex; align-items: center; gap: 8px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(79,70,229,0.35); }
+        .suggest-btn { background: linear-gradient(135deg, #4f46e5, #4338ca); border: none; border-radius: 11px; color: #fff; padding: 11px 22px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; display: flex; align-items: center; gap: 8px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(79,70,229,0.35); }
         .suggest-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.45); }
         .modal-add-btn { background: linear-gradient(135deg,#10b981,#059669); border: none; border-radius: 9px; color: #fff; padding: 9px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; transition: opacity 0.2s; }
-        .modal-skip-btn { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); border-radius: 9px; color: #fca5a5; padding: 9px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; }
-        .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #475569; margin-bottom: 14px; }
+        .modal-skip-btn { background: color-mix(in srgb, var(--danger) 12%, transparent); border: 1px solid color-mix(in srgb, var(--danger) 20%, transparent); border-radius: 9px; color: var(--danger); padding: 9px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; }
+        .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--textMuted); margin-bottom: 14px; }
       `}</style>
 
       {/* AI Habit Modal */}
       {aiHabit && (
         <div className="ai-modal">
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <div style={{ width: 36, height: 36, background: "linear-gradient(135deg,#8b5cf6,#6366f1)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🤖</div>
+          <div className="flex items-center gap-[10px] mb-4">
+            <div className="w-9 h-9 bg-gradient-to-br from-[#8b5cf6] to-[#6366f1] rounded-[10px] flex items-center justify-center text-lg">🤖</div>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 15, color: "#f1f5f9" }}>AI Suggestion</div>
-              <div style={{ fontSize: 12, color: "#475569" }}>Personalized for you</div>
+              <div className="font-semibold text-[15px] text-text">AI Suggestion</div>
+              <div className="text-xs text-textMuted">Personalized for you</div>
             </div>
           </div>
-          <div style={{ background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 12, padding: "14px 16px", fontSize: 16, fontWeight: 600, color: "#c7d2fe", marginBottom: 18 }}>
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-[14px_16px] text-base font-semibold text-text mb-[18px]">
             ✨ {aiHabit}
           </div>
-          <div style={{ display: "flex", gap: 10 }}>
+          <div className="flex gap-2">
             <button className="modal-add-btn" onClick={addAiHabit}>Add Habit</button>
             <button className="modal-skip-btn" onClick={skipAiHabit}>Skip</button>
           </div>
@@ -112,21 +112,21 @@ const Dashboard = () => {
       )}
 
       {suggestion && (
-        <div style={{ position: "fixed", top: 24, left: "50%", transform: "translateX(-50%)", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: 12, padding: "12px 20px", color: "#6ee7b7", fontSize: 14, fontWeight: 500, zIndex: 99, display: "flex", gap: 12, alignItems: "center" }}>
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-success/10 border border-success/30 rounded-xl p-[12px_20px] text-success text-sm font-medium z-[99] flex gap-3 items-center">
           {suggestion}
-          <button onClick={() => setSuggestion("")} style={{ background: "none", border: "none", color: "#6ee7b7", cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+          <button onClick={() => setSuggestion("")} className="bg-none border-none text-success cursor-pointer text-lg leading-none">×</button>
         </div>
       )}
 
       {/* Header */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+      <div className="mb-8">
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <div style={{ fontSize: 13, color: "#475569", fontWeight: 500, marginBottom: 6, letterSpacing: "0.04em" }}>
+            <div className="text-[13px] text-textMuted font-medium mb-[6px] tracking-wide">
               {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
             </div>
-            <h1 style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.02em", margin: 0 }}>
-              Welcome back, <span style={{ background: "linear-gradient(90deg,#6366f1,#06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{user?.name?.split(" ")[0] || "there"} 👋</span>
+            <h1 className="text-[28px] font-bold text-text tracking-tight m-0">
+              Welcome back, <span className="bg-gradient-to-r from-[#6366f1] to-[#06b6d4] bg-clip-text text-transparent">{user?.name?.split(" ")[0] || "there"} 👋</span>
             </h1>
           </div>
           <button className="suggest-btn" onClick={generateHabit}>
@@ -136,76 +136,76 @@ const Dashboard = () => {
       </div>
 
       {!data ? (
-        <div style={{ display: "flex", gap: 16, marginBottom: 28 }}>
-          {[1, 2, 3].map(i => <div key={i} style={{ flex: 1, height: 90, background: "rgba(255,255,255,0.03)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.06)" }} />)}
+        <div className="flex gap-4 mb-7">
+          {[1, 2, 3].map(i => <div key={i} className="flex-1 h-[90px] bg-surface border border-border rounded-2xl" />)}
         </div>
       ) : (
         <>
           {/* Stat Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px,1fr))", gap: 16, marginBottom: 28 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4 mb-7">
             <div className="stat-card">
-              <div className="stat-icon" style={{ background: "rgba(99,102,241,0.12)" }}><Flame size={20} color="#818cf8" /></div>
+              <div className="stat-icon bg-primary/10"><Flame size={20} className="text-primary" /></div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>{habits.length}</div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Active Habits</div>
+                <div className="text-2xl font-bold text-text">{habits.length}</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Active Habits</div>
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon" style={{ background: "rgba(16,185,129,0.1)" }}><TrendingUp size={20} color="#34d399" /></div>
+              <div className="stat-icon bg-success/10"><TrendingUp size={20} className="text-success" /></div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>{habits.filter(h => h.completed).length}</div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Completed Today</div>
+                <div className="text-2xl font-bold text-text">{habits.filter(h => h.completed).length}</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Completed Today</div>
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon" style={{ background: "rgba(6,182,212,0.1)" }}><Zap size={20} color="#22d3ee" /></div>
+              <div className="stat-icon bg-cyan-500/10"><Zap size={20} className="text-cyan-500" /></div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>
+                <div className="text-2xl font-bold text-text">
                   {habits.length ? Math.round((habits.filter(h => h.completed).length / habits.length) * 100) : 0}%
                 </div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Completion Rate</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Completion Rate</div>
               </div>
             </div>
 
             {/* ✅ Streak Stats */}
-            <div className="stat-card" style={{ borderColor: "rgba(251,146,60,0.15)", background: "rgba(251,146,60,0.04)" }}>
-              <div className="stat-icon" style={{ background: "rgba(251,146,60,0.12)" }}>
-                <span style={{ fontSize: 20 }}>🔥</span>
+            <div className="stat-card !border-orange-500/15 !bg-orange-500/5">
+              <div className="stat-icon bg-orange-500/10">
+                <span className="text-xl">🔥</span>
               </div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>{streakStats?.current ?? "—"}</div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Current Streak</div>
+                <div className="text-2xl font-bold text-text">{streakStats?.current ?? "—"}</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Current Streak</div>
               </div>
             </div>
-            <div className="stat-card" style={{ borderColor: "rgba(234,179,8,0.15)", background: "rgba(234,179,8,0.04)" }}>
-              <div className="stat-icon" style={{ background: "rgba(234,179,8,0.1)" }}>
-                <span style={{ fontSize: 20 }}>🏆</span>
+            <div className="stat-card !border-yellow-500/15 !bg-yellow-500/5">
+              <div className="stat-icon bg-yellow-500/10">
+                <span className="text-xl">🏆</span>
               </div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>{streakStats?.longest ?? "—"}</div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Longest Streak</div>
+                <div className="text-2xl font-bold text-text">{streakStats?.longest ?? "—"}</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Longest Streak</div>
               </div>
             </div>
-            <div className="stat-card" style={{ borderColor: "rgba(139,92,246,0.15)", background: "rgba(139,92,246,0.04)" }}>
-              <div className="stat-icon" style={{ background: "rgba(139,92,246,0.1)" }}>
-                <span style={{ fontSize: 20 }}>📅</span>
+            <div className="stat-card !border-primary/15 !bg-primary/5">
+              <div className="stat-icon bg-primary/10">
+                <span className="text-xl">📅</span>
               </div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: "#f1f5f9" }}>{streakStats?.activeDays ?? "—"}</div>
-                <div style={{ fontSize: 12, color: "#475569", fontWeight: 500, marginTop: 2 }}>Active Days</div>
+                <div className="text-2xl font-bold text-text">{streakStats?.activeDays ?? "—"}</div>
+                <div className="text-xs text-textMuted font-medium mt-[2px]">Active Days</div>
               </div>
             </div>
           </div>
 
           {/* AI Coach + Insights + Actions */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            <div style={{ gridColumn: "1 / -1" }}>
-              <div className="db-card" style={{ background: "linear-gradient(135deg, rgba(79,70,229,0.08), rgba(6,182,212,0.05))", borderColor: "rgba(99,102,241,0.2)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                  <div style={{ width: 38, height: 38, background: "linear-gradient(135deg,#4f46e5,#06b6d4)", borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🤖</div>
-                  <div style={{ fontWeight: 600, fontSize: 16, color: "#f1f5f9" }}>AI Coach</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="md:col-span-2">
+              <div className="db-card bg-gradient-to-br from-primary/10 to-cyan-500/5 !border-primary/20">
+                <div className="flex items-center gap-3 mb-3.5">
+                  <div className="w-[38px] h-[38px] bg-gradient-to-br from-[#4f46e5] to-[#06b6d4] rounded-xl flex items-center justify-center text-lg text-white">🤖</div>
+                  <div className="font-semibold text-base text-text">AI Coach</div>
                 </div>
-                <div style={{ fontSize: 15, color: "#94a3b8", lineHeight: 1.8 }}>
+                <div className="text-[15px] text-textMuted leading-[1.8]">
                   {data.coach.split("\n").map((line, i) => {
                     if (!line.trim()) return <br key={i} />;
 
@@ -213,7 +213,7 @@ const Dashboard = () => {
                     const parts = line.split(/\*\*(.*?)\*\*/g);
                     const formatted = parts.map((part, j) =>
                       j % 2 === 1
-                        ? <strong key={j} style={{ color: "#c7d2fe", fontWeight: 600 }}>{part}</strong>
+                        ? <strong key={j} className="text-primary font-semibold">{part}</strong>
                         : part
                     );
 
@@ -223,36 +223,36 @@ const Dashboard = () => {
                     const isHeader = line.trim().endsWith(":") && line.trim().length < 40;
 
                     if (isHeader) return (
-                      <div key={i} style={{ fontWeight: 600, color: "#818cf8", fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", marginTop: 14, marginBottom: 6 }}>
+                      <div key={i} className="font-semibold text-primary text-[13px] tracking-wider uppercase mt-3.5 mb-1.5">
                         {formatted}
                       </div>
                     );
 
                     if (isBullet) return (
-                      <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 6, paddingLeft: 4 }}>
-                        <span style={{ color: "#4f46e5", marginTop: 2, flexShrink: 0 }}>•</span>
+                      <div key={i} className="flex gap-2.5 items-start mb-1.5 pl-1">
+                        <span className="text-primary mt-[2px] flex-shrink-0">•</span>
                         <span>{formatted}</span>
                       </div>
                     );
 
-                    return <div key={i} style={{ marginBottom: 6 }}>{formatted}</div>;
+                    return <div key={i} className="mb-1.5">{formatted}</div>;
                   })}
                 </div>
               </div>
             </div>
 
             <div className="db-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <Brain size={18} color="#818cf8" />
-                <div className="section-title" style={{ margin: 0 }}>Insights</div>
+              <div className="flex items-center gap-2.5 mb-4">
+                <Brain size={18} className="text-primary" />
+                <div className="section-title m-0">Insights</div>
               </div>
               {data.insights.map((item, i) => <div key={i} className="insight-item">💡 {item}</div>)}
             </div>
 
             <div className="db-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <Zap size={18} color="#22d3ee" />
-                <div className="section-title" style={{ margin: 0 }}>Actions</div>
+              <div className="flex items-center gap-2.5 mb-4">
+                <Zap size={18} className="text-cyan-500" />
+                <div className="section-title m-0">Actions</div>
               </div>
               {data.actions.map((item, i) => <div key={i} className="action-item">⚡ {item}</div>)}
             </div>
@@ -271,29 +271,26 @@ const Dashboard = () => {
               legend: { name: "Legend", emoji: "👑", desc: "Reach Level 5" },
             };
             return (
-              <div className="db-card" style={{ marginTop: 20 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#475569", marginBottom: 16 }}>
+              <div className="db-card mt-5">
+                <div className="text-[13px] font-semibold tracking-wider uppercase text-textMuted mb-4">
                   🏅 Achievements
                 </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                <div className="flex flex-wrap gap-2.5">
                   {Object.entries(BADGE_DEFS).map(([id, badge]) => {
                     const unlocked = badges.includes(id);
                     return (
-                      <div key={id} style={{
-                        background: unlocked ? "rgba(99,102,241,0.1)" : "rgba(255,255,255,0.03)",
-                        border: `1px solid ${unlocked ? "rgba(99,102,241,0.3)" : "rgba(255,255,255,0.06)"}`,
-                        borderRadius: 12, padding: "10px 16px",
-                        display: "flex", alignItems: "center", gap: 10,
-                        opacity: unlocked ? 1 : 0.4,
-                        transition: "all 0.2s",
-                        filter: unlocked ? "none" : "grayscale(1)"
-                      }}>
-                        <span style={{ fontSize: 22 }}>{badge.emoji}</span>
+                      <div key={id}
+                        className={`flex items-center gap-2.5 p-[10px_16px] rounded-xl border transition-all duration-200
+                          ${unlocked
+                            ? "bg-primary/10 border-primary/30 opacity-100 grayscale-0"
+                            : "bg-surface border-border opacity-40 grayscale"}`}
+                      >
+                        <span className="text-[22px]">{badge.emoji}</span>
                         <div>
-                          <div style={{ fontSize: 13, fontWeight: 600, color: unlocked ? "#f1f5f9" : "#475569" }}>{badge.name}</div>
-                          <div style={{ fontSize: 11, color: "#334155" }}>{badge.desc}</div>
+                          <div className={`text-[13px] font-semibold ${unlocked ? "text-text" : "text-textMuted"}`}>{badge.name}</div>
+                          <div className="text-[11px] text-textMuted">{badge.desc}</div>
                         </div>
-                        {unlocked && <span style={{ fontSize: 10, background: "rgba(16,185,129,0.15)", color: "#34d399", padding: "2px 8px", borderRadius: 99, fontWeight: 600, marginLeft: 4 }}>EARNED</span>}
+                        {unlocked && <span className="text-[10px] bg-success/15 text-success p-[2px_8px] rounded-full font-semibold ml-1">EARNED</span>}
                       </div>
                     );
                   })}
