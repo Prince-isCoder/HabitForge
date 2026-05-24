@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 const Habits = () => {
     const [habits, setHabits] = useState([]);
     const [title, setTitle] = useState("");
 
-    const fetchHabits = async () => {
+    const fetchHabits = useCallback(async () => {
         try {
             const res = await fetch("http://localhost:5000/api/habits", {
                 headers: {
@@ -17,7 +17,7 @@ const Habits = () => {
         } catch (err) {
             console.error("Fetch error:", err);
         }
-    };
+    }, []);
 
     const addHabit = async () => {
         console.log("Clicked Add");
@@ -87,35 +87,35 @@ const Habits = () => {
 
 
     return (
-        <div className="p-6 text-white">
-            <h2 className="text-xl mb-4">📋 Habits</h2>
+        <div className="p-6 bg-background text-text font-['Outfit']">
+            <h2 className="text-xl mb-4 font-semibold">📋 Habits</h2>
 
             <div className="flex gap-2 mb-4">
                 <input
-                    className="p-2 rounded bg-slate-700"
+                    className="p-2 rounded bg-surface border border-border text-text placeholder:text-textMuted outline-none focus:border-primary"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Add habit..."
                 />
                 <button
                     onClick={addHabit}
-                    className="bg-green-600 px-4 rounded"
+                    className="btn btn-primary"
                 >
                     Add
                 </button>
             </div>
 
-            <ul>
+            <ul className="space-y-2">
                 {Array.isArray(habits) &&
                     habits.map((habit) => (
                         <li
                             key={habit._id}
-                            className={`flex justify-between bg-slate-800 p-2 mb-2 rounded ${habit.completed ? "line-through text-gray-400" : ""
+                            className={`flex justify-between items-center bg-surface border border-border p-4 rounded-xl transition-all ${habit.completed ? "opacity-50 line-through grayscale" : ""
                                 }`}
                         >
                             <div>
-                                <div>{habit.title}</div>
-                                <div className="text-sm text-orange-400">
+                                <div className="font-medium">{habit.title}</div>
+                                <div className="text-sm text-orange-500 font-semibold">
                                     🔥 {habit.streak || 0} day streak
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ const Habits = () => {
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => markComplete(habit._id)}
-                                    className={`px-2 rounded ${habit.completed ? "btn btn-success" : "btn btn-primary"
+                                    className={`btn ${habit.completed ? "btn-success" : "btn-primary"
                                         }`}
                                 >
                                     {habit.completed ? "↺" : "✔"}
