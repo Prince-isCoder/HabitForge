@@ -96,11 +96,12 @@ const AuthPage = () => {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#0a0c12",
+      background: "var(--background)",
       display: "flex",
       fontFamily: "'Outfit', 'Segoe UI', sans-serif",
       overflow: "hidden",
-      position: "relative"
+      position: "relative",
+      transition: "background 0.2s"
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
@@ -165,7 +166,7 @@ const AuthPage = () => {
         .brand-name {
           font-size: 22px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
         }
         .hero-tag {
@@ -187,7 +188,7 @@ const AuthPage = () => {
         .hero-title {
           font-size: clamp(32px, 4vw, 52px);
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           line-height: 1.12;
           letter-spacing: -0.03em;
           margin-bottom: 20px;
@@ -200,7 +201,7 @@ const AuthPage = () => {
         }
         .hero-sub {
           font-size: 16px;
-          color: #64748b;
+          color: var(--text-muted);
           line-height: 1.65;
           max-width: 400px;
           margin-bottom: 48px;
@@ -216,18 +217,18 @@ const AuthPage = () => {
         .stat-num {
           font-size: 26px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
         }
         .stat-label {
           font-size: 12px;
-          color: #475569;
+          color: var(--text-muted);
           font-weight: 400;
           letter-spacing: 0.04em;
         }
         .stat-divider {
           width: 1px;
-          background: rgba(255,255,255,0.06);
+          background: var(--border);
           align-self: stretch;
         }
 
@@ -235,8 +236,8 @@ const AuthPage = () => {
         .right-panel {
           width: 480px;
           min-height: 100vh;
-          background: rgba(255,255,255,0.025);
-          border-left: 1px solid rgba(255,255,255,0.055);
+          background: var(--surface);
+          border-left: 1px solid var(--border);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -245,6 +246,7 @@ const AuthPage = () => {
           z-index: 1;
           backdrop-filter: blur(20px);
           animation: slideIn 0.5s ease both;
+          transition: background 0.2s, border-color 0.2s;
         }
         @keyframes slideIn {
           from { opacity: 0; transform: translateX(40px); }
@@ -260,8 +262,8 @@ const AuthPage = () => {
         /* ── Tab switcher ── */
         .tab-wrap {
           display: flex;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
           border-radius: 14px;
           padding: 4px;
           margin-bottom: 36px;
@@ -285,21 +287,21 @@ const AuthPage = () => {
         }
         .tab-btn.inactive {
           background: transparent;
-          color: #475569;
+          color: var(--text-muted);
         }
-        .tab-btn.inactive:hover { color: #94a3b8; }
+        .tab-btn.inactive:hover { color: var(--text); }
 
         /* ── Form heading ── */
         .form-title {
           font-size: 24px;
           font-weight: 700;
-          color: #f1f5f9;
+          color: var(--text);
           letter-spacing: -0.02em;
           margin-bottom: 6px;
         }
         .form-sub {
           font-size: 13px;
-          color: #475569;
+          color: var(--text-muted);
           margin-bottom: 32px;
           font-weight: 400;
         }
@@ -312,7 +314,7 @@ const AuthPage = () => {
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #475569;
+          color: var(--text-muted);
           margin-bottom: 8px;
           display: block;
         }
@@ -330,12 +332,12 @@ const AuthPage = () => {
         }
         .field-input {
           width: 100%;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
           border-radius: 12px;
           padding: 13px 16px 13px 42px;
           font-size: 14px;
-          color: #e2e8f0;
+          color: var(--text);
           font-family: 'Outfit', sans-serif;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -353,7 +355,7 @@ const AuthPage = () => {
           background: none;
           border: none;
           cursor: pointer;
-          color: #475569;
+          color: var(--text-muted);
           font-size: 16px;
           padding: 0;
           transition: color 0.2s;
@@ -405,14 +407,14 @@ const AuthPage = () => {
           gap: 12px;
           margin-bottom: 20px;
         }
-        .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
-        .divider-text { font-size: 11px; color: #334155; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+        .divider-line { flex: 1; height: 1px; background: var(--border); }
+        .divider-text { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
 
         /* ── Switch link ── */
         .switch-link {
           text-align: center;
           font-size: 13px;
-          color: #475569;
+          color: var(--text-muted);
         }
         .switch-link button {
           background: none;

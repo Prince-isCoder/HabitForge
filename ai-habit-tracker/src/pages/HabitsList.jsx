@@ -139,10 +139,10 @@ const HabitsList = () => {
   };
 
   return (
-    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
+    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "var(--background)", color: "var(--text)", padding: "32px", transition: "background 0.2s" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .habit-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s; animation:cardIn 0.25s ease both; }
+        .habit-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s, background 0.2s; animation:cardIn 0.25s ease both; }
         .habit-card:hover { border-color:rgba(99,102,241,0.25); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.25); }
         .habit-card.done { opacity:0.55; border-color:rgba(16,185,129,0.15); background:rgba(16,185,129,0.03); }
         @keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
@@ -156,10 +156,10 @@ const HabitsList = () => {
         .habit-card:hover .stats-btn { opacity:1; }
         .stats-btn:hover { background:rgba(99,102,241,0.18); }
         .streak-badge { display:flex; align-items:center; gap:5px; background:rgba(251,146,60,0.08); border:1px solid rgba(251,146,60,0.15); border-radius:99px; padding:4px 10px; font-size:12px; font-weight:600; color:#fb923c; white-space:nowrap; }
-        .add-input { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 16px; font-size:14px; color:#e2e8f0; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s,box-shadow 0.2s; min-width:0; }
+        .add-input { flex:1; background:var(--surface-light); border:1px solid var(--border); border-radius:12px; padding:11px 16px; font-size:14px; color:var(--text); font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s,box-shadow 0.2s; min-width:0; }
         .add-input:focus { border-color:rgba(79,70,229,0.45); box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
         .add-input::placeholder { color:#334155; }
-        .cat-select { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 14px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; cursor:pointer; }
+        .cat-select { background:var(--surface-light); border:1px solid var(--border); border-radius:12px; padding:11px 14px; font-size:13px; color:var(--text); font-family:'Outfit',sans-serif; outline:none; cursor:pointer; }
         .add-btn { background:linear-gradient(135deg,#4f46e5,#4338ca); border:none; border-radius:12px; color:#fff; padding:11px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:transform 0.15s,box-shadow 0.15s; box-shadow:0 4px 16px rgba(79,70,229,0.3); white-space:nowrap; }
         .add-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(79,70,229,0.4); }
         .ai-btn { background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); border-radius:12px; color:#a78bfa; padding:11px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:all 0.2s; white-space:nowrap; }
@@ -167,18 +167,18 @@ const HabitsList = () => {
         .ai-btn:disabled { opacity:0.5; cursor:not-allowed; }
         .section-label { font-size:11px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:#334155; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
         .section-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
-        .ai-modal { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.98); border:1px solid rgba(139,92,246,0.3); border-radius:18px; padding:24px; z-index:100; width:90%; max-width:400px; box-shadow:0 24px 60px rgba(0,0,0,0.6); backdrop-filter:blur(24px); animation:popIn 0.2s ease; }
+        .ai-modal { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid rgba(139,92,246,0.3); border-radius:18px; padding:24px; z-index:100; width:90%; max-width:400px; box-shadow:0 24px 60px rgba(0,0,0,0.6); backdrop-filter:blur(24px); animation:popIn 0.2s ease; }
         @keyframes popIn { from{opacity:0;transform:translateX(-50%) scale(0.95)} to{opacity:1;transform:translateX(-50%) scale(1)} }
         .progress-bar-bg { height:5px; background:rgba(255,255,255,0.05); border-radius:99px; overflow:hidden; margin-top:8px; }
         .progress-bar-fill { height:100%; background:linear-gradient(90deg,#4f46e5,#06b6d4); border-radius:99px; transition:width 0.6s ease; }
-        .search-input { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 14px 10px 36px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s; width:180px; }
+        .search-input { background:var(--surface-light); border:1px solid var(--border); border-radius:12px; padding:10px 14px 10px 36px; font-size:13px; color:var(--text); font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s; width:180px; }
         .search-input:focus { border-color:rgba(79,70,229,0.4); }
         .search-input::placeholder { color:#334155; }
         .cat-filter-btn { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:99px; padding:6px 14px; font-size:12px; font-weight:600; color:#475569; cursor:pointer; font-family:'Outfit',sans-serif; transition:all 0.2s; white-space:nowrap; }
         .cat-filter-btn.active { background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.3); color:#818cf8; }
         .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); animation:fadeIn 0.2s ease; }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        .stats-modal { background:#0d0f18; border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; animation:popInCenter 0.2s ease; }
+        .stats-modal { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:28px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; animation:popInCenter 0.2s ease; }
         @keyframes popInCenter { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
         .mini-cal-cell { width:20px; height:20px; border-radius:4px; flex-shrink:0; }
         .badge-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.97); border:1px solid rgba(99,102,241,0.35); border-radius:16px; padding:14px 22px; display:flex; align-items:center; gap:12px; z-index:300; box-shadow:0 16px 48px rgba(0,0,0,0.5); animation:slideUp 0.3s ease; }
@@ -290,8 +290,8 @@ const HabitsList = () => {
 
       {/* Page Header */}
       <div style={{ marginBottom:28 }}>
-        <h1 style={{ fontSize:28, fontWeight:700, color:"#f1f5f9", letterSpacing:"-0.02em", margin:"0 0 6px" }}>My Habits</h1>
-        <div style={{ fontSize:14, color:"#475569", marginBottom:10 }}>
+        <h1 style={{ fontSize:28, fontWeight:700, color:"var(--text)", letterSpacing:"-0.02em", margin:"0 0 6px" }}>My Habits</h1>
+        <div style={{ fontSize:14, color:"var(--text-muted)", marginBottom:10 }}>
           {habits.filter(h=>h.completed).length} of {habits.length} completed today
         </div>
         <div className="progress-bar-bg" style={{ maxWidth:320 }}>
@@ -311,7 +311,7 @@ const HabitsList = () => {
       {/* Toolbar */}
       <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:10, marginBottom:32 }}>
         <div style={{ position:"relative", display:"flex", alignItems:"center" }}>
-          <Search size={14} style={{ position:"absolute", left:12, color:"#334155", pointerEvents:"none" }} />
+          <Search size={14} style={{ position:"absolute", left:12, color:"var(--text-muted)", pointerEvents:"none" }} />
           <input className="search-input" placeholder="Search habits..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
@@ -371,7 +371,7 @@ const HabitRow = ({ habit, onToggle, onDelete, onStats }) => {
       </button>
 
       <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:15, fontWeight:600, color:habit.completed ? "#64748b" : "#f1f5f9", textDecoration:habit.completed ? "line-through" : "none", marginBottom:6, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
+        <div style={{ fontSize:15, fontWeight:600, color:habit.completed ? "var(--text-muted)" : "var(--text)", textDecoration:habit.completed ? "line-through" : "none", marginBottom:6, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
           {habit.title}
         </div>
         <div style={{ display:"flex", gap:6, alignItems:"center", flexWrap:"wrap" }}>
