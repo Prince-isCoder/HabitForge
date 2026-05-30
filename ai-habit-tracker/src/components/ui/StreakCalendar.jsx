@@ -87,12 +87,13 @@ const StreakCalendar = () => {
 
     return (
         <div style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
             borderRadius: 18,
             padding: "24px 28px",
             fontFamily: "'Outfit',sans-serif",
             position: "relative",
+            transition: "background 0.2s, border-color 0.2s"
         }}>
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
@@ -119,8 +120,8 @@ const StreakCalendar = () => {
                     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
                 }
                 .stat-chip {
-                    background: rgba(255,255,255,0.04);
-                    border: 1px solid rgba(255,255,255,0.07);
+                    background: var(--surface-light);
+                    border: 1px solid var(--border);
                     border-radius: 10px;
                     padding: 10px 16px;
                     display: flex; flex-direction: column; gap: 3px;
@@ -130,10 +131,10 @@ const StreakCalendar = () => {
             {/* Header */}
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
                 <div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "#f1f5f9", marginBottom: 4 }}>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>
                         🗓 Activity Calendar
                     </div>
-                    <div style={{ fontSize: 13, color: "#475569" }}>
+                    <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
                         Your habit completions over the last 365 days
                     </div>
                 </div>
@@ -141,16 +142,16 @@ const StreakCalendar = () => {
                 {/* Stats row */}
                 <div style={{ display: "flex", gap: 10 }}>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{currentStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Current Streak</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{currentStreak}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Current Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{longestStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Longest Streak</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{longestStreak}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Longest Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{totalDays}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Active Days</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{totalDays}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Active Days</span>
                     </div>
                 </div>
             </div>

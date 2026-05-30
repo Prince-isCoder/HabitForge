@@ -3,12 +3,36 @@
 @config "../tailwind.config.js";
 
 @layer base {
+  :root, .dark {
+    --background: #0F172A;
+    --surface: #1E293B;
+    --surface-light: #334155;
+    --primary: #8B5CF6;
+    --primary-hover: #7C3AED;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border: #334155;
+    --heading: #FFFFFF;
+  }
+
+  .light {
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-light: #F1F5F9;
+    --primary: #6366F1;
+    --primary-hover: #4F46E5;
+    --text: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --heading: #0F172A;
+  }
+
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-background text-text antialiased;
+    @apply bg-background text-text antialiased transition-colors duration-200;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 8px;
@@ -22,7 +46,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-white;
+    @apply font-semibold tracking-tight text-[var(--heading)];
   }
 }
 

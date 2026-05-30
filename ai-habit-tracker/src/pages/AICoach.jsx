@@ -118,12 +118,13 @@ const AICoach = () => {
   return (
     <div style={{
       fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-      background: 'linear-gradient(135deg, #0f1117 0%, #141824 50%, #0f1117 100%)',
+      background: 'var(--background)',
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '24px',
+      transition: 'background 0.2s'
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
@@ -131,12 +132,13 @@ const AICoach = () => {
         .coach-card {
           width: 100%;
           max-width: 720px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--surface);
+          border: 1px solid var(--border);
           border-radius: 24px;
           overflow: hidden;
           backdrop-filter: blur(12px);
           box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,179,237,0.04);
+          transition: background 0.2s, border-color 0.2s;
         }
 
         .coach-header {
@@ -163,7 +165,7 @@ const AICoach = () => {
         .header-title {
           font-size: 16px;
           font-weight: 600;
-          color: #f0f6ff;
+          color: var(--text);
           letter-spacing: -0.01em;
         }
 
@@ -271,16 +273,16 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          background: rgba(56,189,248,0.07);
-          border: 1px solid rgba(56,189,248,0.14);
-          color: #cce9f8;
+          background: var(--surface-light);
+          border: 1px solid var(--border);
+          color: var(--text);
           border-top-left-radius: 4px;
         }
 
         .msg-bubble.user-bubble {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: #e8f0f8;
+          background: var(--surface-light);
+          border: 1px solid var(--border);
+          color: var(--text);
           border-top-right-radius: 4px;
           text-align: right;
         }
@@ -333,20 +335,21 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          background: rgba(0,0,0,0.15);
+          border-top: 1px solid var(--border);
+          background: var(--surface);
           display: flex;
           gap: 12px;
           align-items: flex-end;
+          transition: background 0.2s, border-color 0.2s;
         }
 
         .input-wrapper {
           flex: 1;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
           border-radius: 14px;
           overflow: hidden;
-          transition: border-color 0.2s, box-shadow 0.2s;
+          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
 
         .input-wrapper:focus-within {
@@ -359,7 +362,7 @@ const AICoach = () => {
           background: transparent;
           border: none;
           outline: none;
-          color: #e2f0f8;
+          color: var(--text);
           font-size: 14px;
           font-family: 'DM Sans', sans-serif;
           font-weight: 400;
