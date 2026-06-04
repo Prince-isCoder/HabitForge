@@ -8,7 +8,7 @@ const CAT_COLORS = {
   Learning:{ bg:"rgba(6,182,212,0.1)",   border: "rgba(6,182,212,0.25)",   text: "#22d3ee" },
   Fitness:{ bg: "rgba(251,146,60,0.1)",  border: "rgba(251,146,60,0.25)",  text: "#fb923c" },
   Mindfulness:{ bg:"rgba(139,92,246,0.1)",border:"rgba(139,92,246,0.25)", text: "#a78bfa" },
-  General:{ bg: "rgba(255,255,255,0.05)",border:"rgba(255,255,255,0.1)",  text: "#64748b" },
+  General:{ bg: "var(--surface-light)", border:"var(--border)", text: "var(--text-muted)" },
 };
 
 const HabitsList = () => {
@@ -139,49 +139,49 @@ const HabitsList = () => {
   };
 
   return (
-    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
+    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "var(--background)", color: "var(--text)", padding: "32px", transition: "background-color 0.2s, color 0.2s" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .habit-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s; animation:cardIn 0.25s ease both; }
-        .habit-card:hover { border-color:rgba(99,102,241,0.25); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.25); }
-        .habit-card.done { opacity:0.55; border-color:rgba(16,185,129,0.15); background:rgba(16,185,129,0.03); }
+        .habit-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s, background-color 0.2s; animation:cardIn 0.25s ease both; }
+        .habit-card:hover { border-color:var(--primary); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.25); }
+        .habit-card.done { opacity:0.55; border-color:var(--success); background:var(--surface-light); }
         @keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        .check-btn { width:38px; height:38px; border-radius:50%; border:2px solid rgba(99,102,241,0.35); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
-        .check-btn:hover { border-color:#6366f1; background:rgba(99,102,241,0.1); }
-        .check-btn.done { background:linear-gradient(135deg,#10b981,#059669); border-color:transparent; box-shadow:0 0 12px rgba(16,185,129,0.3); }
-        .delete-btn { width:32px; height:32px; border-radius:9px; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
+        .check-btn { width:38px; height:38px; border-radius:50%; border:2px solid var(--border); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
+        .check-btn:hover { border-color:var(--primary); background:var(--surface-light); }
+        .check-btn.done { background:linear-gradient(135deg,var(--success),#059669); border-color:transparent; box-shadow:0 0 12px var(--success); }
+        .delete-btn { width:32px; height:32px; border-radius:9px; background:var(--surface-light); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
         .habit-card:hover .delete-btn { opacity:1; }
-        .delete-btn:hover { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.3); }
-        .stats-btn { width:30px; height:30px; border-radius:8px; background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.15); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
+        .delete-btn:hover { background:var(--danger); border-color:var(--danger); color: #fff; }
+        .stats-btn { width:30px; height:30px; border-radius:8px; background:var(--surface-light); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
         .habit-card:hover .stats-btn { opacity:1; }
-        .stats-btn:hover { background:rgba(99,102,241,0.18); }
-        .streak-badge { display:flex; align-items:center; gap:5px; background:rgba(251,146,60,0.08); border:1px solid rgba(251,146,60,0.15); border-radius:99px; padding:4px 10px; font-size:12px; font-weight:600; color:#fb923c; white-space:nowrap; }
-        .add-input { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 16px; font-size:14px; color:#e2e8f0; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s,box-shadow 0.2s; min-width:0; }
-        .add-input:focus { border-color:rgba(79,70,229,0.45); box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
-        .add-input::placeholder { color:#334155; }
-        .cat-select { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 14px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; cursor:pointer; }
-        .add-btn { background:linear-gradient(135deg,#4f46e5,#4338ca); border:none; border-radius:12px; color:#fff; padding:11px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:transform 0.15s,box-shadow 0.15s; box-shadow:0 4px 16px rgba(79,70,229,0.3); white-space:nowrap; }
-        .add-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(79,70,229,0.4); }
-        .ai-btn { background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); border-radius:12px; color:#a78bfa; padding:11px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:all 0.2s; white-space:nowrap; }
-        .ai-btn:hover { background:rgba(139,92,246,0.18); border-color:rgba(139,92,246,0.4); }
+        .stats-btn:hover { background:var(--border); }
+        .streak-badge { display:flex; align-items:center; gap:5px; background:var(--surface-light); border:1px solid var(--border); border-radius:99px; padding:4px 10px; font-size:12px; font-weight:600; color:var(--primary); white-space:nowrap; }
+        .add-input { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:11px 16px; font-size:14px; color:var(--text); font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s,box-shadow 0.2s; min-width:0; }
+        .add-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary); }
+        .add-input::placeholder { color:var(--text-muted); }
+        .cat-select { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:11px 14px; font-size:13px; color:var(--text-muted); font-family:'Outfit',sans-serif; outline:none; cursor:pointer; }
+        .add-btn { background:linear-gradient(135deg,var(--primary),var(--primary-hover)); border:none; border-radius:12px; color:#fff; padding:11px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:transform 0.15s,box-shadow 0.15s; box-shadow:0 4px 16px var(--primary); white-space:nowrap; }
+        .add-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px var(--primary); }
+        .ai-btn { background:var(--surface-light); border:1px solid var(--border); border-radius:12px; color:var(--primary); padding:11px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:all 0.2s; white-space:nowrap; }
+        .ai-btn:hover { background:var(--border); }
         .ai-btn:disabled { opacity:0.5; cursor:not-allowed; }
-        .section-label { font-size:11px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:#334155; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-        .section-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
-        .ai-modal { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.98); border:1px solid rgba(139,92,246,0.3); border-radius:18px; padding:24px; z-index:100; width:90%; max-width:400px; box-shadow:0 24px 60px rgba(0,0,0,0.6); backdrop-filter:blur(24px); animation:popIn 0.2s ease; }
+        .section-label { font-size:11px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+        .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+        .ai-modal { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--primary); border-radius:18px; padding:24px; z-index:100; width:90%; max-width:400px; box-shadow:0 24px 60px rgba(0,0,0,0.6); backdrop-filter:blur(24px); animation:popIn 0.2s ease; }
         @keyframes popIn { from{opacity:0;transform:translateX(-50%) scale(0.95)} to{opacity:1;transform:translateX(-50%) scale(1)} }
-        .progress-bar-bg { height:5px; background:rgba(255,255,255,0.05); border-radius:99px; overflow:hidden; margin-top:8px; }
-        .progress-bar-fill { height:100%; background:linear-gradient(90deg,#4f46e5,#06b6d4); border-radius:99px; transition:width 0.6s ease; }
-        .search-input { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 14px 10px 36px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s; width:180px; }
-        .search-input:focus { border-color:rgba(79,70,229,0.4); }
-        .search-input::placeholder { color:#334155; }
-        .cat-filter-btn { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:99px; padding:6px 14px; font-size:12px; font-weight:600; color:#475569; cursor:pointer; font-family:'Outfit',sans-serif; transition:all 0.2s; white-space:nowrap; }
-        .cat-filter-btn.active { background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.3); color:#818cf8; }
+        .progress-bar-bg { height:5px; background:var(--surface-light); border-radius:99px; overflow:hidden; margin-top:8px; }
+        .progress-bar-fill { height:100%; background:linear-gradient(90deg,var(--primary),#06b6d4); border-radius:99px; transition:width 0.6s ease; }
+        .search-input { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 14px 10px 36px; font-size:13px; color:var(--text); font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s; width:180px; }
+        .search-input:focus { border-color:var(--primary); }
+        .search-input::placeholder { color:var(--text-muted); }
+        .cat-filter-btn { background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:6px 14px; font-size:12px; font-weight:600; color:var(--text-muted); cursor:pointer; font-family:'Outfit',sans-serif; transition:all 0.2s; white-space:nowrap; }
+        .cat-filter-btn.active { background:var(--surface-light); border-color:var(--primary); color:var(--primary); }
         .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); animation:fadeIn 0.2s ease; }
         @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        .stats-modal { background:#0d0f18; border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; animation:popInCenter 0.2s ease; }
+        .stats-modal { background:var(--background); border:1px solid var(--border); border-radius:20px; padding:28px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; animation:popInCenter 0.2s ease; }
         @keyframes popInCenter { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
         .mini-cal-cell { width:20px; height:20px; border-radius:4px; flex-shrink:0; }
-        .badge-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.97); border:1px solid rgba(99,102,241,0.35); border-radius:16px; padding:14px 22px; display:flex; align-items:center; gap:12px; z-index:300; box-shadow:0 16px 48px rgba(0,0,0,0.5); animation:slideUp 0.3s ease; }
+        .badge-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--primary); border-radius:16px; padding:14px 22px; display:flex; align-items:center; gap:12px; z-index:300; box-shadow:0 16px 48px rgba(0,0,0,0.5); animation:slideUp 0.3s ease; }
         @keyframes slideUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
       `}</style>
 
@@ -190,9 +190,9 @@ const HabitsList = () => {
         <div className="badge-toast">
           <span style={{ fontSize: 28 }}>{badgeToast.emoji}</span>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#f1f5f9" }}>Badge Unlocked!</div>
-            <div style={{ fontSize: 12, color: "#818cf8", fontWeight: 600 }}>{badgeToast.name}</div>
-            <div style={{ fontSize: 11, color: "#475569" }}>{badgeToast.desc}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text)" }}>Badge Unlocked!</div>
+            <div style={{ fontSize: 12, color: "var(--primary)", fontWeight: 600 }}>{badgeToast.name}</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{badgeToast.desc}</div>
           </div>
         </div>
       )}
@@ -201,27 +201,27 @@ const HabitsList = () => {
       {aiHabit && (
         <div className="ai-modal">
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
-            <div style={{ width:36, height:36, background:"linear-gradient(135deg,#8b5cf6,#6366f1)", borderRadius:10, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>🤖</div>
+            <div style={{ width:36, height:36, background:"linear-gradient(135deg,var(--primary),#6366f1)", borderRadius:10, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>🤖</div>
             <div>
-              <div style={{ fontWeight:600, fontSize:15, color:"#f1f5f9" }}>AI Suggestion</div>
-              <div style={{ fontSize:12, color:"#475569" }}>Personalized for you</div>
+              <div style={{ fontWeight:600, fontSize:15, color:"var(--text)" }}>AI Suggestion</div>
+              <div style={{ fontSize:12, color:"var(--text-muted)" }}>Personalized for you</div>
             </div>
           </div>
-          <div style={{ background:"rgba(99,102,241,0.08)", border:"1px solid rgba(99,102,241,0.2)", borderRadius:12, padding:"14px 16px", fontSize:16, fontWeight:600, color:"#c7d2fe", marginBottom:18 }}>
+          <div style={{ background:"var(--surface-light)", border:"1px solid var(--border)", borderRadius:12, padding:"14px 16px", fontSize:16, fontWeight:600, color:"var(--text)", marginBottom:18 }}>
             ✨ {aiHabit}
           </div>
           <div style={{ display:"flex", gap:10 }}>
-            <button onClick={addAiHabit} style={{ background:"linear-gradient(135deg,#10b981,#059669)", border:"none", borderRadius:10, color:"#fff", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Add Habit</button>
-            <button onClick={() => setAiHabit("")} style={{ background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:10, color:"#fca5a5", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Skip</button>
+            <button onClick={addAiHabit} style={{ background:"linear-gradient(135deg,var(--success),#059669)", border:"none", borderRadius:10, color:"#fff", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Add Habit</button>
+            <button onClick={() => setAiHabit("")} style={{ background:"var(--surface-light)", border:"1px solid var(--border)", borderRadius:10, color:"var(--danger)", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Skip</button>
           </div>
         </div>
       )}
 
       {/* Toast */}
       {suggestion && (
-        <div style={{ position:"fixed", top:24, left:"50%", transform:"translateX(-50%)", background:"rgba(16,185,129,0.1)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:12, padding:"12px 20px", color:"#6ee7b7", fontSize:14, fontWeight:500, zIndex:99, display:"flex", gap:12, alignItems:"center" }}>
+        <div style={{ position:"fixed", top:24, left:"50%", transform:"translateX(-50%)", background:"var(--success)", border:"1px solid var(--border)", borderRadius:12, padding:"12px 20px", color:"#fff", fontSize:14, fontWeight:500, zIndex:99, display:"flex", gap:12, alignItems:"center" }}>
           {suggestion}
-          <button onClick={() => setSuggestion("")} style={{ background:"none", border:"none", color:"#6ee7b7", cursor:"pointer", fontSize:18 }}>×</button>
+          <button onClick={() => setSuggestion("")} style={{ background:"none", border:"none", color:"#fff", cursor:"pointer", fontSize:18 }}>×</button>
         </div>
       )}
 
@@ -231,20 +231,20 @@ const HabitsList = () => {
           <div className="stats-modal" onClick={e => e.stopPropagation()}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:24 }}>
               <div>
-                <div style={{ fontSize:18, fontWeight:700, color:"#f1f5f9", marginBottom:4 }}>{selectedHabit.title}</div>
+                <div style={{ fontSize:18, fontWeight:700, color:"var(--text)", marginBottom:4 }}>{selectedHabit.title}</div>
                 {selectedHabit.category && (
                   <span style={{ fontSize:11, fontWeight:600, background: CAT_COLORS[selectedHabit.category]?.bg, border:`1px solid ${CAT_COLORS[selectedHabit.category]?.border}`, color: CAT_COLORS[selectedHabit.category]?.text, padding:"3px 10px", borderRadius:99 }}>
                     {selectedHabit.category}
                   </span>
                 )}
               </div>
-              <button onClick={() => setSelectedHabit(null)} style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, width:34, height:34, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>
-                <X size={16} color="#475569" />
+              <button onClick={() => setSelectedHabit(null)} style={{ background:"var(--surface-light)", border:"1px solid var(--border)", borderRadius:10, width:34, height:34, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>
+                <X size={16} color="var(--text-muted)" />
               </button>
             </div>
 
             {statsLoading ? (
-              <div style={{ textAlign:"center", color:"#334155", padding:"40px 0" }}>Loading analytics...</div>
+              <div style={{ textAlign:"center", color:"var(--text-muted)", padding:"40px 0" }}>Loading analytics...</div>
             ) : habitStats ? (
               <>
                 {/* Stat chips */}
@@ -254,30 +254,30 @@ const HabitsList = () => {
                     { label:"Current Streak",  val: habitStats.currentStreak,    emoji:"🔥" },
                     { label:"Best Streak",     val: habitStats.bestStreak,       emoji:"🏆" },
                   ].map((s,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:12, padding:"14px 12px", textAlign:"center" }}>
+                    <div key={i} style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:12, padding:"14px 12px", textAlign:"center" }}>
                       <div style={{ fontSize:20, marginBottom:6 }}>{s.emoji}</div>
-                      <div style={{ fontSize:22, fontWeight:700, color:"#f1f5f9" }}>{s.val}</div>
-                      <div style={{ fontSize:11, color:"#475569", marginTop:2 }}>{s.label}</div>
+                      <div style={{ fontSize:22, fontWeight:700, color:"var(--text)" }}>{s.val}</div>
+                      <div style={{ fontSize:11, color:"var(--text-muted)", marginTop:2 }}>{s.label}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Last 30 days mini calendar */}
                 <div style={{ marginBottom:8 }}>
-                  <div style={{ fontSize:12, fontWeight:600, letterSpacing:"0.07em", textTransform:"uppercase", color:"#334155", marginBottom:12 }}>Last 30 Days</div>
+                  <div style={{ fontSize:12, fontWeight:600, letterSpacing:"0.07em", textTransform:"uppercase", color:"var(--text-muted)", marginBottom:12 }}>Last 30 Days</div>
                   <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
                     {habitStats.last30.map((day, i) => (
                       <div key={i} title={`${day.date}: ${day.completed ? "✅ Done" : "❌ Missed"}`}
                         className="mini-cal-cell"
-                        style={{ background: day.completed ? "rgba(99,102,241,0.7)" : "rgba(255,255,255,0.04)", border:`1px solid ${day.completed ? "rgba(99,102,241,0.8)" : "rgba(255,255,255,0.06)"}` }}
+                        style={{ background: day.completed ? "var(--primary)" : "var(--surface-light)", border:`1px solid ${day.completed ? "var(--primary)" : "var(--border)"}` }}
                       />
                     ))}
                   </div>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:10 }}>
-                    <div style={{ width:11, height:11, borderRadius:2, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.06)" }} />
-                    <span style={{ fontSize:11, color:"#334155" }}>Missed</span>
-                    <div style={{ width:11, height:11, borderRadius:2, background:"rgba(99,102,241,0.7)", border:"1px solid rgba(99,102,241,0.8)", marginLeft:8 }} />
-                    <span style={{ fontSize:11, color:"#334155" }}>Completed</span>
+                    <div style={{ width:11, height:11, borderRadius:2, background:"var(--surface-light)", border:"1px solid var(--border)" }} />
+                    <span style={{ fontSize:11, color:"var(--text-muted)" }}>Missed</span>
+                    <div style={{ width:11, height:11, borderRadius:2, background:"var(--primary)", border:"1px solid var(--primary)", marginLeft:8 }} />
+                    <span style={{ fontSize:11, color:"var(--text-muted)" }}>Completed</span>
                   </div>
                 </div>
               </>
@@ -290,8 +290,8 @@ const HabitsList = () => {
 
       {/* Page Header */}
       <div style={{ marginBottom:28 }}>
-        <h1 style={{ fontSize:28, fontWeight:700, color:"#f1f5f9", letterSpacing:"-0.02em", margin:"0 0 6px" }}>My Habits</h1>
-        <div style={{ fontSize:14, color:"#475569", marginBottom:10 }}>
+        <h1 style={{ fontSize:28, fontWeight:700, color:"var(--text)", letterSpacing:"-0.02em", margin:"0 0 6px" }}>My Habits</h1>
+        <div style={{ fontSize:14, color:"var(--text-muted)", marginBottom:10 }}>
           {habits.filter(h=>h.completed).length} of {habits.length} completed today
         </div>
         <div className="progress-bar-bg" style={{ maxWidth:320 }}>
@@ -332,8 +332,8 @@ const HabitsList = () => {
       <div style={{ marginBottom:36 }}>
         <div className="section-label">To Do ({activeHabits.length})</div>
         {activeHabits.length === 0 ? (
-          <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"48px 24px", gap:12, color:"#334155", fontSize:14 }}>
-            <div style={{ width:56, height:56, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:16, display:"flex", alignItems:"center", justifyContent:"center" }}><Zap size={24} color="#334155" /></div>
+          <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"48px 24px", gap:12, color:"var(--text-muted)", fontSize:14 }}>
+            <div style={{ width:56, height:56, background:"var(--surface)", border:"1px solid var(--border)", borderRadius:16, display:"flex", alignItems:"center", justifyContent:"center" }}><Zap size={24} color="var(--text-muted)" /></div>
             No pending habits — add one or use AI suggest!
           </div>
         ) : (
@@ -367,11 +367,11 @@ const HabitRow = ({ habit, onToggle, onDelete, onStats }) => {
   return (
     <div className={`habit-card ${habit.completed ? "done" : ""}`}>
       <button className={`check-btn ${habit.completed ? "done" : ""}`} onClick={() => onToggle(habit._id)}>
-        <Check size={16} color={habit.completed ? "#fff" : "rgba(99,102,241,0.4)"} />
+        <Check size={16} color={habit.completed ? "#fff" : "var(--primary)"} />
       </button>
 
       <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:15, fontWeight:600, color:habit.completed ? "#64748b" : "#f1f5f9", textDecoration:habit.completed ? "line-through" : "none", marginBottom:6, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
+        <div style={{ fontSize:15, fontWeight:600, color:habit.completed ? "var(--text-muted)" : "var(--text)", textDecoration:habit.completed ? "line-through" : "none", marginBottom:6, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
           {habit.title}
         </div>
         <div style={{ display:"flex", gap:6, alignItems:"center", flexWrap:"wrap" }}>
