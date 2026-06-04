@@ -14,7 +14,7 @@ const formatMessage = (text) => {
     const parts = line.split(/\*\*(.*?)\*\*/g);
     const formatted = parts.map((part, j) =>
       j % 2 === 1
-        ? <strong key={j} style={{ color: "#e2e8f0", fontWeight: 600 }}>{part}</strong>
+        ? <strong key={j} style={{ color: "var(--text)", fontWeight: 600 }}>{part}</strong>
         : part
     );
 
@@ -27,7 +27,7 @@ const formatMessage = (text) => {
     if (isHeader) return (
       <div key={i} style={{
         fontWeight: 700,
-        color: "#38bdf8",
+        color: "var(--primary)",
         fontSize: 13,
         letterSpacing: "0.05em",
         textTransform: "uppercase",
@@ -46,7 +46,7 @@ const formatMessage = (text) => {
         marginBottom: 5,
         paddingLeft: 2
       }}>
-        <span style={{ color: "#38bdf8", flexShrink: 0, marginTop: 2 }}>•</span>
+        <span style={{ color: "var(--primary)", flexShrink: 0, marginTop: 2 }}>•</span>
         <span>{formatted}</span>
       </div>
     );
@@ -118,12 +118,13 @@ const AICoach = () => {
   return (
     <div style={{
       fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
-      background: 'linear-gradient(135deg, #0f1117 0%, #141824 50%, #0f1117 100%)',
+      background: 'var(--background)',
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '24px',
+      transition: 'background-color 0.2s'
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
@@ -131,18 +132,19 @@ const AICoach = () => {
         .coach-card {
           width: 100%;
           max-width: 720px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--surface);
+          border: 1px solid var(--border);
           border-radius: 24px;
           overflow: hidden;
           backdrop-filter: blur(12px);
           box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,179,237,0.04);
+          transition: background-color 0.2s, border-color 0.2s;
         }
 
         .coach-header {
           padding: 20px 28px;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-          background: linear-gradient(90deg, rgba(56,189,248,0.06) 0%, transparent 100%);
+          border-bottom: 1px solid var(--border);
+          background: linear-gradient(90deg, var(--surface-light) 0%, transparent 100%);
           display: flex;
           align-items: center;
           gap: 14px;
@@ -151,25 +153,25 @@ const AICoach = () => {
         .header-icon-wrap {
           width: 42px;
           height: 42px;
-          background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+          background: linear-gradient(135deg, var(--primary) 0%, #38bdf8 100%);
           border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 20px rgba(56,189,248,0.35);
+          box-shadow: 0 0 20px var(--primary);
           flex-shrink: 0;
         }
 
         .header-title {
           font-size: 16px;
           font-weight: 600;
-          color: #f0f6ff;
+          color: var(--text);
           letter-spacing: -0.01em;
         }
 
         .header-sub {
           font-size: 12px;
-          color: #4a90b8;
+          color: var(--text-muted);
           margin-top: 2px;
           font-weight: 400;
         }
@@ -177,15 +179,15 @@ const AICoach = () => {
         .status-dot {
           width: 8px;
           height: 8px;
-          background: #34d399;
+          background: var(--success);
           border-radius: 50%;
-          box-shadow: 0 0 8px #34d399;
+          box-shadow: 0 0 8px var(--success);
           animation: pulse-dot 2s infinite;
         }
 
         @keyframes pulse-dot {
-          0%, 100% { opacity: 1; box-shadow: 0 0 8px #34d399; }
-          50% { opacity: 0.6; box-shadow: 0 0 16px #34d399; }
+          0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--success); }
+          50% { opacity: 0.6; box-shadow: 0 0 16px var(--success); }
         }
 
         .chat-area {
@@ -196,12 +198,12 @@ const AICoach = () => {
           flex-direction: column;
           gap: 18px;
           scrollbar-width: thin;
-          scrollbar-color: rgba(56,189,248,0.2) transparent;
+          scrollbar-color: var(--primary) transparent;
         }
 
         .chat-area::-webkit-scrollbar { width: 4px; }
         .chat-area::-webkit-scrollbar-track { background: transparent; }
-        .chat-area::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.2); border-radius: 4px; }
+        .chat-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
         .empty-state {
           flex: 1;
@@ -210,7 +212,7 @@ const AICoach = () => {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          color: rgba(255,255,255,0.18);
+          color: var(--text-muted);
           font-size: 13px;
           font-weight: 400;
           letter-spacing: 0.02em;
@@ -219,8 +221,8 @@ const AICoach = () => {
         .empty-icon {
           width: 48px;
           height: 48px;
-          background: rgba(56,189,248,0.06);
-          border: 1px solid rgba(56,189,248,0.12);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
           border-radius: 16px;
           display: flex;
           align-items: center;
@@ -252,13 +254,13 @@ const AICoach = () => {
         }
 
         .msg-avatar.ai {
-          background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-          box-shadow: 0 0 12px rgba(56,189,248,0.25);
+          background: linear-gradient(135deg, var(--primary), #38bdf8);
+          box-shadow: 0 0 12px var(--primary);
         }
 
         .msg-avatar.user-av {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
         }
 
         .msg-bubble {
@@ -271,16 +273,16 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          background: rgba(56,189,248,0.07);
-          border: 1px solid rgba(56,189,248,0.14);
-          color: #cce9f8;
+          background: var(--surface-light);
+          border: 1px solid var(--border);
+          color: var(--text);
           border-top-left-radius: 4px;
         }
 
         .msg-bubble.user-bubble {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: #e8f0f8;
+          background: var(--surface-light);
+          border: 1px solid var(--border);
+          color: var(--text);
           border-top-right-radius: 4px;
           text-align: right;
         }
@@ -292,7 +294,7 @@ const AICoach = () => {
           text-transform: uppercase;
           margin-bottom: 4px;
           opacity: 0.5;
-          color: #94b8cc;
+          color: var(--text-muted);
         }
 
         .msg-label.right { text-align: right; }
@@ -305,8 +307,8 @@ const AICoach = () => {
         }
 
         .typing-bubble {
-          background: rgba(56,189,248,0.07);
-          border: 1px solid rgba(56,189,248,0.14);
+          background: var(--surface-light);
+          border: 1px solid var(--border);
           border-radius: 16px;
           border-top-left-radius: 4px;
           padding: 14px 18px;
@@ -318,7 +320,7 @@ const AICoach = () => {
         .typing-dot {
           width: 6px;
           height: 6px;
-          background: #38bdf8;
+          background: var(--primary);
           border-radius: 50%;
           animation: bounce 1.2s infinite ease-in-out;
         }
@@ -333,8 +335,8 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          background: rgba(0,0,0,0.15);
+          border-top: 1px solid var(--border);
+          background: var(--background);
           display: flex;
           gap: 12px;
           align-items: flex-end;
@@ -342,16 +344,16 @@ const AICoach = () => {
 
         .input-wrapper {
           flex: 1;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--surface);
+          border: 1px solid var(--border);
           border-radius: 14px;
           overflow: hidden;
           transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .input-wrapper:focus-within {
-          border-color: rgba(56,189,248,0.4);
-          box-shadow: 0 0 0 3px rgba(56,189,248,0.07);
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px var(--primary);
         }
 
         .chat-input {
@@ -359,7 +361,7 @@ const AICoach = () => {
           background: transparent;
           border: none;
           outline: none;
-          color: #e2f0f8;
+          color: var(--text);
           font-size: 14px;
           font-family: 'DM Sans', sans-serif;
           font-weight: 400;
@@ -368,12 +370,12 @@ const AICoach = () => {
           line-height: 1.5;
         }
 
-        .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+        .chat-input::placeholder { color: var(--text-muted); }
 
         .send-btn {
           width: 46px;
           height: 46px;
-          background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+          background: linear-gradient(135deg, var(--primary), #38bdf8);
           border: none;
           border-radius: 13px;
           cursor: pointer;
@@ -381,13 +383,13 @@ const AICoach = () => {
           align-items: center;
           justify-content: center;
           transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-          box-shadow: 0 4px 16px rgba(56,189,248,0.3);
+          box-shadow: 0 4px 16px var(--primary);
           flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
           transform: translateY(-1px);
-          box-shadow: 0 6px 22px rgba(56,189,248,0.45);
+          box-shadow: 0 6px 22px var(--primary);
         }
 
         .send-btn:active:not(:disabled) { transform: scale(0.95); }
@@ -401,7 +403,7 @@ const AICoach = () => {
         .footer-hint {
           text-align: center;
           font-size: 11px;
-          color: rgba(255,255,255,0.18);
+          color: var(--text-muted);
           margin-top: 10px;
           letter-spacing: 0.02em;
         }
@@ -436,7 +438,7 @@ const AICoach = () => {
             <div key={i} className={cn("msg-row", c.role === "user" ? "user" : "")}>
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
-                  ? <User size={15} color="rgba(255,255,255,0.6)" />
+                  ? <User size={15} color="var(--text)" />
                   : <Bot size={15} color="#fff" />
                 }
               </div>

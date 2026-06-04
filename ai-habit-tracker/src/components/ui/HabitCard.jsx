@@ -35,7 +35,7 @@ const HabitCard = ({ habit, onClick, onDelete }) => {
             {habit.title}
           </h3>
           <p className="text-xs text-textMuted flex items-center gap-2">
-            <span className="bg-surfaceLight px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider">{habit.category}</span>
+            <span className="bg-surfaceLight border border-border px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider">{habit.category}</span>
             <span>•</span>
             <span>{habit.target}</span>
           </p>
