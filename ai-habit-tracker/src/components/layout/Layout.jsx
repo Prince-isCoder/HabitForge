@@ -9,8 +9,9 @@ const Layout = () => {
       display: "flex",
       height: "100vh",
       overflow: "hidden",
-      background: "#0a0c12",
+      background: "var(--background)",
       fontFamily: "'Outfit', sans-serif",
+      transition: "background 0.2s",
     }}>
 
       {/* Sidebar */}
@@ -32,11 +33,12 @@ const Layout = () => {
         <main style={{
           flex: 1,
           overflowY: "auto",
-          background: "#0a0c12",
+          background: "var(--background)",
           position: "relative",
           zIndex: 0,
           scrollbarWidth: "thin",
-          scrollbarColor: "rgba(99,102,241,0.2) transparent",
+          scrollbarColor: "var(--primary) transparent",
+          transition: "background 0.2s",
         }}>
           <Outlet />
         </main>

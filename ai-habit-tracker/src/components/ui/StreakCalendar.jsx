@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getCalendar } from "../../services/api";
+import { useTheme } from "../../context/ThemeContext";
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
-const getColor = (count) => {
-    if (count === 0) return { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.06)" };
+const getColor = (count, theme) => {
+    if (count === 0) {
+        return theme === 'dark'
+            ? { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.06)" }
+            : { bg: "rgba(0,0,0,0.05)", border: "rgba(0,0,0,0.1)" };
+    }
     if (count === 1) return { bg: "rgba(99,102,241,0.25)",  border: "rgba(99,102,241,0.35)" };
     if (count === 2) return { bg: "rgba(99,102,241,0.45)",  border: "rgba(99,102,241,0.55)" };
     if (count === 3) return { bg: "rgba(99,102,241,0.65)",  border: "rgba(99,102,241,0.75)" };
@@ -13,6 +18,7 @@ const getColor = (count) => {
 };
 
 const StreakCalendar = () => {
+    const { theme } = useTheme();
     const [calData, setCalData]   = useState(null);
     const [tooltip, setTooltip]   = useState(null); // { x, y, date, count }
     const [loading, setLoading]   = useState(true);
@@ -24,8 +30,8 @@ const StreakCalendar = () => {
     }, []);
 
     if (loading) return (
-        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 18, padding: 24 }}>
-            <div style={{ height: 120, display: "flex", alignItems: "center", justifyContent: "center", color: "#334155", fontSize: 14 }}>
+        <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 18, padding: 24 }}>
+            <div style={{ height: 120, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: 14 }}>
                 Loading calendar...
             </div>
         </div>
@@ -87,12 +93,13 @@ const StreakCalendar = () => {
 
     return (
         <div style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
             borderRadius: 18,
             padding: "24px 28px",
             fontFamily: "'Outfit',sans-serif",
             position: "relative",
+            transition: "all 0.2s"
         }}>
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
@@ -107,20 +114,20 @@ const StreakCalendar = () => {
                 .cal-cell:hover { transform: scale(1.3); z-index: 2; }
                 .cal-tooltip {
                     position: fixed;
-                    background: rgba(12,14,22,0.97);
-                    border: 1px solid rgba(99,102,241,0.3);
+                    background: var(--surface);
+                    border: 1px solid var(--primary);
                     border-radius: 10px;
                     padding: 8px 12px;
                     font-size: 12px;
-                    color: #c7d2fe;
+                    color: var(--text);
                     pointer-events: none;
                     z-index: 100;
                     white-space: nowrap;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
                 }
                 .stat-chip {
-                    background: rgba(255,255,255,0.04);
-                    border: 1px solid rgba(255,255,255,0.07);
+                    background: var(--surface-light);
+                    border: 1px solid var(--border);
                     border-radius: 10px;
                     padding: 10px 16px;
                     display: flex; flex-direction: column; gap: 3px;
@@ -130,10 +137,10 @@ const StreakCalendar = () => {
             {/* Header */}
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
                 <div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "#f1f5f9", marginBottom: 4 }}>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>
                         🗓 Activity Calendar
                     </div>
-                    <div style={{ fontSize: 13, color: "#475569" }}>
+                    <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
                         Your habit completions over the last 365 days
                     </div>
                 </div>
@@ -141,16 +148,16 @@ const StreakCalendar = () => {
                 {/* Stats row */}
                 <div style={{ display: "flex", gap: 10 }}>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{currentStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Current Streak</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{currentStreak}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Current Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{longestStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Longest Streak</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{longestStreak}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Longest Streak</span>
                     </div>
                     <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{totalDays}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Active Days</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: "var(--text)" }}>{totalDays}</span>
+                        <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Active Days</span>
                     </div>
                 </div>
             </div>
@@ -165,7 +172,7 @@ const StreakCalendar = () => {
                             <div key={d} style={{
                                 height: CELL,
                                 fontSize: 9,
-                                color: i % 2 === 0 ? "#334155" : "transparent",
+                                color: i % 2 === 0 ? "var(--text-muted)" : "transparent",
                                 display: "flex", alignItems: "center",
                                 fontWeight: 500,
                                 width: 24,
@@ -182,7 +189,7 @@ const StreakCalendar = () => {
                             {grid.map((_, wi) => {
                                 const ml = monthLabels.find(m => m.wi === wi);
                                 return (
-                                    <div key={wi} style={{ width: STEP, fontSize: 9, color: "#475569", fontWeight: 500, overflow: "visible", whiteSpace: "nowrap" }}>
+                                    <div key={wi} style={{ width: STEP, fontSize: 9, color: "var(--text-muted)", fontWeight: 500, overflow: "visible", whiteSpace: "nowrap" }}>
                                         {ml ? ml.label : ""}
                                     </div>
                                 );
@@ -197,7 +204,7 @@ const StreakCalendar = () => {
                                         if (!cell) return (
                                             <div key={di} style={{ width: CELL, height: CELL, flexShrink: 0 }} />
                                         );
-                                        const { bg, border } = getColor(cell.count);
+                                        const { bg, border } = getColor(cell.count, theme);
                                         return (
                                             <div
                                                 key={di}
@@ -222,12 +229,12 @@ const StreakCalendar = () => {
 
             {/* Legend */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, justifyContent: "flex-end" }}>
-                <span style={{ fontSize: 11, color: "#334155" }}>Less</span>
+                <span style={{ fontSize: 11, color: "var(--text-muted)" }}>Less</span>
                 {[0, 1, 2, 3, 4].map(n => {
-                    const { bg, border } = getColor(n);
+                    const { bg, border } = getColor(n, theme);
                     return <div key={n} style={{ width: 11, height: 11, borderRadius: 2, background: bg, border: `1px solid ${border}` }} />;
                 })}
-                <span style={{ fontSize: 11, color: "#334155" }}>More</span>
+                <span style={{ fontSize: 11, color: "var(--text-muted)" }}>More</span>
             </div>
 
             {/* Tooltip */}
