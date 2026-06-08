@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Plus, Flame, Trash2, Check, Zap, Search, X, BarChart2 } from "lucide-react";
+import { Plus, Flame, Trash2, Check, Zap, Search, X, BarChart2, Filter } from "lucide-react";
 
 const CATEGORIES = ["All", "Health", "Work", "Learning", "Fitness", "Mindfulness", "General"];
 const CAT_COLORS = {
-  Health: { bg: "rgba(16,185,129,0.1)",  border: "rgba(16,185,129,0.25)",  text: "#34d399" },
-  Work:   { bg: "rgba(99,102,241,0.1)",  border: "rgba(99,102,241,0.25)",  text: "#818cf8" },
-  Learning:{ bg:"rgba(6,182,212,0.1)",   border: "rgba(6,182,212,0.25)",   text: "#22d3ee" },
-  Fitness:{ bg: "rgba(251,146,60,0.1)",  border: "rgba(251,146,60,0.25)",  text: "#fb923c" },
-  Mindfulness:{ bg:"rgba(139,92,246,0.1)",border:"rgba(139,92,246,0.25)", text: "#a78bfa" },
-  General:{ bg: "rgba(255,255,255,0.05)",border:"rgba(255,255,255,0.1)",  text: "#64748b" },
+  Health: { bg: "rgba(16,185,129,0.1)",  border: "rgba(16,185,129,0.2)",  text: "#10B981" },
+  Work:   { bg: "rgba(99,102,241,0.1)",  border: "rgba(99,102,241,0.2)",  text: "#6366F1" },
+  Learning:{ bg:"rgba(6,182,212,0.1)",   border: "rgba(6,182,212,0.2)",   text: "#06B6D4" },
+  Fitness:{ bg: "rgba(249,115,22,0.1)",  border: "rgba(249,115,22,0.2)",  text: "#F97316" },
+  Mindfulness:{ bg:"rgba(168,85,247,0.1)",border:"rgba(168,85,247,0.2)", text: "#A855F7" },
+  General: { bg: "var(--surface-light)", border: "var(--border)", text: "var(--text-muted)" },
 };
 
 const HabitsList = () => {
@@ -25,14 +25,14 @@ const HabitsList = () => {
   const [statsLoading,    setStatsLoading]    = useState(false);
   const [badgeToast,      setBadgeToast]      = useState(null);  // {emoji, name}
 
-  const token = () => localStorage.getItem("token");
+  const token = React.useCallback(() => localStorage.getItem("token"), []);
 
-  const fetchHabits = () =>
+  const fetchHabits = React.useCallback(() =>
     fetch("http://localhost:5000/api/habits", {
       headers: { "Authorization": `Bearer ${token()}` }
-    }).then(r => r.json()).then(d => setHabits(Array.isArray(d) ? d : []));
+    }).then(r => r.json()).then(d => setHabits(Array.isArray(d) ? d : [])), [token]);
 
-  useEffect(() => { fetchHabits(); }, []);
+  useEffect(() => { fetchHabits(); }, [fetchHabits]);
 
   // ✅ Filter by search + category
   const filtered = habits.filter(h => {
@@ -139,258 +139,265 @@ const HabitsList = () => {
   };
 
   return (
-    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .habit-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px; display:flex; align-items:center; gap:16px; transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s; animation:cardIn 0.25s ease both; }
-        .habit-card:hover { border-color:rgba(99,102,241,0.25); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.25); }
-        .habit-card.done { opacity:0.55; border-color:rgba(16,185,129,0.15); background:rgba(16,185,129,0.03); }
-        @keyframes cardIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        .check-btn { width:38px; height:38px; border-radius:50%; border:2px solid rgba(99,102,241,0.35); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
-        .check-btn:hover { border-color:#6366f1; background:rgba(99,102,241,0.1); }
-        .check-btn.done { background:linear-gradient(135deg,#10b981,#059669); border-color:transparent; box-shadow:0 0 12px rgba(16,185,129,0.3); }
-        .delete-btn { width:32px; height:32px; border-radius:9px; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
-        .habit-card:hover .delete-btn { opacity:1; }
-        .delete-btn:hover { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.3); }
-        .stats-btn { width:30px; height:30px; border-radius:8px; background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.15); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; opacity:0; }
-        .habit-card:hover .stats-btn { opacity:1; }
-        .stats-btn:hover { background:rgba(99,102,241,0.18); }
-        .streak-badge { display:flex; align-items:center; gap:5px; background:rgba(251,146,60,0.08); border:1px solid rgba(251,146,60,0.15); border-radius:99px; padding:4px 10px; font-size:12px; font-weight:600; color:#fb923c; white-space:nowrap; }
-        .add-input { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 16px; font-size:14px; color:#e2e8f0; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s,box-shadow 0.2s; min-width:0; }
-        .add-input:focus { border-color:rgba(79,70,229,0.45); box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
-        .add-input::placeholder { color:#334155; }
-        .cat-select { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 14px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; cursor:pointer; }
-        .add-btn { background:linear-gradient(135deg,#4f46e5,#4338ca); border:none; border-radius:12px; color:#fff; padding:11px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:transform 0.15s,box-shadow 0.15s; box-shadow:0 4px 16px rgba(79,70,229,0.3); white-space:nowrap; }
-        .add-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(79,70,229,0.4); }
-        .ai-btn { background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); border-radius:12px; color:#a78bfa; padding:11px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Outfit',sans-serif; display:flex; align-items:center; gap:7px; transition:all 0.2s; white-space:nowrap; }
-        .ai-btn:hover { background:rgba(139,92,246,0.18); border-color:rgba(139,92,246,0.4); }
-        .ai-btn:disabled { opacity:0.5; cursor:not-allowed; }
-        .section-label { font-size:11px; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:#334155; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-        .section-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
-        .ai-modal { position:fixed; top:24px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.98); border:1px solid rgba(139,92,246,0.3); border-radius:18px; padding:24px; z-index:100; width:90%; max-width:400px; box-shadow:0 24px 60px rgba(0,0,0,0.6); backdrop-filter:blur(24px); animation:popIn 0.2s ease; }
-        @keyframes popIn { from{opacity:0;transform:translateX(-50%) scale(0.95)} to{opacity:1;transform:translateX(-50%) scale(1)} }
-        .progress-bar-bg { height:5px; background:rgba(255,255,255,0.05); border-radius:99px; overflow:hidden; margin-top:8px; }
-        .progress-bar-fill { height:100%; background:linear-gradient(90deg,#4f46e5,#06b6d4); border-radius:99px; transition:width 0.6s ease; }
-        .search-input { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 14px 10px 36px; font-size:13px; color:#94a3b8; font-family:'Outfit',sans-serif; outline:none; transition:border-color 0.2s; width:180px; }
-        .search-input:focus { border-color:rgba(79,70,229,0.4); }
-        .search-input::placeholder { color:#334155; }
-        .cat-filter-btn { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:99px; padding:6px 14px; font-size:12px; font-weight:600; color:#475569; cursor:pointer; font-family:'Outfit',sans-serif; transition:all 0.2s; white-space:nowrap; }
-        .cat-filter-btn.active { background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.3); color:#818cf8; }
-        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); animation:fadeIn 0.2s ease; }
-        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-        .stats-modal { background:#0d0f18; border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; width:90%; max-width:520px; max-height:80vh; overflow-y:auto; animation:popInCenter 0.2s ease; }
-        @keyframes popInCenter { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
-        .mini-cal-cell { width:20px; height:20px; border-radius:4px; flex-shrink:0; }
-        .badge-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); background:rgba(12,14,22,0.97); border:1px solid rgba(99,102,241,0.35); border-radius:16px; padding:14px 22px; display:flex; align-items:center; gap:12px; z-index:300; box-shadow:0 16px 48px rgba(0,0,0,0.5); animation:slideUp 0.3s ease; }
-        @keyframes slideUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+        .habit-card { @apply bg-surface border border-border rounded-3xl p-6 flex items-center gap-6 transition-all duration-200 shadow-sm shadow-black/[0.02] group; }
+        .habit-card:hover { @apply border-primary/30 -translate-y-1 shadow-xl shadow-primary/5; }
+        .habit-card.done { @apply opacity-60 border-success/20 bg-success/[0.02]; }
+
+        .check-btn { @apply w-12 h-12 rounded-2xl border-2 border-border bg-surface cursor-pointer flex items-center justify-center transition-all shrink-0 hover:border-primary/50 hover:bg-primary/5; }
+        .check-btn.done { @apply bg-success border-transparent shadow-lg shadow-success/30 scale-105; }
+
+        .action-icon-btn { @apply w-10 h-10 rounded-xl bg-surfaceLight/50 text-textMuted flex items-center justify-center transition-all hover:bg-primary/10 hover:text-primary border border-border/50; }
+        .action-icon-btn.delete { @apply hover:bg-danger/10 hover:text-danger hover:border-danger/20; }
+
+        .streak-pill { @apply flex items-center gap-1.5 bg-orange-500/5 border border-orange-500/10 rounded-full px-3 py-1 text-xs font-bold text-orange-500 uppercase tracking-wider; }
       `}</style>
 
       {/* Badge Toast */}
       {badgeToast && (
-        <div className="badge-toast">
-          <span style={{ fontSize: 28 }}>{badgeToast.emoji}</span>
+        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 bg-surface border border-primary/20 rounded-3xl p-6 flex items-center gap-4 z-[300] shadow-2xl animate-slideUp">
+          <span className="text-4xl">{badgeToast.emoji}</span>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#f1f5f9" }}>Badge Unlocked!</div>
-            <div style={{ fontSize: 12, color: "#818cf8", fontWeight: 600 }}>{badgeToast.name}</div>
-            <div style={{ fontSize: 11, color: "#475569" }}>{badgeToast.desc}</div>
+            <div className="text-sm font-bold uppercase tracking-widest text-primary mb-1">New Badge!</div>
+            <div className="text-lg font-bold text-text">{badgeToast.name}</div>
+            <div className="text-xs text-textMuted mt-1">{badgeToast.desc}</div>
           </div>
         </div>
       )}
 
       {/* AI Modal */}
       {aiHabit && (
-        <div className="ai-modal">
-          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
-            <div style={{ width:36, height:36, background:"linear-gradient(135deg,#8b5cf6,#6366f1)", borderRadius:10, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>🤖</div>
-            <div>
-              <div style={{ fontWeight:600, fontSize:15, color:"#f1f5f9" }}>AI Suggestion</div>
-              <div style={{ fontSize:12, color:"#475569" }}>Personalized for you</div>
-            </div>
-          </div>
-          <div style={{ background:"rgba(99,102,241,0.08)", border:"1px solid rgba(99,102,241,0.2)", borderRadius:12, padding:"14px 16px", fontSize:16, fontWeight:600, color:"#c7d2fe", marginBottom:18 }}>
-            ✨ {aiHabit}
-          </div>
-          <div style={{ display:"flex", gap:10 }}>
-            <button onClick={addAiHabit} style={{ background:"linear-gradient(135deg,#10b981,#059669)", border:"none", borderRadius:10, color:"#fff", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Add Habit</button>
-            <button onClick={() => setAiHabit("")} style={{ background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:10, color:"#fca5a5", padding:"9px 18px", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Outfit',sans-serif" }}>Skip</button>
-          </div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+           <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
+             <div className="flex items-center gap-4 mb-6">
+               <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
+               <div>
+                 <h3 className="font-bold text-lg">AI Smart Suggestion</h3>
+                 <p className="text-sm text-textMuted">Tailored for your current goals</p>
+               </div>
+             </div>
+             <div className="bg-primary/5 border border-primary/10 rounded-2xl p-5 text-xl font-bold text-primary mb-8 text-center">
+               “{aiHabit}”
+             </div>
+             <div className="flex gap-4">
+               <button className="flex-1 btn btn-primary py-3" onClick={addAiHabit}>Add Habit</button>
+               <button className="flex-1 btn btn-secondary py-3" onClick={() => setAiHabit("")}>Maybe later</button>
+             </div>
+           </div>
         </div>
       )}
 
       {/* Toast */}
       {suggestion && (
-        <div style={{ position:"fixed", top:24, left:"50%", transform:"translateX(-50%)", background:"rgba(16,185,129,0.1)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:12, padding:"12px 20px", color:"#6ee7b7", fontSize:14, fontWeight:500, zIndex:99, display:"flex", gap:12, alignItems:"center" }}>
-          {suggestion}
-          <button onClick={() => setSuggestion("")} style={{ background:"none", border:"none", color:"#6ee7b7", cursor:"pointer", fontSize:18 }}>×</button>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-surface border border-success/30 rounded-2xl px-6 py-4 text-success font-bold z-[99] flex gap-4 items-center shadow-xl">
+          <span className="text-xl">✅</span> {suggestion}
+          <button onClick={() => setSuggestion("")} className="ml-4 text-textMuted hover:text-text transition-colors">×</button>
         </div>
       )}
 
       {/* Per-Habit Analytics Modal */}
       {selectedHabit && (
-        <div className="modal-overlay" onClick={() => setSelectedHabit(null)}>
-          <div className="stats-modal" onClick={e => e.stopPropagation()}>
-            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:24 }}>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedHabit(null)}>
+          <div className="bg-surface border border-border rounded-3xl p-8 w-full max-w-lg shadow-2xl animate-popIn" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <div style={{ fontSize:18, fontWeight:700, color:"#f1f5f9", marginBottom:4 }}>{selectedHabit.title}</div>
+                <h3 className="text-2xl font-bold text-text mb-2">{selectedHabit.title}</h3>
                 {selectedHabit.category && (
-                  <span style={{ fontSize:11, fontWeight:600, background: CAT_COLORS[selectedHabit.category]?.bg, border:`1px solid ${CAT_COLORS[selectedHabit.category]?.border}`, color: CAT_COLORS[selectedHabit.category]?.text, padding:"3px 10px", borderRadius:99 }}>
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full" style={{ background: CAT_COLORS[selectedHabit.category]?.bg || 'var(--surface-light)', border:`1px solid ${CAT_COLORS[selectedHabit.category]?.border || 'var(--border)'}`, color: CAT_COLORS[selectedHabit.category]?.text || 'var(--text-muted)' }}>
                     {selectedHabit.category}
                   </span>
                 )}
               </div>
-              <button onClick={() => setSelectedHabit(null)} style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, width:34, height:34, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer" }}>
-                <X size={16} color="#475569" />
+              <button onClick={() => setSelectedHabit(null)} className="w-10 h-10 flex items-center justify-center bg-surfaceLight/50 rounded-xl hover:bg-surfaceLight transition-all">
+                <X size={20} className="text-textMuted" />
               </button>
             </div>
 
             {statsLoading ? (
-              <div style={{ textAlign:"center", color:"#334155", padding:"40px 0" }}>Loading analytics...</div>
+              <div className="text-center py-12 text-textMuted font-medium italic">Generating analytics...</div>
             ) : habitStats ? (
               <>
-                {/* Stat chips */}
-                <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12, marginBottom:24 }}>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-3 gap-4 mb-10">
                   {[
                     { label:"Total Done",      val: habitStats.totalCompletions, emoji:"✅" },
                     { label:"Current Streak",  val: habitStats.currentStreak,    emoji:"🔥" },
                     { label:"Best Streak",     val: habitStats.bestStreak,       emoji:"🏆" },
                   ].map((s,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:12, padding:"14px 12px", textAlign:"center" }}>
-                      <div style={{ fontSize:20, marginBottom:6 }}>{s.emoji}</div>
-                      <div style={{ fontSize:22, fontWeight:700, color:"#f1f5f9" }}>{s.val}</div>
-                      <div style={{ fontSize:11, color:"#475569", marginTop:2 }}>{s.label}</div>
+                    <div key={i} className="bg-background border border-border/50 rounded-2xl p-5 text-center">
+                      <div className="text-2xl mb-2">{s.emoji}</div>
+                      <div className="text-2xl font-bold text-text tracking-tight">{s.val}</div>
+                      <div className="text-[10px] font-bold text-textMuted uppercase tracking-widest mt-1">{s.label}</div>
                     </div>
                   ))}
                 </div>
 
-                {/* Last 30 days mini calendar */}
-                <div style={{ marginBottom:8 }}>
-                  <div style={{ fontSize:12, fontWeight:600, letterSpacing:"0.07em", textTransform:"uppercase", color:"#334155", marginBottom:12 }}>Last 30 Days</div>
-                  <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
+                {/* mini calendar */}
+                <div className="mb-2">
+                  <div className="text-xs font-bold tracking-[0.12em] uppercase text-textMuted mb-4">Activity Pattern (Last 30 Days)</div>
+                  <div className="flex flex-wrap gap-1.5">
                     {habitStats.last30.map((day, i) => (
-                      <div key={i} title={`${day.date}: ${day.completed ? "✅ Done" : "❌ Missed"}`}
-                        className="mini-cal-cell"
-                        style={{ background: day.completed ? "rgba(99,102,241,0.7)" : "rgba(255,255,255,0.04)", border:`1px solid ${day.completed ? "rgba(99,102,241,0.8)" : "rgba(255,255,255,0.06)"}` }}
+                      <div key={i} title={`${day.date}: ${day.completed ? "Done" : "Missed"}`}
+                        className="w-6 h-6 rounded-[6px] shrink-0"
+                        style={{ background: day.completed ? "var(--primary)" : "var(--surface-light)", border:`1px solid ${day.completed ? "var(--primary)" : "var(--border)"}`, opacity: day.completed ? 0.8 : 1 }}
                       />
                     ))}
                   </div>
-                  <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:10 }}>
-                    <div style={{ width:11, height:11, borderRadius:2, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.06)" }} />
-                    <span style={{ fontSize:11, color:"#334155" }}>Missed</span>
-                    <div style={{ width:11, height:11, borderRadius:2, background:"rgba(99,102,241,0.7)", border:"1px solid rgba(99,102,241,0.8)", marginLeft:8 }} />
-                    <span style={{ fontSize:11, color:"#334155" }}>Completed</span>
+                  <div className="flex items-center gap-4 mt-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-[3px] bg-surfaceLight border border-border" />
+                      <span className="text-[11px] text-textMuted font-medium">Missed</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-[3px] bg-primary/70" />
+                      <span className="text-[11px] text-textMuted font-medium">Completed</span>
+                    </div>
                   </div>
                 </div>
               </>
-            ) : (
-              <div style={{ textAlign:"center", color:"#334155", padding:"40px 0" }}>No data yet — complete this habit to see stats!</div>
-            )}
+            ) : null}
           </div>
         </div>
       )}
 
       {/* Page Header */}
-      <div style={{ marginBottom:28 }}>
-        <h1 style={{ fontSize:28, fontWeight:700, color:"#f1f5f9", letterSpacing:"-0.02em", margin:"0 0 6px" }}>My Habits</h1>
-        <div style={{ fontSize:14, color:"#475569", marginBottom:10 }}>
-          {habits.filter(h=>h.completed).length} of {habits.length} completed today
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight mb-3">My Habits</h1>
+          <div className="flex items-center gap-3">
+             <div className="flex-1 w-64 h-2 bg-border/40 rounded-full overflow-hidden">
+               <div className="h-full bg-primary transition-all duration-1000" style={{ width: `${completionPct}%` }} />
+             </div>
+             <span className="text-sm font-bold text-primary">{completionPct}% today</span>
+          </div>
         </div>
-        <div className="progress-bar-bg" style={{ maxWidth:320 }}>
-          <div className="progress-bar-fill" style={{ width:`${completionPct}%` }} />
-        </div>
-      </div>
-
-      {/* Category Filter Tabs */}
-      <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:20 }}>
-        {CATEGORIES.map(cat => (
-          <button key={cat} className={`cat-filter-btn ${filterCat === cat ? "active" : ""}`} onClick={() => setFilterCat(cat)}>
-            {cat}
-          </button>
-        ))}
+        <button className="btn btn-secondary px-6 py-3 gap-2 rounded-2xl" onClick={generateHabit} disabled={loading}>
+          <Zap size={18} className="text-primary" /> Suggest Habit
+        </button>
       </div>
 
       {/* Toolbar */}
-      <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", gap:10, marginBottom:32 }}>
-        <div style={{ position:"relative", display:"flex", alignItems:"center" }}>
-          <Search size={14} style={{ position:"absolute", left:12, color:"#334155", pointerEvents:"none" }} />
-          <input className="search-input" placeholder="Search habits..." value={search} onChange={e => setSearch(e.target.value)} />
+      <div className="bg-surface border border-border rounded-[2rem] p-6 mb-10 flex flex-wrap items-center gap-6 shadow-sm">
+        <div className="flex-1 flex gap-2 flex-wrap">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              className={`px-5 py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all ${filterCat === cat ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-background text-textMuted hover:bg-surfaceLight'}`}
+              onClick={() => setFilterCat(cat)}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
-        <button className="ai-btn" onClick={generateHabit} disabled={loading}>
-          {loading ? "🤖 Thinking..." : <><Zap size={14} /> Suggest Habit</>}
-        </button>
+        <div className="w-px h-8 bg-border/50 hidden lg:block" />
 
-        <div style={{ display:"flex", gap:8, marginLeft:"auto", flexWrap:"wrap" }}>
-          <select className="cat-select" value={category} onChange={e => setCategory(e.target.value)}>
-            {CATEGORIES.filter(c => c !== "All").map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-          <input className="add-input" value={title} onChange={e => setTitle(e.target.value)} onKeyDown={e => e.key === "Enter" && addHabit()} placeholder="New habit name..." />
-          <button className="add-btn" onClick={addHabit}><Plus size={15} /> Add</button>
+        <div className="relative">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted" />
+          <input
+             className="bg-background border border-border/50 rounded-2xl pl-12 pr-4 py-2.5 text-sm outline-none focus:border-primary/30 focus:ring-4 focus:ring-primary/5 transition-all w-64"
+             placeholder="Search habits..."
+             value={search}
+             onChange={e => setSearch(e.target.value)}
+          />
         </div>
       </div>
 
-      {/* TO DO */}
-      <div style={{ marginBottom:36 }}>
-        <div className="section-label">To Do ({activeHabits.length})</div>
-        {activeHabits.length === 0 ? (
-          <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"48px 24px", gap:12, color:"#334155", fontSize:14 }}>
-            <div style={{ width:56, height:56, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:16, display:"flex", alignItems:"center", justifyContent:"center" }}><Zap size={24} color="#334155" /></div>
-            No pending habits — add one or use AI suggest!
+      {/* Quick Add Form */}
+      <div className="bg-primary/[0.02] border border-primary/10 rounded-[2rem] p-8 mb-12 flex flex-wrap gap-4 items-center">
+         <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+            <Plus size={24} />
+         </div>
+         <select className="bg-surface border border-border rounded-2xl px-5 py-3 text-sm outline-none font-bold" value={category} onChange={e => setCategory(e.target.value)}>
+            {CATEGORIES.filter(c => c !== "All").map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <input
+            className="flex-1 input-field !py-3 !rounded-2xl min-w-[200px]"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && addHabit()}
+            placeholder="What's your new habit?"
+          />
+          <button className="btn btn-primary px-10 py-3 rounded-2xl" onClick={addHabit}>Add Habit</button>
+      </div>
+
+      {/* Habits Grid */}
+      <div className="space-y-12">
+        {/* TO DO Section */}
+        <div>
+          <div className="flex items-center gap-3 mb-8">
+            <h2 className="text-2xl font-bold tracking-tight">Active Tasks</h2>
+            <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full">{activeHabits.length}</span>
           </div>
-        ) : (
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:12 }}>
-            {activeHabits.map(habit => (
-              <HabitRow key={habit._id} habit={habit} onToggle={toggleHabit} onDelete={deleteHabit} onStats={openHabitStats} />
-            ))}
+
+          {activeHabits.length === 0 ? (
+            <div className="card border-dashed flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-16 h-16 bg-surfaceLight/50 rounded-full flex items-center justify-center mb-4 text-2xl">✨</div>
+              <h3 className="font-bold text-lg mb-1">Clear for now!</h3>
+              <p className="text-textMuted text-sm">Add a new goal or enjoy your progress.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8">
+              {activeHabits.map(habit => (
+                <HabitRow key={habit._id} habit={habit} onToggle={toggleHabit} onDelete={deleteHabit} onStats={openHabitStats} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* COMPLETED Section */}
+        {completedHabits.length > 0 && (
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <h2 className="text-2xl font-bold tracking-tight text-success/80">Finished Goals</h2>
+              <span className="bg-success/10 text-success text-xs font-bold px-3 py-1 rounded-full">{completedHabits.length}</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8 opacity-70">
+              {completedHabits.map(habit => (
+                <HabitRow key={habit._id} habit={habit} onToggle={toggleHabit} onDelete={deleteHabit} onStats={openHabitStats} />
+              ))}
+            </div>
           </div>
         )}
       </div>
-
-      {/* COMPLETED */}
-      {completedHabits.length > 0 && (
-        <div>
-          <div className="section-label" style={{ color:"#10b981" }}>Completed ({completedHabits.length})</div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:12, opacity:0.7 }}>
-            {completedHabits.map(habit => (
-              <HabitRow key={habit._id} habit={habit} onToggle={toggleHabit} onDelete={deleteHabit} onStats={openHabitStats} />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-/* ── HabitRow with category badge + stats button ── */
+/* ── HabitRow Component ── */
 const HabitRow = ({ habit, onToggle, onDelete, onStats }) => {
   const cat = habit.category || "General";
   const c   = CAT_COLORS[cat] || CAT_COLORS.General;
   return (
     <div className={`habit-card ${habit.completed ? "done" : ""}`}>
       <button className={`check-btn ${habit.completed ? "done" : ""}`} onClick={() => onToggle(habit._id)}>
-        <Check size={16} color={habit.completed ? "#fff" : "rgba(99,102,241,0.4)"} />
+        <Check size={24} className={habit.completed ? "text-white" : "text-border group-hover:text-primary transition-colors"} />
       </button>
 
-      <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:15, fontWeight:600, color:habit.completed ? "#64748b" : "#f1f5f9", textDecoration:habit.completed ? "line-through" : "none", marginBottom:6, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
+      <div className="flex-1 min-w-0">
+        <h4 className={`text-lg font-bold mb-2 truncate ${habit.completed ? "line-through text-textMuted" : "text-text"}`}>
           {habit.title}
-        </div>
-        <div style={{ display:"flex", gap:6, alignItems:"center", flexWrap:"wrap" }}>
-          <div className="streak-badge" style={{ display:"inline-flex" }}>
-            <Flame size={11} /> {habit.streak || 0} day streak
+        </h4>
+        <div className="flex gap-3 items-center">
+          <div className="streak-pill">
+            <Flame size={12} className="fill-orange-500" /> {habit.streak || 0}
           </div>
-          <span style={{ fontSize:11, fontWeight:600, background:c.bg, border:`1px solid ${c.border}`, color:c.text, padding:"3px 9px", borderRadius:99 }}>
+          <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg" style={{ background: c.bg, border:`1px solid ${c.border}`, color: c.text }}>
             {cat}
           </span>
         </div>
       </div>
 
-      <button className="stats-btn" onClick={() => onStats(habit)} title="View analytics">
-        <BarChart2 size={13} color="#818cf8" />
-      </button>
-
-      <button className="delete-btn" onClick={() => onDelete(habit._id)}>
-        <Trash2 size={13} color="#f87171" />
-      </button>
+      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button className="action-icon-btn" onClick={() => onStats(habit)} title="Analytics">
+          <BarChart2 size={16} />
+        </button>
+        <button className="action-icon-btn delete" onClick={() => onDelete(habit._id)} title="Delete">
+          <Trash2 size={16} />
+        </button>
+      </div>
     </div>
   );
 };

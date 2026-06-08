@@ -5,11 +5,11 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 const getColor = (count) => {
-    if (count === 0) return { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.06)" };
-    if (count === 1) return { bg: "rgba(99,102,241,0.25)",  border: "rgba(99,102,241,0.35)" };
-    if (count === 2) return { bg: "rgba(99,102,241,0.45)",  border: "rgba(99,102,241,0.55)" };
-    if (count === 3) return { bg: "rgba(99,102,241,0.65)",  border: "rgba(99,102,241,0.75)" };
-    return              { bg: "rgba(99,102,241,0.9)",   border: "rgba(139,92,246,1)"    };
+    if (count === 0) return { bg: "var(--surface-light)", border: "var(--border)" };
+    if (count === 1) return { bg: "rgba(var(--primary-rgb), 0.2)",  border: "rgba(var(--primary-rgb), 0.3)" };
+    if (count === 2) return { bg: "rgba(var(--primary-rgb), 0.4)",  border: "rgba(var(--primary-rgb), 0.5)" };
+    if (count === 3) return { bg: "rgba(var(--primary-rgb), 0.7)",  border: "rgba(var(--primary-rgb), 0.8)" };
+    return              { bg: "var(--primary)",   border: "var(--primary)"    };
 };
 
 const StreakCalendar = () => {
@@ -24,10 +24,9 @@ const StreakCalendar = () => {
     }, []);
 
     if (loading) return (
-        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 18, padding: 24 }}>
-            <div style={{ height: 120, display: "flex", alignItems: "center", justifyContent: "center", color: "#334155", fontSize: 14 }}>
-                Loading calendar...
-            </div>
+        <div className="card !p-12 flex flex-col items-center justify-center animate-pulse">
+            <div className="w-12 h-12 bg-surfaceLight rounded-full mb-4" />
+            <div className="text-textMuted text-sm font-medium">Loading activity data...</div>
         </div>
     );
 
@@ -52,7 +51,7 @@ const StreakCalendar = () => {
     const monthLabels = [];
     let lastMonth = -1;
     grid.forEach((week, wi) => {
-        week.forEach((cell, di) => {
+        week.forEach((cell) => {
             if (!cell) return;
             const m = new Date(cell.date).getMonth();
             if (m !== lastMonth) {
@@ -81,121 +80,85 @@ const StreakCalendar = () => {
         return best;
     })();
 
-    const CELL = 13;
-    const GAP  = 3;
-    const STEP = CELL + GAP;
+    const CELL = 14;
+    const GAP  = 4;
 
     return (
-        <div style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: 18,
-            padding: "24px 28px",
-            fontFamily: "'Outfit',sans-serif",
-            position: "relative",
-        }}>
+        <div className="card !p-8 relative">
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
                 .cal-cell {
                     width: ${CELL}px; height: ${CELL}px;
                     border-radius: 3px;
                     cursor: pointer;
-                    transition: transform 0.1s;
+                    transition: all 0.1s;
                     border: 1px solid transparent;
                     flex-shrink: 0;
                 }
-                .cal-cell:hover { transform: scale(1.3); z-index: 2; }
+                .cal-cell:hover { transform: scale(1.4); z-index: 2; border-color: var(--primary); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3); }
                 .cal-tooltip {
                     position: fixed;
-                    background: rgba(12,14,22,0.97);
-                    border: 1px solid rgba(99,102,241,0.3);
-                    border-radius: 10px;
-                    padding: 8px 12px;
-                    font-size: 12px;
-                    color: #c7d2fe;
+                    @apply bg-surface/98 border border-primary/20 rounded-xl px-4 py-2.5 text-[11px] text-text shadow-2xl backdrop-blur-md;
                     pointer-events: none;
                     z-index: 100;
                     white-space: nowrap;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                }
-                .stat-chip {
-                    background: rgba(255,255,255,0.04);
-                    border: 1px solid rgba(255,255,255,0.07);
-                    border-radius: 10px;
-                    padding: 10px 16px;
-                    display: flex; flex-direction: column; gap: 3px;
+                    animation: popIn 0.15s ease-out;
                 }
             `}</style>
 
-            {/* Header */}
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
+            {/* Header Content */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: "#f1f5f9", marginBottom: 4 }}>
-                        🗓 Activity Calendar
-                    </div>
-                    <div style={{ fontSize: 13, color: "#475569" }}>
-                        Your habit completions over the last 365 days
-                    </div>
+                    <h3 className="font-bold text-lg mb-1">Consistency Heatmap</h3>
+                    <p className="text-xs text-textMuted font-medium uppercase tracking-widest">365-day tracking history</p>
                 </div>
 
-                {/* Stats row */}
-                <div style={{ display: "flex", gap: 10 }}>
-                    <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{currentStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Current Streak</span>
-                    </div>
-                    <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{longestStreak}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Longest Streak</span>
-                    </div>
-                    <div className="stat-chip">
-                        <span style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>{totalDays}</span>
-                        <span style={{ fontSize: 11, color: "#475569" }}>Active Days</span>
-                    </div>
+                <div className="flex gap-4">
+                    {[
+                        { label: "Active Days", val: totalDays },
+                        { label: "Longest", val: `${longestStreak}d` },
+                        { label: "Current", val: `${currentStreak}d` }
+                    ].map((s, i) => (
+                        <div key={i} className="bg-surfaceLight/30 border border-border rounded-xl px-4 py-2 flex flex-col items-center min-w-[80px]">
+                            <span className="text-lg font-bold text-text leading-tight">{s.val}</span>
+                            <span className="text-[9px] font-bold text-textMuted uppercase tracking-widest">{s.label}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Calendar grid */}
-            <div style={{ overflowX: "auto", paddingBottom: 8 }}>
-                <div style={{ display: "inline-flex", gap: 0, minWidth: "max-content" }}>
-
-                    {/* Day labels column */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: GAP, marginRight: 6, paddingTop: 20 }}>
+            {/* Grid Container */}
+            <div className="overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+                <div className="inline-flex gap-0 min-w-max">
+                    {/* Weekdays Labels */}
+                    <div className="flex flex-col gap-[4px] mr-3 pt-6">
                         {DAYS.map((d, i) => (
-                            <div key={d} style={{
-                                height: CELL,
-                                fontSize: 9,
-                                color: i % 2 === 0 ? "#334155" : "transparent",
-                                display: "flex", alignItems: "center",
-                                fontWeight: 500,
-                                width: 24,
-                            }}>
+                            <div key={d} className={`h-[14px] text-[10px] flex items-center font-bold w-6 ${i % 2 === 0 ? "text-textMuted/60" : "text-transparent"}`}>
                                 {d}
                             </div>
                         ))}
                     </div>
 
-                    {/* Weeks */}
+                    {/* The Grid */}
                     <div>
-                        {/* Month labels */}
-                        <div style={{ display: "flex", marginBottom: 4, height: 16 }}>
+                        {/* Month labels header */}
+                        <div className="flex mb-2 height-4">
                             {grid.map((_, wi) => {
                                 const ml = monthLabels.find(m => m.wi === wi);
                                 return (
-                                    <div key={wi} style={{ width: STEP, fontSize: 9, color: "#475569", fontWeight: 500, overflow: "visible", whiteSpace: "nowrap" }}>
+                                    <div key={wi} className="w-[18px] text-[9px] text-textMuted font-bold uppercase tracking-tighter overflow-visible whitespace-nowrap">
                                         {ml ? ml.label : ""}
                                     </div>
                                 );
                             })}
                         </div>
 
-                        {/* Grid cells */}
-                        <div style={{ display: "flex", gap: GAP }}>
+                        {/* Cells */}
+                        <div className="flex gap-[4px]">
                             {grid.map((week, wi) => (
-                                <div key={wi} style={{ display: "flex", flexDirection: "column", gap: GAP }}>
+                                <div key={wi} className="flex flex-col gap-[4px]">
                                     {week.map((cell, di) => {
                                         if (!cell) return (
-                                            <div key={di} style={{ width: CELL, height: CELL, flexShrink: 0 }} />
+                                            <div key={di} className="w-[14px] h-[14px] shrink-0 opacity-20" />
                                         );
                                         const { bg, border } = getColor(cell.count);
                                         return (
@@ -204,9 +167,9 @@ const StreakCalendar = () => {
                                                 className="cal-cell"
                                                 style={{ background: bg, borderColor: border }}
                                                 onMouseEnter={e => setTooltip({
-                                                    x: e.clientX + 12,
-                                                    y: e.clientY - 36,
-                                                    date: cell.date,
+                                                    x: e.clientX + 15,
+                                                    y: e.clientY - 45,
+                                                    date: new Date(cell.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                                                     count: cell.count
                                                 })}
                                                 onMouseLeave={() => setTooltip(null)}
@@ -221,24 +184,24 @@ const StreakCalendar = () => {
             </div>
 
             {/* Legend */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, justifyContent: "flex-end" }}>
-                <span style={{ fontSize: 11, color: "#334155" }}>Less</span>
-                {[0, 1, 2, 3, 4].map(n => {
-                    const { bg, border } = getColor(n);
-                    return <div key={n} style={{ width: 11, height: 11, borderRadius: 2, background: bg, border: `1px solid ${border}` }} />;
-                })}
-                <span style={{ fontSize: 11, color: "#334155" }}>More</span>
+            <div className="flex items-center gap-3 mt-8 justify-end">
+                <span className="text-[10px] font-bold text-textMuted uppercase tracking-widest">Less</span>
+                <div className="flex gap-1">
+                    {[0, 1, 2, 3, 4].map(n => {
+                        const { bg, border } = getColor(n);
+                        return <div key={n} className="w-[11px] h-[11px] rounded-[2px]" style={{ background: bg, border: `1px solid ${border}` }} />;
+                    })}
+                </div>
+                <span className="text-[10px] font-bold text-textMuted uppercase tracking-widest">More</span>
             </div>
 
             {/* Tooltip */}
             {tooltip && (
                 <div className="cal-tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-                    <span style={{ color: "#818cf8", fontWeight: 600 }}>{tooltip.date}</span>
-                    {" — "}
-                    {tooltip.count === 0
-                        ? "No habits completed"
-                        : `${tooltip.count} habit${tooltip.count > 1 ? "s" : ""} completed`
-                    }
+                    <div className="font-bold mb-0.5">{tooltip.date}</div>
+                    <div className="text-textMuted font-medium">
+                        {tooltip.count === 0 ? "No activity logged" : `${tooltip.count} habit${tooltip.count > 1 ? "s" : ""} completed`}
+                    </div>
                 </div>
             )}
         </div>

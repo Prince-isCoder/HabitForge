@@ -8,16 +8,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0F172A', // slate-900
-        surface: '#1E293B',    // slate-800
-        surfaceLight: '#334155', // slate-700
-        primary: '#8B5CF6',    // violet-500
-        primaryHover: '#7C3AED', // violet-600
-        success: '#10B981',    // emerald-500
-        danger: '#EF4444',     // red-500
-        text: '#F8FAFC',       // slate-50
-        textMuted: '#94A3B8',  // slate-400
-        border: '#334155',     // slate-700
+        background: 'var(--background)',
+        surface: 'var(--surface)',
+        surfaceLight: 'var(--surface-light)',
+        primary: 'var(--primary)',
+        primaryHover: 'var(--primary-hover)',
+        success: 'var(--success)',
+        danger: 'var(--danger)',
+        text: 'var(--text)',
+        textMuted: 'var(--text-muted)',
+        border: 'var(--border)',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],

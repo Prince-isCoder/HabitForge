@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Bell, Search } from 'lucide-react';
 
 const TopNavbar = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
@@ -12,55 +10,38 @@ const TopNavbar = () => {
     return () => window.removeEventListener("xpUpdated", refresh);
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-
   return (
-    <header style={{ height: 68, background: "rgba(10,12,18,0.85)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", position: "sticky", top: 0, zIndex: 20, fontFamily: "'Outfit',sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');`}</style>
-
+    <header className="h-20 bg-surface/80 backdrop-blur-xl border-b border-border/50 flex items-center justify-between px-8 sticky top-0 z-20">
       {/* Search */}
-      <div style={{ position: "relative", flex: 1, maxWidth: 360 }}>
-        <Search style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", color: "#334155" }} size={15} />
+      <div className="relative flex-1 max-w-md">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/50" size={18} />
         <input
           type="text"
-          placeholder="Search habits, insights..."
-          style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 99, paddingLeft: 38, paddingRight: 16, paddingTop: 9, paddingBottom: 9, fontSize: 13, color: "#94a3b8", fontFamily: "'Outfit',sans-serif", outline: "none", boxSizing: "border-box" }}
+          placeholder="Search habits, trends..."
+          className="w-full bg-background border border-border/50 rounded-2xl pl-12 pr-4 py-2.5 text-sm text-text outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all"
         />
       </div>
 
-      {/* Right */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      {/* Right Actions */}
+      <div className="flex items-center gap-4">
         {/* Bell */}
-        <button style={{ width: 38, height: 38, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative" }}>
-          <div style={{ position: "absolute", top: 8, right: 8, width: 7, height: 7, background: "#ef4444", borderRadius: "50%", border: "2px solid #0a0c12" }} />
-          <Bell size={16} color="#475569" />
+        <button className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group">
+          <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger rounded-full border-2 border-surface group-hover:scale-110 transition-transform" />
+          <Bell size={20} />
         </button>
 
-        {/* Divider */}
-        <div style={{ width: 1, height: 28, background: "rgba(255,255,255,0.07)", margin: "0 8px" }} />
+        <div className="w-px h-8 bg-border/50 mx-2" />
 
-        {/* Avatar + Name */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#f1f5f9" }}>{user?.name || "User"}</div>
-            <div style={{ fontSize: 11, color: "#475569" }}>Level {user?.level ?? 1}</div>
-          </div>
-          <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,#4f46e5,#06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, color: "#fff", boxShadow: "0 0 12px rgba(79,70,229,0.3)" }}>
-            {user?.name?.charAt(0)?.toUpperCase() || "U"}
-          </div>
+        {/* Level Badge */}
+        <div className="flex items-center gap-3 bg-primary/5 border border-primary/10 px-4 py-2 rounded-xl">
+           <div className="text-right">
+             <div className="text-xs font-bold text-primary uppercase tracking-widest leading-tight">Level {user?.level ?? 1}</div>
+             <div className="text-[10px] text-textMuted font-semibold uppercase tracking-wider">{user?.levelName || "Beginner"}</div>
+           </div>
+           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-primary/20">
+             {user?.level ?? 1}
+           </div>
         </div>
-
-        {/* Logout */}
-        <button
-          onClick={logout}
-          style={{ display: "flex", alignItems: "center", gap: 7, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.18)", borderRadius: 10, padding: "8px 14px", color: "#fca5a5", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Outfit',sans-serif", marginLeft: 4, transition: "background 0.2s" }}
-        >
-          <LogOut size={14} /> Logout
-        </button>
       </div>
     </header>
   );

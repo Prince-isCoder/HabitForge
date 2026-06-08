@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save } from "lucide-react";
+import React, { useState } from "react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [darkTheme, setDarkTheme] = useState(true);
+  const [name, setName] = useState(() => {
+    const userStr = localStorage.getItem("user");
+    return userStr ? (JSON.parse(userStr).name || "") : "";
+  });
+  const [email] = useState(() => {
+    const userStr = localStorage.getItem("user");
+    return userStr ? (JSON.parse(userStr).email || "") : "";
+  });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-
-  // ✅ Load user from localStorage on mount
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      setName(user.name || "");
-      setEmail(user.email || "");
-    }
-  }, []);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -33,112 +32,154 @@ const Settings = () => {
   };
 
   return (
-    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .s-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 28px; margin-bottom: 20px; }
-        .s-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #475569; margin-bottom: 8px; display: block; }
-        .s-input { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #e2e8f0; font-family: 'Outfit',sans-serif; outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; }
-        .s-input:focus { border-color: rgba(79,70,229,0.5); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-        .s-input:disabled { opacity: 0.4; cursor: not-allowed; }
-        .save-btn { background: linear-gradient(135deg,#4f46e5,#4338ca); border: none; border-radius: 12px; color: #fff; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; display: flex; align-items: center; gap: 8px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(79,70,229,0.3); }
-        .save-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,70,229,0.4); }
-        .logout-btn { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; color: #fca5a5; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Outfit',sans-serif; display: flex; align-items: center; gap: 8px; transition: background 0.2s, border-color 0.2s; }
-        .logout-btn:hover { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.35); }
-        .toggle-wrap { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .toggle-wrap:last-child { border-bottom: none; padding-bottom: 0; }
-        .toggle { width: 46px; height: 26px; background: rgba(255,255,255,0.08); border-radius: 99px; cursor: pointer; position: relative; transition: background 0.25s; border: none; flex-shrink: 0; }
-        .toggle.on { background: linear-gradient(135deg,#4f46e5,#4338ca); }
-        .toggle-dot { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: transform 0.25s; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-        .toggle.on .toggle-dot { transform: translateX(20px); }
-        .section-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-right: 14px; flex-shrink: 0; }
-        .success-toast { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 12px 20px; color: #6ee7b7; font-size: 14px; font-weight: 500; z-index: 99; animation: popIn 0.2s ease; }
-        @keyframes popIn { from { opacity:0; transform: translateX(-50%) translateY(-8px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
-      `}</style>
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
+      {saved && (
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-surface border border-success/30 rounded-2xl px-6 py-4 text-success font-bold z-[99] flex gap-4 items-center shadow-xl animate-popIn">
+          <span>✅</span> Profile updated successfully
+        </div>
+      )}
 
-      {saved && <div className="success-toast">✅ Changes saved successfully!</div>}
-
-      <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.02em", margin: "0 0 6px" }}>Settings</h1>
-        <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Manage your profile and preferences</p>
+      <div className="mb-12">
+        <h1 className="text-4xl font-bold tracking-tight mb-3">Settings</h1>
+        <p className="text-lg text-textMuted m-0">Customize your experience and manage account</p>
       </div>
 
-      {/* Profile */}
-      <div className="s-card">
-        <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
-          <div className="section-icon" style={{ background: "rgba(99,102,241,0.1)" }}><User size={18} color="#818cf8" /></div>
-          <div>
-            <div style={{ fontWeight: 600, fontSize: 16, color: "#f1f5f9" }}>Profile</div>
-            <div style={{ fontSize: 12, color: "#475569" }}>Update your display name</div>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", align: "center", gap: 32, marginBottom: 24 }}>
-          <div style={{ width: 72, height: 72, borderRadius: "50%", background: "linear-gradient(135deg,#4f46e5,#06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, fontWeight: 700, color: "#fff", flexShrink: 0, boxShadow: "0 0 24px rgba(79,70,229,0.35)" }}>
-            {name?.charAt(0)?.toUpperCase() || "U"}
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              <div>
-                <label className="s-label">Display Name</label>
-                <input className="s-input" value={name} onChange={e => setName(e.target.value)} placeholder="Your name" />
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+        <div className="xl:col-span-2 space-y-8">
+          {/* Profile Section */}
+          <div className="card !p-8">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                <User size={24} />
               </div>
               <div>
-                <label className="s-label">Email Address</label>
-                <input className="s-input" value={email} disabled placeholder="your@email.com" />
+                <h3 className="text-xl font-bold">Personal Profile</h3>
+                <p className="text-sm text-textMuted font-medium">Public display information</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-start gap-12 mb-10">
+              <div className="flex flex-col items-center gap-4 group">
+                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-primaryHover flex items-center justify-center text-4xl font-bold text-white shadow-2xl shadow-primary/30 group-hover:scale-105 transition-transform">
+                  {name?.charAt(0)?.toUpperCase() || "U"}
+                </div>
+                <button className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] hover:underline">Change Avatar</button>
+              </div>
+
+              <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Full Name</label>
+                  <div className="relative">
+                    <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/40" />
+                    <input className="input-field !pl-12" value={name} onChange={e => setName(e.target.value)} placeholder="Your full name" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Email Address</label>
+                  <div className="relative">
+                    <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/40" />
+                    <input className="input-field !pl-12 !opacity-60 !bg-surfaceLight" value={email} disabled placeholder="you@example.com" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-border/50">
+               <button className="btn btn-primary px-8 py-3 rounded-2xl gap-2" onClick={saveChanges}>
+                 <Save size={18} /> Update Profile
+               </button>
+            </div>
+          </div>
+
+          {/* Preferences Section */}
+          <div className="card !p-8">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-500">
+                <Bell size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Preferences</h3>
+                <p className="text-sm text-textMuted font-medium">App behavior & visual style</p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
+                <div className="flex gap-4 items-center">
+                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
+                   </div>
+                   <div>
+                     <div className="text-sm font-bold">Dark Mode</div>
+                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
+                   </div>
+                </div>
+                <button
+                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
+                  onClick={toggleTheme}
+                >
+                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
+                <div className="flex gap-4 items-center">
+                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform text-textMuted">
+                      <Bell size={20} />
+                   </div>
+                   <div>
+                     <div className="text-sm font-bold">Smart Reminders</div>
+                     <div className="text-xs text-textMuted">Intelligent habit logging notifications</div>
+                   </div>
+                </div>
+                <button
+                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${notifications ? 'bg-primary' : 'bg-border'}`}
+                  onClick={() => setNotifications(!notifications)}
+                >
+                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${notifications ? 'left-7' : 'left-1'}`} />
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        <button className="save-btn" onClick={saveChanges}>
-          <Save size={15} /> Save Changes
-        </button>
-      </div>
+        {/* Account & Safety */}
+        <div className="space-y-8">
+           <div className="card !p-8 border-danger/10">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-danger/10 rounded-2xl flex items-center justify-center text-danger">
+                  <Shield size={24} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">Security</h3>
+                  <p className="text-xs text-textMuted font-medium">Session & Safety</p>
+                </div>
+              </div>
 
-      {/* Preferences */}
-      <div className="s-card">
-        <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
-          <div className="section-icon" style={{ background: "rgba(6,182,212,0.1)" }}><Bell size={18} color="#22d3ee" /></div>
-          <div>
-            <div style={{ fontWeight: 600, fontSize: 16, color: "#f1f5f9" }}>Preferences</div>
-            <div style={{ fontSize: 12, color: "#475569" }}>App settings and notifications</div>
-          </div>
-        </div>
+              <div className="space-y-4">
+                 <button className="w-full flex items-center justify-between p-4 bg-background border border-border/50 rounded-2xl text-sm font-bold hover:bg-surfaceLight transition-all group">
+                    <div className="flex items-center gap-3">
+                       <Key size={16} className="text-textMuted group-hover:text-primary" />
+                       Change Password
+                    </div>
+                    <span className="text-[10px] uppercase tracking-widest text-textMuted">Update</span>
+                 </button>
 
-        <div className="toggle-wrap">
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: "#cbd5e1" }}>Dark Theme</div>
-            <div style={{ fontSize: 12, color: "#475569", marginTop: 2 }}>Always enabled for best experience</div>
-          </div>
-          <button className={`toggle ${darkTheme ? "on" : ""}`} onClick={() => setDarkTheme(!darkTheme)}>
-            <div className="toggle-dot" />
-          </button>
-        </div>
+                 <button
+                  className="w-full btn btn-secondary !border-danger/20 !text-danger !bg-danger/[0.03] hover:!bg-danger/10 !py-3.5 !rounded-2xl gap-3 mt-4"
+                  onClick={logout}
+                 >
+                   <LogOut size={18} /> Sign Out of App
+                 </button>
+              </div>
+           </div>
 
-        <div className="toggle-wrap">
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: "#cbd5e1" }}>Daily Reminders</div>
-            <div style={{ fontSize: 12, color: "#475569", marginTop: 2 }}>Get notified to log your habits</div>
-          </div>
-          <button className={`toggle ${notifications ? "on" : ""}`} onClick={() => setNotifications(!notifications)}>
-            <div className="toggle-dot" />
-          </button>
+           <div className="card !p-8 bg-gradient-to-br from-primary to-primaryHover text-white">
+              <h3 className="text-lg font-bold mb-2">HabitForge Pro</h3>
+              <p className="text-xs text-white/80 leading-relaxed mb-6 font-medium">Unlock advanced AI insights, unlimited habits, and cloud synchronization across devices.</p>
+              <button className="w-full py-3 bg-white text-primary rounded-xl text-sm font-bold hover:bg-white/90 transition-all shadow-lg">Upgrade Now</button>
+           </div>
         </div>
-      </div>
-
-      {/* Account */}
-      <div className="s-card">
-        <div style={{ display: "flex", alignItems: "center", marginBottom: 20 }}>
-          <div className="section-icon" style={{ background: "rgba(239,68,68,0.08)" }}><Shield size={18} color="#fca5a5" /></div>
-          <div>
-            <div style={{ fontWeight: 600, fontSize: 16, color: "#f1f5f9" }}>Account</div>
-            <div style={{ fontSize: 12, color: "#475569" }}>Manage your session</div>
-          </div>
-        </div>
-        <button className="logout-btn" onClick={logout}>
-          <LogOut size={15} /> Sign Out
-        </button>
       </div>
     </div>
   );

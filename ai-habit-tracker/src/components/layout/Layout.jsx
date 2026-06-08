@@ -5,39 +5,19 @@ import TopNavbar from './TopNavbar';
 
 const Layout = () => {
   return (
-    <div style={{
-      display: "flex",
-      height: "100vh",
-      overflow: "hidden",
-      background: "#0a0c12",
-      fontFamily: "'Outfit', sans-serif",
-    }}>
+    <div className="flex h-screen overflow-hidden bg-background font-['Outfit',_sans-serif]">
 
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main area */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        overflow: "hidden",
-        position: "relative",
-      }}>
+      <div className="flex flex-col flex-1 overflow-hidden relative">
 
         {/* Top Navbar */}
         <TopNavbar />
 
         {/* Page content */}
-        <main style={{
-          flex: 1,
-          overflowY: "auto",
-          background: "#0a0c12",
-          position: "relative",
-          zIndex: 0,
-          scrollbarWidth: "thin",
-          scrollbarColor: "rgba(99,102,241,0.2) transparent",
-        }}>
+        <main className="flex-1 overflow-y-auto bg-background relative z-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
           <Outlet />
         </main>
 

@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
-import { TrendingUp, CheckCircle, Target, Zap } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart, CartesianGrid } from "recharts";
+import { TrendingUp, CheckCircle, Target, Zap, BarChart3, PieChart } from "lucide-react";
 import StreakCalendar from "../components/ui/StreakCalendar";
 import { getAnalytics } from "../services/api";
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload?.length) return (
+    <div className="bg-surface/95 border border-primary/20 rounded-2xl p-4 text-[13px] shadow-2xl backdrop-blur-md">
+      <div className="font-bold text-textMuted uppercase tracking-widest text-[10px] mb-2">{label}</div>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-primary" />
+        <div className="text-base font-bold text-text">{payload[0].value} <span className="text-xs font-medium text-textMuted ml-1">completions</span></div>
+      </div>
+    </div>
+  );
+  return null;
+};
 
 const Analytics = () => {
   const [data, setData] = useState(null);
@@ -11,87 +24,125 @@ const Analytics = () => {
     getAnalytics().then(d => { if (d) setData(d); });
   }, []);
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload?.length) return (
-      <div style={{ background: "rgba(15,18,28,0.95)", border: "1px solid rgba(99,102,241,0.25)", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: "#c7d2fe" }}>
-        <div style={{ fontWeight: 600 }}>{label}</div>
-        <div style={{ color: "#818cf8", marginTop: 4 }}>{payload[0].value} completed</div>
-      </div>
-    );
-    return null;
-  };
-
   return (
-    <div style={{ fontFamily: "'Outfit',sans-serif", minHeight: "100vh", background: "#0a0c12", color: "#e2e8f0", padding: "32px" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-        .an-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 24px; transition: border-color 0.2s; }
-        .an-card:hover { border-color: rgba(99,102,241,0.2); }
-        .stat-pill { border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 10px; }
-      `}</style>
-
-      <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.02em", margin: "0 0 6px" }}>Analytics</h1>
-        <p style={{ fontSize: 14, color: "#475569", margin: 0 }}>Your habit performance at a glance</p>
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
+      <div className="mb-12">
+        <h1 className="text-4xl font-bold tracking-tight mb-3">Analytics</h1>
+        <p className="text-lg text-textMuted m-0">In-depth performance insights & habit trends</p>
       </div>
 
       {!data ? (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 24 }}>
-          {[1, 2, 3].map(i => <div key={i} style={{ height: 100, background: "rgba(255,255,255,0.03)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.06)" }} />)}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {[1, 2, 3].map(i => <div key={i} className="h-32 bg-surface/50 border border-border rounded-3xl animate-pulse" />)}
         </div>
       ) : (
         <>
-          {/* Stat Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16, marginBottom: 24 }}>
+          {/* Top Performance Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {[
-              { icon: <Target size={20} color="#818cf8" />, bg: "rgba(99,102,241,0.1)", val: data.totalHabits, label: "Total Habits", border: "rgba(99,102,241,0.2)" },
-              { icon: <CheckCircle size={20} color="#34d399" />, bg: "rgba(16,185,129,0.1)", val: data.completedHabits, label: "Completed", border: "rgba(16,185,129,0.2)" },
-              { icon: <TrendingUp size={20} color="#22d3ee" />, bg: "rgba(6,182,212,0.1)", val: `${data.completionRate.toFixed(1)}%`, label: "Completion Rate", border: "rgba(6,182,212,0.2)" },
+              { icon: <Target size={24} />, val: data.totalHabits, label: "Total Habits", color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" },
+              { icon: <CheckCircle size={24} />, val: data.completedHabits, label: "All-time Done", color: "text-success", bg: "bg-success/10", border: "border-success/20" },
+              { icon: <TrendingUp size={24} />, val: `${data.completionRate.toFixed(1)}%`, label: "Avg. Success", color: "text-cyan-500", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
             ].map((s, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${s.border}`, borderRadius: 18, padding: 22 }}>
-                <div style={{ width: 42, height: 42, background: s.bg, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>{s.icon}</div>
-                <div style={{ fontSize: 30, fontWeight: 700, color: "#f1f5f9", letterSpacing: "-0.02em" }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: "#475569", marginTop: 4 }}>{s.label}</div>
+              <div key={i} className={`card flex items-center gap-6 !p-8 group hover:-translate-y-1 transition-all border ${s.border}`}>
+                <div className={`w-16 h-16 ${s.bg} ${s.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                   {s.icon}
+                </div>
+                <div>
+                  <div className="text-3xl font-bold tracking-tight mb-1">{s.val}</div>
+                  <div className="text-xs font-bold text-textMuted uppercase tracking-widest">{s.label}</div>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Chart */}
-          <div className="an-card" style={{ marginBottom: 24 }}>
-            <div style={{ fontWeight: 600, fontSize: 16, color: "#f1f5f9", marginBottom: 24, display: "flex", alignItems: "center", gap: 10 }}>
-              <Zap size={18} color="#818cf8" /> Weekly Progress
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            {/* Chart Card */}
+            <div className="lg:col-span-2 card !p-8">
+              <div className="flex items-center justify-between mb-10">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <BarChart3 size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold">Activity Progress</h2>
+                    <p className="text-xs text-textMuted font-medium">Daily completions over the last 7 days</p>
+                  </div>
+                </div>
+                <select className="bg-surfaceLight/50 border border-border rounded-xl px-3 py-1.5 text-xs font-bold outline-none">
+                   <option>Last 7 Days</option>
+                   <option>Last 30 Days</option>
+                </select>
+              </div>
+
+              <div className="h-[320px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={data.weeklyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorHabits" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
+                    <XAxis
+                      dataKey="day"
+                      tick={{ fill: "var(--text-muted)", fontSize: 11, fontWeight: 600 }}
+                      axisLine={false}
+                      tickLine={false}
+                      dy={10}
+                    />
+                    <YAxis
+                      tick={{ fill: "var(--text-muted)", fontSize: 11, fontWeight: 600 }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Area
+                      type="monotone"
+                      dataKey="completed"
+                      stroke="var(--primary)"
+                      strokeWidth={4}
+                      fill="url(#colorHabits)"
+                      dot={{ fill: "var(--surface)", stroke: "var(--primary)", strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 7, fill: "var(--primary)", stroke: "var(--surface)", strokeWidth: 3 }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-            <ResponsiveContainer width="100%" height={280}>
-              <AreaChart data={data.weeklyData}>
-                <defs>
-                  <linearGradient id="colorHabits" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="day" tick={{ fill: "#475569", fontSize: 12, fontFamily: "Outfit" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#475569", fontSize: 12, fontFamily: "Outfit" }} axisLine={false} tickLine={false} />
-                <Tooltip content={<CustomTooltip />} />
-                <Area type="monotone" dataKey="completed" stroke="#6366f1" strokeWidth={2.5} fill="url(#colorHabits)" dot={{ fill: "#6366f1", strokeWidth: 0, r: 4 }} activeDot={{ r: 6, fill: "#818cf8" }} />
-              </AreaChart>
-            </ResponsiveContainer>
+
+            {/* Insight Column */}
+            <div className="space-y-6">
+               <div className="card !p-8 bg-primary/5 border-primary/20">
+                 <div className="flex items-center gap-3 mb-6">
+                    <Zap size={20} className="text-primary" />
+                    <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-primary">Smart Insight</h3>
+                 </div>
+                 <p className="text-base text-textMuted leading-relaxed font-medium italic">
+                    "{data.insight}"
+                 </p>
+               </div>
+
+               <div className="card !p-8 bg-danger/[0.03] border-danger/10">
+                 <div className="flex items-center gap-3 mb-6">
+                    <div className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+                    <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-danger">Priority Alert</h3>
+                 </div>
+                 <p className="text-sm text-textMuted leading-relaxed">
+                    {data.alert}
+                 </p>
+               </div>
+            </div>
           </div>
 
-          {/* ✅ Streak Calendar */}
-          <div style={{ marginBottom: 24 }}>
-            <StreakCalendar />
-          </div>
-
-          {/* Insight + Alert */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            <div className="an-card" style={{ borderColor: "rgba(99,102,241,0.2)", background: "rgba(99,102,241,0.04)" }}>
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4f46e5", marginBottom: 10 }}>💡 Insight</div>
-              <p style={{ fontSize: 15, color: "#94a3b8", lineHeight: 1.65, margin: 0 }}>{data.insight}</p>
-            </div>
-            <div className="an-card" style={{ borderColor: "rgba(6,182,212,0.2)", background: "rgba(6,182,212,0.04)" }}>
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#06b6d4", marginBottom: 10 }}>🚨 Alert</div>
-              <p style={{ fontSize: 15, color: "#94a3b8", lineHeight: 1.65, margin: 0 }}>{data.alert}</p>
-            </div>
+          {/* Activity Heatmap Section */}
+          <div className="space-y-6 mb-12">
+             <div className="flex items-center gap-3">
+                <h2 className="text-2xl font-bold tracking-tight">Consistency Map</h2>
+                <div className="h-px flex-1 bg-border/50" />
+             </div>
+             <StreakCalendar />
           </div>
         </>
       )}
