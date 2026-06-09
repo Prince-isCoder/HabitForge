@@ -35,10 +35,12 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
   
   body {
     @apply bg-background text-text antialiased;
+    transition: background-color 0.2s, color 0.2s;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 6px;
@@ -54,6 +56,13 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
     color: var(--heading);
+    transition: color 0.2s;
+  }
+
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
   }
 }
 

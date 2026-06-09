@@ -102,7 +102,7 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
+          opacity: 0.1;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
@@ -129,7 +129,7 @@ const AuthPage = () => {
           <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 text-xs font-bold text-primary uppercase tracking-[0.2em] mb-8 w-fit">
             <Sparkles size={14} /> AI-Powered Growth
           </div>
-          <h1 className="text-6xl font-bold tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-6xl font-bold tracking-tight leading-[1.05] mb-8 text-text">
             Master your life,<br />
             <span className="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">one habit at a time.</span>
           </h1>
@@ -157,7 +157,7 @@ const AuthPage = () => {
       </div>
 
       {/* Right Form Panel */}
-      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
+      <div className="w-full lg:w-[560px] min-h-screen bg-surface/60 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
         <div className="w-full max-w-sm space-y-10">
           <div className="space-y-3">
              {tab !== "forgot" && tab !== "reset" && (
@@ -167,7 +167,7 @@ const AuthPage = () => {
                 </div>
              )}
 
-             <h2 className="text-3xl font-bold tracking-tight">
+             <h2 className="text-3xl font-bold tracking-tight text-text">
                 {tab === "login" ? "Welcome back" : tab === "signup" ? "Get started" : "Security Check"}
              </h2>
              <p className="text-textMuted font-medium">

@@ -101,14 +101,14 @@ const AICoach = () => {
   };
 
   return (
-    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
+    <div className="font-['DM_Sans',_sans-serif] bg-background min-h-screen flex items-center justify-center p-6">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
         .coach-card {
           width: 100%;
           max-width: 720px;
-          @apply bg-surfaceLight/20 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
+          @apply bg-surface border border-border rounded-[24px] overflow-hidden shadow-2xl;
         }
 
         .coach-header {
@@ -256,7 +256,7 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          @apply border-t border-border/40 bg-surface/30 flex gap-3 items-end;
+          @apply border-t border-border/40 bg-surface flex gap-3 items-end;
         }
 
         .input-wrapper {
