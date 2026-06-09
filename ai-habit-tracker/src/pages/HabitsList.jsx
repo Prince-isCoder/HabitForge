@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Plus, Flame, Trash2, Check, Zap, Search, X, BarChart2, Filter } from "lucide-react";
 
 const CATEGORIES = ["All", "Health", "Work", "Learning", "Fitness", "Mindfulness", "General"];
+
+// Use dynamic colors or theme-aware colors
 const CAT_COLORS = {
   Health: { bg: "rgba(16,185,129,0.1)",  border: "rgba(16,185,129,0.2)",  text: "#10B981" },
   Work:   { bg: "rgba(99,102,241,0.1)",  border: "rgba(99,102,241,0.2)",  text: "#6366F1" },
