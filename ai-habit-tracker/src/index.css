@@ -17,6 +17,21 @@
   --heading: #1E293B;    /* slate-800 */
 }
 
+.light {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-light: #F1F5F9;
+  --primary: #6366F1;
+  --primary-rgb: 99, 102, 241;
+  --primary-hover: #4F46E5;
+  --success: #10B981;
+  --danger: #EF4444;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --heading: #1E293B;
+}
+
 .dark {
   --background: #0B0E14; /* darker background */
   --surface: #151921;    /* deeper surface */
