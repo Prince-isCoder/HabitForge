@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key, Check } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme, setTheme } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -91,6 +90,57 @@ const Settings = () => {
             </div>
           </div>
 
+          {/* Appearance Section */}
+          <div className="card !p-8">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-500">
+                <Sun size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Appearance</h3>
+                <p className="text-sm text-textMuted font-medium">Choose your interface style</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <button
+                onClick={() => setTheme('light')}
+                className={`relative flex flex-col gap-4 p-5 rounded-2xl border-2 transition-all text-left ${
+                  theme === 'light' ? 'border-primary bg-primary/5 shadow-md' : 'border-border bg-surface hover:border-primary/20'
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${theme === 'light' ? 'bg-primary text-white' : 'bg-surfaceLight text-textMuted'}`}>
+                    <Sun size={20} />
+                  </div>
+                  {theme === 'light' && <Check size={20} className="text-primary" />}
+                </div>
+                <div>
+                  <div className="font-bold">Light Mode</div>
+                  <div className="text-xs text-textMuted">Clean and bright interface</div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setTheme('dark')}
+                className={`relative flex flex-col gap-4 p-5 rounded-2xl border-2 transition-all text-left ${
+                  theme === 'dark' ? 'border-primary bg-primary/5 shadow-md' : 'border-border bg-surface hover:border-primary/20'
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${theme === 'dark' ? 'bg-primary text-white' : 'bg-surfaceLight text-textMuted'}`}>
+                    <Moon size={20} />
+                  </div>
+                  {theme === 'dark' && <Check size={20} className="text-primary" />}
+                </div>
+                <div>
+                  <div className="font-bold">Dark Mode</div>
+                  <div className="text-xs text-textMuted">Easy on the eyes in low light</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
           {/* Preferences Section */}
           <div className="card !p-8">
             <div className="flex items-center gap-4 mb-10">
@@ -98,30 +148,12 @@ const Settings = () => {
                 <Bell size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Preferences</h3>
-                <p className="text-sm text-textMuted font-medium">App behavior & visual style</p>
+                <h3 className="text-xl font-bold">Notifications</h3>
+                <p className="text-sm text-textMuted font-medium">Manage app alerts</p>
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
-                </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
-              </div>
-
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
                 <div className="flex gap-4 items-center">
                    <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform text-textMuted">

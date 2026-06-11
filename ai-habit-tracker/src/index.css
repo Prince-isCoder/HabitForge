@@ -17,6 +17,21 @@
   --heading: #1E293B;    /* slate-800 */
 }
 
+.light {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-light: #F1F5F9;
+  --primary: #6366F1;
+  --primary-rgb: 99, 102, 241;
+  --primary-hover: #4F46E5;
+  --success: #10B981;
+  --danger: #EF4444;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --heading: #1E293B;
+}
+
 .dark {
   --background: #0B0E14; /* darker background */
   --surface: #151921;    /* deeper surface */
@@ -39,6 +54,7 @@
   
   body {
     @apply bg-background text-text antialiased;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 6px;
@@ -54,12 +70,14 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
     color: var(--heading);
+    transition: color 0.2s;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-surface border border-border rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] transition-all duration-300;
+    @apply bg-surface border border-border rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)];
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.3s, transform 0.3s;
   }
   
   .card-hover {
@@ -88,6 +106,7 @@
   
   .glass-panel {
     @apply bg-surface/80 backdrop-blur-md border border-border;
+    transition: background-color 0.2s, border-color 0.2s;
   }
 }
 
