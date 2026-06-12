@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @config "../tailwind.config.js";
 
-:root {
+:root, .light {
   --background: #F8FAFC; /* slate-50 */
   --surface: #FFFFFF;
   --surface-light: #F1F5F9; /* slate-100 */
