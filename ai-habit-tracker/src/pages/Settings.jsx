@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme, setTheme } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -103,23 +102,48 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Interface Theme</label>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`flex flex-col items-center gap-4 p-6 rounded-2xl border-2 transition-all duration-300 ${
+                      theme === 'light'
+                        ? 'bg-primary/5 border-primary shadow-lg shadow-primary/10'
+                        : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 ${
+                      theme === 'light' ? 'bg-white text-orange-400 scale-110 shadow-sm' : 'bg-surface text-textMuted'
+                    }`}>
+                      <Sun size={24} />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm font-bold">Light Mode</div>
+                      <div className="text-[10px] text-textMuted mt-1">Clean & Bright</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`flex flex-col items-center gap-4 p-6 rounded-2xl border-2 transition-all duration-300 ${
+                      theme === 'dark'
+                        ? 'bg-primary/5 border-primary shadow-lg shadow-primary/10'
+                        : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 ${
+                      theme === 'dark' ? 'bg-[#1e293b] text-primary scale-110 shadow-sm' : 'bg-surface text-textMuted'
+                    }`}>
+                      <Moon size={24} />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm font-bold">Dark Mode</div>
+                      <div className="text-[10px] text-textMuted mt-1">Easier on eyes</div>
+                    </div>
+                  </button>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
