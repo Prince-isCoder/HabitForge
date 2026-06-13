@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { theme, setTheme } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -94,7 +93,7 @@ const Settings = () => {
           {/* Preferences Section */}
           <div className="card !p-8">
             <div className="flex items-center gap-4 mb-10">
-              <div className="w-12 h-12 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-500">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                 <Bell size={24} />
               </div>
               <div>
@@ -103,22 +102,46 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
-                </div>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
+                  onClick={() => setTheme('light')}
+                  className={`flex items-center gap-4 p-5 rounded-2xl border transition-all group text-left ${
+                    theme === 'light'
+                      ? 'bg-primary/5 border-primary shadow-sm'
+                      : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'
+                  }`}
                 >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
+                    theme === 'light' ? 'bg-white text-primary shadow-sm' : 'bg-surface text-textMuted'
+                  }`}>
+                    <Sun size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-bold">Light Mode</div>
+                    <div className="text-xs text-textMuted">Clean and bright interface</div>
+                  </div>
+                  {theme === 'light' && <div className="w-2 h-2 rounded-full bg-primary" />}
+                </button>
+
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={`flex items-center gap-4 p-5 rounded-2xl border transition-all group text-left ${
+                    theme === 'dark'
+                      ? 'bg-primary/5 border-primary shadow-sm'
+                      : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
+                    theme === 'dark' ? 'bg-surface text-primary shadow-sm' : 'bg-surface text-textMuted'
+                  }`}>
+                    <Moon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-bold">Dark Mode</div>
+                    <div className="text-xs text-textMuted">Easy on the eyes</div>
+                  </div>
+                  {theme === 'dark' && <div className="w-2 h-2 rounded-full bg-primary" />}
                 </button>
               </div>
 
