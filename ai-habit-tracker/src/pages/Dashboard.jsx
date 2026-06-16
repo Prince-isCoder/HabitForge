@@ -155,7 +155,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
-                       <Bot size={24} className="text-white" />
+                     <Bot size={24} className="text-[var(--primary-content)]" />
                     </div>
                     <div>
                       <h2 className="text-xl font-bold">Personal AI Coach</h2>
