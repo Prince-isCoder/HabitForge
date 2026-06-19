@@ -11,7 +11,7 @@ const TopNavbar = () => {
   }, []);
 
   return (
-    <header className="h-20 bg-surface/80 backdrop-blur-xl border-b border-border/50 flex items-center justify-between px-8 sticky top-0 z-20">
+    <header className="h-20 bg-surface/60 backdrop-blur-xl border-b border-border/50 flex items-center justify-between px-8 sticky top-0 z-20">
       {/* Search */}
       <div className="relative flex-1 max-w-md">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/50" size={18} />

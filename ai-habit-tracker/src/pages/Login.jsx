@@ -157,7 +157,7 @@ const AuthPage = () => {
       </div>
 
       {/* Right Form Panel */}
-      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
+      <div className="w-full lg:w-[560px] min-h-screen bg-surface/60 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
         <div className="w-full max-w-sm space-y-10">
           <div className="space-y-3">
              {tab !== "forgot" && tab !== "reset" && (
