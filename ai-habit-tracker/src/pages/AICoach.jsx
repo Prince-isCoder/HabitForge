@@ -101,7 +101,7 @@ const AICoach = () => {
   };
 
   return (
-    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
+    <div className="font-['DM_Sans',_sans-serif] bg-background min-h-screen flex items-center justify-center p-6">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
@@ -215,11 +215,11 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          @apply bg-primary/5 border border-primary/10 text-text rounded-tl-[4px];
+          @apply bg-primary/5 border border-primary/20 text-text rounded-tl-[4px];
         }
 
         .msg-bubble.user-bubble {
-          @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px] text-right;
+          @apply bg-surface border border-border text-text rounded-tr-[4px] text-right;
         }
 
         .msg-label {
