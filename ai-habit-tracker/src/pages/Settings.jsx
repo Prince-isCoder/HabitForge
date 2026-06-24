@@ -14,7 +14,6 @@ const Settings = () => {
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -103,23 +102,42 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Interface Theme</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div
+                    onClick={() => theme !== 'light' && toggleTheme()}
+                    className={`cursor-pointer group relative overflow-hidden rounded-2xl border-2 transition-all p-4 ${theme === 'light' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/40 bg-surface'}`}
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${theme === 'light' ? 'bg-primary text-white' : 'bg-surfaceLight text-textMuted'}`}>
+                        <Sun size={18} />
+                      </div>
+                      <span className="font-bold text-sm">Light Mode</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className="w-full h-12 bg-slate-100 rounded-lg border border-slate-200" />
+                      <div className="w-1/3 h-12 bg-white rounded-lg border border-slate-200" />
+                    </div>
+                  </div>
+
+                  <div
+                    onClick={() => theme !== 'dark' && toggleTheme()}
+                    className={`cursor-pointer group relative overflow-hidden rounded-2xl border-2 transition-all p-4 ${theme === 'dark' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/40 bg-surface'}`}
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${theme === 'dark' ? 'bg-primary text-white' : 'bg-surfaceLight text-textMuted'}`}>
+                        <Moon size={18} />
+                      </div>
+                      <span className="font-bold text-sm">Dark Mode</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className="w-full h-12 bg-[#0B0E14] rounded-lg border border-[#212936]" />
+                      <div className="w-1/3 h-12 bg-[#151921] rounded-lg border border-[#212936]" />
+                    </div>
+                  </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
