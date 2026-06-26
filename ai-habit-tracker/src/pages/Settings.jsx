@@ -13,7 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
@@ -103,23 +103,49 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center border border-border/50">
+                    {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold">App Theme</div>
+                    <div className="text-xs text-textMuted">Select your preferred visual style</div>
+                  </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`p-4 rounded-2xl border-2 transition-all text-left group ${theme === 'light' ? 'border-primary bg-primary/5' : 'border-border/50 bg-surfaceLight/30 hover:border-primary/20'}`}
+                  >
+                    <div className="w-full aspect-video bg-slate-50 rounded-lg mb-3 border border-slate-200 overflow-hidden relative">
+                      <div className="absolute top-2 left-2 right-2 h-2 bg-slate-200 rounded-sm" />
+                      <div className="absolute top-6 left-2 w-1/3 h-8 bg-white border border-slate-200 rounded-sm" />
+                      <div className="absolute top-6 right-2 w-1/2 h-8 bg-white border border-slate-200 rounded-sm" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-wider">Light Mode</span>
+                      {theme === 'light' && <div className="w-2 h-2 bg-primary rounded-full" />}
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`p-4 rounded-2xl border-2 transition-all text-left group ${theme === 'dark' ? 'border-primary bg-primary/5' : 'border-border/50 bg-surfaceLight/30 hover:border-primary/20'}`}
+                  >
+                    <div className="w-full aspect-video bg-slate-950 rounded-lg mb-3 border border-slate-800 overflow-hidden relative">
+                      <div className="absolute top-2 left-2 right-2 h-2 bg-slate-800 rounded-sm" />
+                      <div className="absolute top-6 left-2 w-1/3 h-8 bg-slate-900 border border-slate-800 rounded-sm" />
+                      <div className="absolute top-6 right-2 w-1/2 h-8 bg-slate-900 border border-slate-800 rounded-sm" />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold uppercase tracking-wider">Dark Mode</span>
+                      {theme === 'dark' && <div className="w-2 h-2 bg-primary rounded-full" />}
+                    </div>
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">

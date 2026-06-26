@@ -114,9 +114,9 @@ const AuthPage = () => {
       `}</style>
 
       {/* Background blobs */}
-      <div className="auth-blob w-[600px] h-[600px] bg-primary top-[-200px] left-[-200px]" />
-      <div className="auth-blob w-[500px] h-[500px] bg-cyan-500 bottom-[-150px] right-[-100px] animation-delay-[-5s]" />
-      <div className="auth-blob w-[400px] h-[400px] bg-violet-500 top-[20%] right-[10%] animation-delay-[-10s]" />
+      <div className="auth-blob w-[600px] h-[600px] bg-primary top-[-200px] left-[-200px] dark:opacity-15 opacity-10" />
+      <div className="auth-blob w-[500px] h-[500px] bg-cyan-500 bottom-[-150px] right-[-100px] animation-delay-[-5s] dark:opacity-15 opacity-10" />
+      <div className="auth-blob w-[400px] h-[400px] bg-violet-500 top-[20%] right-[10%] animation-delay-[-10s] dark:opacity-15 opacity-10" />
 
       {/* Left Branding Panel */}
       <div className="hidden lg:flex flex-1 flex-col justify-between p-16 relative z-10">
