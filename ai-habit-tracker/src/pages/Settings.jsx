@@ -13,7 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
@@ -103,23 +103,36 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold text-textMuted uppercase tracking-widest ml-1">Theme Selection</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${theme === 'light' ? 'bg-primary/5 border-primary shadow-sm' : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'}`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform ${theme === 'light' ? 'bg-primary text-white scale-110' : 'bg-surface text-orange-400'}`}>
+                      <Sun size={24} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold">Light Mode</div>
+                      <div className="text-xs text-textMuted">Clean and bright interface</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${theme === 'dark' ? 'bg-primary/5 border-primary shadow-sm' : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'}`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform ${theme === 'dark' ? 'bg-primary text-white scale-110' : 'bg-surface text-primary'}`}>
+                      <Moon size={24} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold">Dark Mode</div>
+                      <div className="text-xs text-textMuted">Easy on the eyes at night</div>
+                    </div>
+                  </button>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
@@ -174,8 +187,8 @@ const Settings = () => {
               </div>
            </div>
 
-           <div className="card !p-8 bg-gradient-to-br from-primary to-primaryHover text-white">
-              <h3 className="text-lg font-bold mb-2">HabitForge Pro</h3>
+           <div className="card !p-8 bg-gradient-to-br from-primary to-primaryHover text-white border-none shadow-xl shadow-primary/20">
+              <h3 className="text-lg font-bold mb-2 !text-white">HabitForge Pro</h3>
               <p className="text-xs text-white/80 leading-relaxed mb-6 font-medium">Unlock advanced AI insights, unlimited habits, and cloud synchronization across devices.</p>
               <button className="w-full py-3 bg-white text-primary rounded-xl text-sm font-bold hover:bg-white/90 transition-all shadow-lg">Upgrade Now</button>
            </div>
