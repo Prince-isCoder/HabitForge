@@ -13,7 +13,7 @@ const formatMessage = (text) => {
     const parts = line.split(/\*\*(.*?)\*\*/g);
     const formatted = parts.map((part, j) =>
       j % 2 === 1
-        ? <strong key={j} className="text-text font-bold">{part}</strong>
+        ? <strong key={j} className="font-bold">{part}</strong>
         : part
     );
 
@@ -198,7 +198,7 @@ const AICoach = () => {
         }
 
         .msg-avatar.ai {
-          @apply bg-gradient-to-br from-primary to-primaryHover shadow-lg shadow-primary/20;
+          @apply bg-gradient-to-br from-primary to-primaryHover shadow-lg shadow-primary/20 text-white;
         }
 
         .msg-avatar.user-av {
@@ -219,7 +219,7 @@ const AICoach = () => {
         }
 
         .msg-bubble.user-bubble {
-          @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px] text-right;
+          @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px];
         }
 
         .msg-label {
@@ -304,8 +304,8 @@ const AICoach = () => {
 
         {/* Header */}
         <div className="coach-header">
-          <div className="header-icon-wrap">
-            <Sparkles size={20} color="#fff" />
+          <div className="header-icon-wrap text-white">
+            <Sparkles size={20} />
           </div>
           <div style={{ flex: 1 }}>
             <div className="header-title">AI Coach</div>
@@ -330,7 +330,7 @@ const AICoach = () => {
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
                   ? <User size={15} className="text-textMuted/60" />
-                  : <Bot size={15} color="#fff" />
+                  : <Bot size={15} className="text-white" />
                 }
               </div>
               <div>
@@ -347,7 +347,7 @@ const AICoach = () => {
           {loading && (
             <div className="typing-row">
               <div className="msg-avatar ai">
-                <Bot size={15} color="#fff" />
+                <Bot size={15} className="text-white" />
               </div>
               <div>
                 <div className="msg-label">Coach</div>
@@ -376,12 +376,12 @@ const AICoach = () => {
             />
           </div>
           <button
-            className="send-btn"
+            className="send-btn text-white"
             onClick={sendMessage}
             disabled={loading || !message.trim()}
             title="Send message"
           >
-            <Send size={18} color="#fff" />
+            <Send size={18} />
           </button>
         </div>
 

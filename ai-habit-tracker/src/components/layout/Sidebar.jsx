@@ -78,6 +78,10 @@ const Sidebar = () => {
           @apply bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-5 mx-4 mb-6 transition-all;
           cursor: default;
         }
+
+        .nav-link-item.active .nav-icon {
+          @apply text-primary;
+        }
       `}</style>
 
       {/* ── Brand ── */}

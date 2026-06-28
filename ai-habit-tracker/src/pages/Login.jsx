@@ -102,9 +102,12 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
+          opacity: 0.1;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
+        }
+        .dark .auth-blob {
+          opacity: 0.15;
         }
         @keyframes float {
           0%, 100% { transform: translate(0, 0) scale(1); }
