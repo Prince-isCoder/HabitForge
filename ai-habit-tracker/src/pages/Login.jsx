@@ -102,7 +102,8 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
+          opacity: 0.1;
+          @apply dark:opacity-15;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
@@ -121,7 +122,7 @@ const AuthPage = () => {
       {/* Left Branding Panel */}
       <div className="hidden lg:flex flex-1 flex-col justify-between p-16 relative z-10">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-2xl shadow-xl shadow-primary/20 text-white font-bold">🔥</div>
+          <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-2xl shadow-xl shadow-primary/20 text-primaryContent font-bold">🔥</div>
           <span className="text-2xl font-bold tracking-tight text-text">HabitForge</span>
         </div>
 

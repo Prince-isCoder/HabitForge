@@ -119,7 +119,7 @@ const AICoach = () => {
         .header-icon-wrap {
           width: 42px;
           height: 42px;
-          @apply bg-gradient-to-br from-primary to-primaryHover rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 shrink-0;
+          @apply bg-gradient-to-br from-primary to-primaryHover rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 shrink-0 text-primaryContent;
         }
 
         .header-title {
@@ -281,7 +281,7 @@ const AICoach = () => {
         .send-btn {
           width: 46px;
           height: 46px;
-          @apply bg-gradient-to-br from-primary to-primaryHover border-none rounded-[13px] cursor-pointer flex items-center justify-center transition-all shadow-lg shadow-primary/30 shrink-0;
+          @apply bg-gradient-to-br from-primary to-primaryHover border-none rounded-[13px] cursor-pointer flex items-center justify-center transition-all shadow-lg shadow-primary/30 shrink-0 text-primaryContent;
         }
 
         .send-btn:hover:not(:disabled) {
@@ -305,7 +305,7 @@ const AICoach = () => {
         {/* Header */}
         <div className="coach-header">
           <div className="header-icon-wrap">
-            <Sparkles size={20} color="#fff" />
+            <Sparkles size={20} />
           </div>
           <div style={{ flex: 1 }}>
             <div className="header-title">AI Coach</div>
@@ -330,7 +330,7 @@ const AICoach = () => {
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
                   ? <User size={15} className="text-textMuted/60" />
-                  : <Bot size={15} color="#fff" />
+                  : <Bot size={15} className="text-primaryContent" />
                 }
               </div>
               <div>
@@ -347,7 +347,7 @@ const AICoach = () => {
           {loading && (
             <div className="typing-row">
               <div className="msg-avatar ai">
-                <Bot size={15} color="#fff" />
+                <Bot size={15} className="text-primaryContent" />
               </div>
               <div>
                 <div className="msg-label">Coach</div>
@@ -381,7 +381,7 @@ const AICoach = () => {
             disabled={loading || !message.trim()}
             title="Send message"
           >
-            <Send size={18} color="#fff" />
+            <Send size={18} />
           </button>
         </div>
 

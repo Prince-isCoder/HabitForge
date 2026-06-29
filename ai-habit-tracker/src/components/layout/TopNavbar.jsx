@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const TopNavbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
@@ -24,6 +26,15 @@ const TopNavbar = () => {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all group"
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
         {/* Bell */}
         <button className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group">
           <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger rounded-full border-2 border-surface group-hover:scale-110 transition-transform" />
@@ -38,7 +49,7 @@ const TopNavbar = () => {
              <div className="text-xs font-bold text-primary uppercase tracking-widest leading-tight">Level {user?.level ?? 1}</div>
              <div className="text-[10px] text-textMuted font-semibold uppercase tracking-wider">{user?.levelName || "Beginner"}</div>
            </div>
-           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-primary/20">
+           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-primaryContent shadow-lg shadow-primary/20">
              {user?.level ?? 1}
            </div>
         </div>
