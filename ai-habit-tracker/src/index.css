@@ -15,6 +15,7 @@
   --text-muted: #64748B;  /* slate-500 */
   --border: #E2E8F0;     /* slate-200 */
   --heading: #1E293B;    /* slate-800 */
+  --primary-content: #FFFFFF;
 }
 
 .dark {
@@ -30,6 +31,7 @@
   --text-muted: #94A3B8;  /* slate-400 */
   --border: #212936;     /* slate-700ish */
   --heading: #FFFFFF;
+  --primary-content: #FFFFFF;
 }
 
 @layer base {
@@ -38,7 +40,7 @@
   }
   
   body {
-    @apply bg-background text-text antialiased;
+    @apply bg-background text-text antialiased transition-colors duration-200;
     /* Custom scrollbar for webkit */
     &::-webkit-scrollbar {
       width: 6px;
