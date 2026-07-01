@@ -110,16 +110,24 @@ const Settings = () => {
                       {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
                    </div>
                    <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
+                     <div className="text-sm font-bold">Interface Theme</div>
+                     <div className="text-xs text-textMuted">Select your preferred appearance</div>
                    </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+                <div className="flex bg-surface border border-border/50 p-1 rounded-xl">
+                  <button
+                    onClick={() => theme !== 'light' && toggleTheme()}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${theme === 'light' ? 'bg-primary text-white shadow-md' : 'text-textMuted hover:text-text'}`}
+                  >
+                    <Sun size={14} /> Light
+                  </button>
+                  <button
+                    onClick={() => theme !== 'dark' && toggleTheme()}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${theme === 'dark' ? 'bg-primary text-white shadow-md' : 'text-textMuted hover:text-text'}`}
+                  >
+                    <Moon size={14} /> Dark
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">

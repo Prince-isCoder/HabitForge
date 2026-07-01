@@ -18,6 +18,7 @@ export default {
         text: 'var(--text)',
         textMuted: 'var(--text-muted)',
         border: 'var(--border)',
+        primaryContent: 'var(--primary-content)',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
