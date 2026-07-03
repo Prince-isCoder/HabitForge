@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key, Monitor } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { themeMode, setThemeMode } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -103,23 +102,43 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm font-bold">Appearance</div>
+                    <div className="text-xs text-textMuted">Choose how HabitForge looks to you</div>
+                  </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+
+                <div className="grid grid-cols-3 gap-4">
+                  {[
+                    { id: 'light', name: 'Light', icon: Sun, color: 'text-orange-400' },
+                    { id: 'dark', name: 'Dark', icon: Moon, color: 'text-primary' },
+                    { id: 'system', name: 'System', icon: Monitor, color: 'text-textMuted' }
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => setThemeMode(item.id)}
+                      className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${
+                        themeMode === item.id
+                          ? 'bg-primary/5 border-primary shadow-sm'
+                          : 'bg-surfaceLight/30 border-border/50 hover:border-primary/20'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        themeMode === item.id ? 'bg-surface shadow-sm' : 'bg-surface/50'
+                      }`}>
+                        <item.icon size={20} className={item.color} />
+                      </div>
+                      <span className={`text-xs font-bold ${
+                        themeMode === item.id ? 'text-primary' : 'text-textMuted'
+                      }`}>
+                        {item.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">

@@ -13,6 +13,7 @@ export default {
         surfaceLight: 'var(--surface-light)',
         primary: 'var(--primary)',
         primaryHover: 'var(--primary-hover)',
+        primaryContent: 'var(--primary-content)',
         success: 'var(--success)',
         danger: 'var(--danger)',
         text: 'var(--text)',
