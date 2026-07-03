@@ -101,14 +101,14 @@ const AICoach = () => {
   };
 
   return (
-    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
+    <div className="font-['DM_Sans',_sans-serif] bg-background min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
         .coach-card {
           width: 100%;
           max-width: 720px;
-          @apply bg-surfaceLight/20 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
+          @apply bg-surface/60 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl z-10;
         }
 
         .coach-header {
@@ -298,7 +298,15 @@ const AICoach = () => {
           text-align: center;
           @apply text-[11px] text-textMuted/40 mt-2.5 tracking-wide;
         }
+
+        .bg-blob {
+          @apply absolute rounded-full blur-[100px] opacity-10 dark:opacity-15 -z-10;
+        }
       `}</style>
+
+      {/* Decorative Blobs */}
+      <div className="bg-blob w-96 h-96 bg-primary -top-24 -left-24" />
+      <div className="bg-blob w-80 h-80 bg-cyan-500 -bottom-20 -right-20" />
 
       <div className="coach-card">
 
