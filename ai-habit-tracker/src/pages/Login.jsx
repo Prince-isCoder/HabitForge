@@ -102,7 +102,7 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
+          @apply opacity-10 dark:opacity-15;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
