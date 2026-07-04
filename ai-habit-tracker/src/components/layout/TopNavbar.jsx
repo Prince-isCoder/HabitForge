@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Sun, Moon, Monitor } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const TopNavbar = () => {
+  const { themeMode, setThemeMode } = useTheme();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
@@ -24,13 +26,37 @@ const TopNavbar = () => {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4">
+        {/* Theme Toggle */}
+        <div className="flex items-center bg-background border border-border/50 rounded-2xl p-1 shadow-sm">
+          {[
+            { mode: 'light', icon: Sun, label: 'Light' },
+            { mode: 'system', icon: Monitor, label: 'System' },
+            { mode: 'dark', icon: Moon, label: 'Dark' }
+          ].map((item) => (
+            <button
+              key={item.mode}
+              onClick={() => setThemeMode(item.mode)}
+              className={`p-2 rounded-xl transition-all ${
+                themeMode === item.mode
+                  ? 'bg-surface text-primary shadow-sm ring-1 ring-border/50'
+                  : 'text-textMuted hover:text-text hover:bg-surfaceLight/50'
+              }`}
+              title={`${item.label} Mode`}
+            >
+              <item.icon size={16} />
+            </button>
+          ))}
+        </div>
+
+        <div className="w-px h-8 bg-border/50 mx-1" />
+
         {/* Bell */}
         <button className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group">
           <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger rounded-full border-2 border-surface group-hover:scale-110 transition-transform" />
           <Bell size={20} />
         </button>
 
-        <div className="w-px h-8 bg-border/50 mx-2" />
+        <div className="w-px h-8 bg-border/50 mx-1" />
 
         {/* Level Badge */}
         <div className="flex items-center gap-3 bg-primary/5 border border-primary/10 px-4 py-2 rounded-xl">
