@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Moon, Sun } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const TopNavbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
@@ -23,7 +25,20 @@ const TopNavbar = () => {
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all group"
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? (
+            <Sun size={20} className="group-hover:rotate-12 transition-transform" />
+          ) : (
+            <Moon size={20} className="group-hover:-rotate-12 transition-transform" />
+          )}
+        </button>
+
         {/* Bell */}
         <button className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group">
           <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger rounded-full border-2 border-surface group-hover:scale-110 transition-transform" />

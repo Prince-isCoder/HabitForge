@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Monitor, LogOut, Save, Sun, Mail, Key, Shield } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,7 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { themeMode, setThemeMode, theme } = useTheme();
   const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
@@ -104,22 +104,37 @@ const Settings = () => {
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group gap-4">
                 <div className="flex gap-4 items-center">
                    <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                       {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
                    </div>
                    <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
+                     <div className="text-sm font-bold">Appearance</div>
+                     <div className="text-xs text-textMuted">Customize the app's visual style</div>
                    </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+
+                <div className="flex p-1 bg-surface border border-border rounded-xl">
+                  {[
+                    { id: 'light', icon: Sun, label: 'Light' },
+                    { id: 'dark', icon: Moon, label: 'Dark' },
+                    { id: 'system', icon: Monitor, label: 'System' }
+                  ].map((mode) => (
+                    <button
+                      key={mode.id}
+                      onClick={() => setThemeMode(mode.id)}
+                      className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        themeMode === mode.id
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'text-textMuted hover:text-text hover:bg-surfaceLight'
+                      }`}
+                    >
+                      <mode.icon size={14} />
+                      {mode.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
