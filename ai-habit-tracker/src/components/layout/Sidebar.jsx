@@ -82,7 +82,7 @@ const Sidebar = () => {
 
       {/* ── Brand ── */}
       <div className="p-8 flex items-center gap-3">
-        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/20 shrink-0 text-white">
+        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/20 shrink-0 text-primaryContent">
           🔥
         </div>
         <div>
@@ -129,7 +129,7 @@ const Sidebar = () => {
       <div className="p-4 mt-auto">
         <div className="upgrade-card">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-white shadow-md shadow-primary/20">
+            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-primaryContent shadow-md shadow-primary/20">
               {user?.name?.charAt(0)?.toUpperCase() || "U"}
             </div>
             <div className="min-w-0">
