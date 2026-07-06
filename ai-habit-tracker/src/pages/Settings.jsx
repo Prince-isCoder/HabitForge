@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key, Monitor } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,7 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { themeMode, setThemeMode, theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
   // ✅ Save changes to localStorage
@@ -103,23 +103,52 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
+            <div className="space-y-4">
+              <div className="p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex gap-4 items-center">
+                    <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold">App Theme</div>
+                      <div className="text-xs text-textMuted">Customize your visual experience</div>
+                    </div>
+                  </div>
+                  <div className="flex bg-surfaceLight/50 p-1 rounded-xl border border-border/50">
+                    {[
+                      { id: 'light', icon: Sun, label: 'Light' },
+                      { id: 'dark', icon: Moon, label: 'Dark' },
+                      { id: 'system', icon: Monitor, label: 'System' }
+                    ].map((mode) => (
+                      <button
+                        key={mode.id}
+                        onClick={() => setThemeMode(mode.id)}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                          themeMode === mode.id
+                            ? 'bg-surface text-primary shadow-sm'
+                            : 'text-textMuted hover:text-text'
+                        }`}
+                      >
+                        <mode.icon size={14} />
+                        {mode.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+
+                <div className="flex items-center justify-between pt-4 border-t border-border/10">
+                   <div>
+                     <div className="text-[13px] font-bold">Quick Toggle</div>
+                     <div className="text-[11px] text-textMuted">Manually switch between Light/Dark</div>
+                   </div>
+                   <button
+                    className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
+                    onClick={toggleTheme}
+                  >
+                    <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">

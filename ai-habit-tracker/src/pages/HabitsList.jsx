@@ -169,7 +169,7 @@ const HabitsList = () => {
 
       {/* AI Modal */}
       {aiHabit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-surface/60 backdrop-blur-sm">
            <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
              <div className="flex items-center gap-4 mb-6">
                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
@@ -199,7 +199,7 @@ const HabitsList = () => {
 
       {/* Per-Habit Analytics Modal */}
       {selectedHabit && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedHabit(null)}>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-surface/60 backdrop-blur-sm" onClick={() => setSelectedHabit(null)}>
           <div className="bg-surface border border-border rounded-3xl p-8 w-full max-w-lg shadow-2xl animate-popIn" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -284,7 +284,7 @@ const HabitsList = () => {
           {CATEGORIES.map(cat => (
             <button
               key={cat}
-              className={`px-5 py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all ${filterCat === cat ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-background text-textMuted hover:bg-surfaceLight'}`}
+              className={`px-5 py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all ${filterCat === cat ? 'bg-primary text-primaryContent shadow-lg shadow-primary/20' : 'bg-background text-textMuted hover:bg-surfaceLight'}`}
               onClick={() => setFilterCat(cat)}
             >
               {cat}
@@ -373,7 +373,7 @@ const HabitRow = ({ habit, onToggle, onDelete, onStats }) => {
   return (
     <div className={`habit-card ${habit.completed ? "done" : ""}`}>
       <button className={`check-btn ${habit.completed ? "done" : ""}`} onClick={() => onToggle(habit._id)}>
-        <Check size={24} className={habit.completed ? "text-white" : "text-border group-hover:text-primary transition-colors"} />
+        <Check size={24} className={habit.completed ? "text-primaryContent" : "text-border group-hover:text-primary transition-colors"} />
       </button>
 
       <div className="flex-1 min-w-0">
