@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key, Monitor } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { themeMode, setThemeMode } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -30,6 +29,12 @@ const Settings = () => {
     localStorage.removeItem("user");
     window.location.href = "/login";
   };
+
+  const themeOptions = [
+    { id: 'light', label: 'Light', icon: Sun, color: 'text-orange-400' },
+    { id: 'dark', label: 'Dark', icon: Moon, color: 'text-primary' },
+    { id: 'system', label: 'System', icon: Monitor, color: 'text-textMuted' },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
@@ -103,23 +108,36 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
-                   </div>
-                   <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
-                   </div>
-                </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+            <div className="space-y-4">
+              <div className="p-5 bg-surfaceLight/30 rounded-2xl border border-border/50">
+                 <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <div className="text-sm font-bold">Appearance</div>
+                      <div className="text-xs text-textMuted">Choose how HabitForge looks to you</div>
+                    </div>
+                    <div className="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-widest">
+                       {themeMode} mode
+                    </div>
+                 </div>
+
+                 <div className="grid grid-cols-3 gap-4">
+                    {themeOptions.map((opt) => (
+                      <button
+                        key={opt.id}
+                        onClick={() => setThemeMode(opt.id)}
+                        className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all ${
+                          themeMode === opt.id
+                            ? 'bg-surface border-primary shadow-sm shadow-primary/10'
+                            : 'bg-background border-border/50 hover:border-primary/30'
+                        }`}
+                      >
+                        <opt.icon size={20} className={themeMode === opt.id ? opt.color : 'text-textMuted'} />
+                        <span className={`text-xs font-bold ${themeMode === opt.id ? 'text-text' : 'text-textMuted'}`}>
+                          {opt.label}
+                        </span>
+                      </button>
+                    ))}
+                 </div>
               </div>
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
