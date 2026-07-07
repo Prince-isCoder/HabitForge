@@ -102,10 +102,21 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
+
+        /* Fixed: Using standard CSS instead of @apply in JSX <style> block */
+        :root {
+          --auth-blob-opacity: 0.1;
+        }
+        .dark {
+          --auth-blob-opacity: 0.15;
+        }
+        .auth-blob {
+          opacity: var(--auth-blob-opacity);
+        }
+
         @keyframes float {
           0%, 100% { transform: translate(0, 0) scale(1); }
           33% { transform: translate(30px, -50px) scale(1.1); }
