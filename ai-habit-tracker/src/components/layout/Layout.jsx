@@ -5,7 +5,7 @@ import TopNavbar from './TopNavbar';
 
 const Layout = () => {
   return (
-    <div className="flex h-screen overflow-hidden bg-background font-['Outfit',_sans-serif]">
+    <div className="flex h-screen overflow-hidden bg-background font-['Outfit',_sans-serif] transition-colors duration-200">
 
       {/* Sidebar */}
       <Sidebar />
