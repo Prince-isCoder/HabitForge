@@ -17,6 +17,7 @@ export default {
         danger: 'var(--danger)',
         text: 'var(--text)',
         textMuted: 'var(--text-muted)',
+        primaryContent: 'var(--primary-content)',
         border: 'var(--border)',
       },
       fontFamily: {

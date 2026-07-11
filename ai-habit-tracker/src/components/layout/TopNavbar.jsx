@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const TopNavbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const refresh = () => setUser(JSON.parse(localStorage.getItem("user")) || {});
@@ -11,7 +13,7 @@ const TopNavbar = () => {
   }, []);
 
   return (
-    <header className="h-20 bg-surface/80 backdrop-blur-xl border-b border-border/50 flex items-center justify-between px-8 sticky top-0 z-20">
+    <header className="h-20 bg-surface/80 backdrop-blur-xl border-b border-border/50 flex items-center justify-between px-8 sticky top-0 z-20 transition-colors duration-200">
       {/* Search */}
       <div className="relative flex-1 max-w-md">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-textMuted/50" size={18} />
@@ -24,6 +26,15 @@ const TopNavbar = () => {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
         {/* Bell */}
         <button className="p-2.5 bg-background border border-border/50 rounded-xl text-textMuted hover:text-primary hover:border-primary/30 transition-all relative group">
           <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger rounded-full border-2 border-surface group-hover:scale-110 transition-transform" />

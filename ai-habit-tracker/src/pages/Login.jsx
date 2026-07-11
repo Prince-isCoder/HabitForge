@@ -102,7 +102,8 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.15;
+          opacity: 0.1;
+          @apply dark:opacity-15;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
         }
@@ -114,9 +115,9 @@ const AuthPage = () => {
       `}</style>
 
       {/* Background blobs */}
-      <div className="auth-blob w-[600px] h-[600px] bg-primary top-[-200px] left-[-200px]" />
-      <div className="auth-blob w-[500px] h-[500px] bg-cyan-500 bottom-[-150px] right-[-100px] animation-delay-[-5s]" />
-      <div className="auth-blob w-[400px] h-[400px] bg-violet-500 top-[20%] right-[10%] animation-delay-[-10s]" />
+      <div className="auth-blob w-[600px] h-[600px] bg-primary top-[-200px] left-[-200px] transition-colors duration-200" />
+      <div className="auth-blob w-[500px] h-[500px] bg-cyan-500 bottom-[-150px] right-[-100px] animation-delay-[-5s] transition-colors duration-200" />
+      <div className="auth-blob w-[400px] h-[400px] bg-violet-500 top-[20%] right-[10%] animation-delay-[-10s] transition-colors duration-200" />
 
       {/* Left Branding Panel */}
       <div className="hidden lg:flex flex-1 flex-col justify-between p-16 relative z-10">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key } from "lucide-react";
+import { User, Bell, Moon, Shield, LogOut, Save, Sun, Mail, Key, Monitor } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
 const Settings = () => {
@@ -13,8 +13,7 @@ const Settings = () => {
   });
   const [notifications, setNotifications] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { themeMode, setThemeMode, theme } = useTheme();
 
   // ✅ Save changes to localStorage
   const saveChanges = () => {
@@ -32,7 +31,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in transition-colors duration-200">
       {saved && (
         <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-surface border border-success/30 rounded-2xl px-6 py-4 text-success font-bold z-[99] flex gap-4 items-center shadow-xl animate-popIn">
           <span>✅</span> Profile updated successfully
@@ -103,28 +102,45 @@ const Settings = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
-                <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {isDark ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-orange-400" />}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center text-primary shadow-sm border border-border/50">
+                      {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} className="text-orange-400" />}
                    </div>
                    <div>
-                     <div className="text-sm font-bold">Dark Mode</div>
-                     <div className="text-xs text-textMuted">Optimized for low-light environments</div>
+                     <div className="text-sm font-bold">Appearance</div>
+                     <div className="text-xs text-textMuted">Choose your preferred theme mode</div>
                    </div>
                 </div>
-                <button
-                  className={`w-14 h-8 rounded-full relative transition-all duration-300 ${isDark ? 'bg-primary' : 'bg-border'}`}
-                  onClick={toggleTheme}
-                >
-                  <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all shadow-md ${isDark ? 'left-7' : 'left-1'}`} />
-                </button>
+
+                <div className="flex bg-surfaceLight/50 p-1.5 rounded-2xl border border-border/50 max-w-md">
+                  {[
+                    { id: 'light', label: 'Light', icon: Sun },
+                    { id: 'dark', label: 'Dark', icon: Moon },
+                    { id: 'system', label: 'System', icon: Monitor },
+                  ].map((mode) => (
+                    <button
+                      key={mode.id}
+                      onClick={() => setThemeMode(mode.id)}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                        themeMode === mode.id
+                        ? 'bg-surface text-primary shadow-sm ring-1 ring-border/50'
+                        : 'text-textMuted hover:text-text hover:bg-surface/50'
+                      }`}
+                    >
+                      <mode.icon size={16} />
+                      {mode.label}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              <div className="h-px bg-border/50 w-full" />
 
               <div className="flex items-center justify-between p-5 bg-surfaceLight/30 rounded-2xl border border-border/50 hover:border-primary/20 transition-all group">
                 <div className="flex gap-4 items-center">
-                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform text-textMuted">
+                   <div className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform text-textMuted border border-border/50">
                       <Bell size={20} />
                    </div>
                    <div>
