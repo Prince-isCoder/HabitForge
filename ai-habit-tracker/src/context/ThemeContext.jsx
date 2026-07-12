@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 /* eslint-disable react-refresh/only-export-components */
 export const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState(() => {
-    return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'dark';
+    return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'system';
   });
   const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
 

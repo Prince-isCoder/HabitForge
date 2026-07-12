@@ -25,7 +25,7 @@ const Analytics = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in transition-colors duration-200">
       <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight mb-3">Analytics</h1>
         <p className="text-lg text-textMuted m-0">In-depth performance insights & habit trends</p>

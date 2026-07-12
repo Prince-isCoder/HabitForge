@@ -3,11 +3,11 @@ import { Plus, Flame, Trash2, Check, Zap, Search, X, BarChart2, Filter } from "l
 
 const CATEGORIES = ["All", "Health", "Work", "Learning", "Fitness", "Mindfulness", "General"];
 const CAT_COLORS = {
-  Health: { bg: "rgba(16,185,129,0.1)",  border: "rgba(16,185,129,0.2)",  text: "#10B981" },
-  Work:   { bg: "rgba(99,102,241,0.1)",  border: "rgba(99,102,241,0.2)",  text: "#6366F1" },
-  Learning:{ bg:"rgba(6,182,212,0.1)",   border: "rgba(6,182,212,0.2)",   text: "#06B6D4" },
-  Fitness:{ bg: "rgba(249,115,22,0.1)",  border: "rgba(249,115,22,0.2)",  text: "#F97316" },
-  Mindfulness:{ bg:"rgba(168,85,247,0.1)",border:"rgba(168,85,247,0.2)", text: "#A855F7" },
+  Health: { bg: "rgba(var(--cat-health),0.1)",  border: "rgba(var(--cat-health),0.2)",  text: "rgb(var(--cat-health))" },
+  Work:   { bg: "rgba(var(--cat-work),0.1)",    border: "rgba(var(--cat-work),0.2)",    text: "rgb(var(--cat-work))" },
+  Learning:{ bg:"rgba(var(--cat-learning),0.1)", border: "rgba(var(--cat-learning),0.2)", text: "rgb(var(--cat-learning))" },
+  Fitness:{ bg: "rgba(var(--cat-fitness),0.1)",  border: "rgba(var(--cat-fitness),0.2)",  text: "rgb(var(--cat-fitness))" },
+  Mindfulness:{ bg:"rgba(var(--cat-mindfulness),0.1)", border:"rgba(var(--cat-mindfulness),0.2)", text: "rgb(var(--cat-mindfulness))" },
   General: { bg: "var(--surface-light)", border: "var(--border)", text: "var(--text-muted)" },
 };
 
@@ -139,7 +139,7 @@ const HabitsList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
+    <div className="min-h-screen bg-background text-text p-8 animate-fade-in transition-colors duration-200">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
         .habit-card { @apply bg-surface border border-border rounded-3xl p-6 flex items-center gap-6 transition-all duration-200 shadow-sm shadow-black/[0.02] group; }
@@ -169,7 +169,7 @@ const HabitsList = () => {
 
       {/* AI Modal */}
       {aiHabit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-surface/60 backdrop-blur-sm">
            <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
              <div className="flex items-center gap-4 mb-6">
                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
@@ -199,7 +199,7 @@ const HabitsList = () => {
 
       {/* Per-Habit Analytics Modal */}
       {selectedHabit && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedHabit(null)}>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-surface/60 backdrop-blur-sm" onClick={() => setSelectedHabit(null)}>
           <div className="bg-surface border border-border rounded-3xl p-8 w-full max-w-lg shadow-2xl animate-popIn" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-8">
               <div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Sparkles, CheckCircle2, Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 const AuthPage = () => {
   const [tab, setTab] = useState("login");
@@ -95,6 +96,19 @@ const AuthPage = () => {
 
   const handleKey = (e) => e.key === "Enter" && submit();
 
+  const ThemeToggle = () => {
+    const { theme, toggleTheme } = useTheme();
+    return (
+      <button
+        onClick={toggleTheme}
+        className="p-3 bg-surface/50 border border-border/50 rounded-2xl text-textMuted hover:text-primary hover:border-primary/30 transition-all shadow-sm backdrop-blur-md"
+        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      >
+        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background flex font-['Inter',_sans-serif] overflow-hidden relative">
       <style>{`
@@ -158,7 +172,12 @@ const AuthPage = () => {
       </div>
 
       {/* Right Form Panel */}
-      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
+      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn transition-colors duration-200">
+        {/* Theme Toggle in Login */}
+        <div className="absolute top-8 right-8">
+           <ThemeToggle />
+        </div>
+
         <div className="w-full max-w-sm space-y-10">
           <div className="space-y-3">
              {tab !== "forgot" && tab !== "reset" && (
