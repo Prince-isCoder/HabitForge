@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDashboardData, getCalendar } from "../services/api";
-import { Zap, Brain, Flame, TrendingUp, Plus, LayoutGrid, Calendar } from "lucide-react";
+import { Zap, Brain, Flame, TrendingUp, Plus, LayoutGrid, Calendar, Bot } from "lucide-react";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -76,7 +76,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
       {/* AI Habit Modal */}
       {aiHabit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[var(--backdrop)] backdrop-blur-sm">
           <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
@@ -151,7 +151,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
             {/* AI Coach Main Card */}
             <div className="xl:col-span-2">
-              <div className="card bg-gradient-to-br from-surface to-primary/[0.03] border-primary/10 !p-8">
+              <div className="card bg-gradient-to-br from-surface via-surface to-primary/5 border-primary/10 !p-8">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
