@@ -49,7 +49,7 @@ const TopNavbar = () => {
              <div className="text-xs font-bold text-primary uppercase tracking-widest leading-tight">Level {user?.level ?? 1}</div>
              <div className="text-[10px] text-textMuted font-semibold uppercase tracking-wider">{user?.levelName || "Beginner"}</div>
            </div>
-           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-primary/20">
+           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-primaryContent shadow-lg shadow-primary/20">
              {user?.level ?? 1}
            </div>
         </div>
