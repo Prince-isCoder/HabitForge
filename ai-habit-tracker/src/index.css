@@ -16,6 +16,7 @@
   --text-muted: #64748B;  /* slate-500 */
   --border: #E2E8F0;     /* slate-200 */
   --heading: #1E293B;    /* slate-800 */
+  --backdrop: rgba(0, 0, 0, 0.3);
 }
 
 .dark {
@@ -32,6 +33,7 @@
   --text-muted: #94A3B8;  /* slate-400 */
   --border: #212936;     /* slate-700ish */
   --heading: #FFFFFF;
+  --backdrop: rgba(0, 0, 0, 0.7);
 }
 
 @layer base {

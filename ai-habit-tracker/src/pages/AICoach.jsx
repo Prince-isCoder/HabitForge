@@ -101,14 +101,12 @@ const AICoach = () => {
   };
 
   return (
-    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
+    <div className="bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-
         .coach-card {
           width: 100%;
           max-width: 720px;
-          @apply bg-surfaceLight/20 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
+          @apply bg-surface border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
         }
 
         .coach-header {
@@ -305,7 +303,7 @@ const AICoach = () => {
         {/* Header */}
         <div className="coach-header">
           <div className="header-icon-wrap">
-            <Sparkles size={20} color="#fff" />
+            <Sparkles size={20} className="text-primaryContent" />
           </div>
           <div style={{ flex: 1 }}>
             <div className="header-title">AI Coach</div>
@@ -330,7 +328,7 @@ const AICoach = () => {
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
                   ? <User size={15} className="text-textMuted/60" />
-                  : <Bot size={15} color="#fff" />
+                  : <Bot size={15} className="text-primaryContent" />
                 }
               </div>
               <div>
@@ -347,7 +345,7 @@ const AICoach = () => {
           {loading && (
             <div className="typing-row">
               <div className="msg-avatar ai">
-                <Bot size={15} color="#fff" />
+                <Bot size={15} className="text-primaryContent" />
               </div>
               <div>
                 <div className="msg-label">Coach</div>
@@ -381,7 +379,7 @@ const AICoach = () => {
             disabled={loading || !message.trim()}
             title="Send message"
           >
-            <Send size={18} color="#fff" />
+            <Send size={18} className="text-primaryContent" />
           </button>
         </div>
 
