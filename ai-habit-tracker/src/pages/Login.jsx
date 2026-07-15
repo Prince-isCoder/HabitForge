@@ -102,7 +102,7 @@ const AuthPage = () => {
           position: absolute;
           border-radius: 50%;
           filter: blur(120px);
-          opacity: 0.1;
+          opacity: 0.05;
           @apply dark:opacity-15;
           animation: float 20s ease-in-out infinite;
           pointer-events: none;
@@ -158,7 +158,7 @@ const AuthPage = () => {
       </div>
 
       {/* Right Form Panel */}
-      <div className="w-full lg:w-[560px] min-h-screen bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
+      <div className="w-full lg:w-[560px] min-h-screen bg-surface/80 dark:bg-surface/40 backdrop-blur-3xl border-l border-border/50 flex items-center justify-center p-8 relative z-10 animate-slideIn">
         <div className="w-full max-w-sm space-y-10">
           <div className="space-y-3">
              {tab !== "forgot" && tab !== "reset" && (
