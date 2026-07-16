@@ -76,7 +76,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background text-text p-8 animate-fade-in">
       {/* AI Habit Modal */}
       {aiHabit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[var(--backdrop)] backdrop-blur-sm">
           <div className="bg-surface border border-primary/30 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-popIn">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl">🤖</div>
@@ -155,7 +155,7 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
-                       <Bot size={24} className="text-white" />
+                       <Bot size={24} className="text-primaryContent" />
                     </div>
                     <div>
                       <h2 className="text-xl font-bold">Personal AI Coach</h2>
