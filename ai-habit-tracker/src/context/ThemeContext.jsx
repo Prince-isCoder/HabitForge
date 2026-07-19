@@ -7,7 +7,13 @@ export const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState(() => {
     return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'dark';
   });
-  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
+  const [theme, setTheme] = useState(() => {
+    const savedMode = localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'dark';
+    if (savedMode === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return savedMode === 'light' ? 'light' : 'dark';
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
