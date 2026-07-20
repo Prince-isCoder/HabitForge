@@ -141,7 +141,7 @@ const StreakCalendar = () => {
                     {/* The Grid */}
                     <div>
                         {/* Month labels header */}
-                        <div className="flex mb-2 height-4">
+                        <div className="flex mb-2 h-4">
                             {grid.map((_, wi) => {
                                 const ml = monthLabels.find(m => m.wi === wi);
                                 return (
