@@ -16,6 +16,14 @@
   --text-muted: #64748B;  /* slate-500 */
   --border: #E2E8F0;     /* slate-200 */
   --heading: #1E293B;    /* slate-800 */
+  --backdrop: rgba(15, 23, 42, 0.3); /* Slate-900 with opacity */
+
+  /* Category colors */
+  --cat-health: 16, 185, 129;      /* Emerald */
+  --cat-work: 99, 102, 241;        /* Indigo */
+  --cat-learning: 6, 182, 212;     /* Cyan */
+  --cat-fitness: 249, 115, 22;     /* Orange */
+  --cat-mindfulness: 168, 85, 247; /* Purple */
 }
 
 .dark {
@@ -32,6 +40,14 @@
   --text-muted: #94A3B8;  /* slate-400 */
   --border: #212936;     /* slate-700ish */
   --heading: #FFFFFF;
+  --backdrop: rgba(0, 0, 0, 0.6);
+
+  /* Category colors */
+  --cat-health: 52, 211, 153;      /* Emerald-400 */
+  --cat-work: 129, 140, 248;       /* Indigo-400 */
+  --cat-learning: 34, 211, 238;    /* Cyan-400 */
+  --cat-fitness: 251, 146, 60;     /* Orange-400 */
+  --cat-mindfulness: 192, 132, 252; /* Purple-400 */
 }
 
 @layer base {

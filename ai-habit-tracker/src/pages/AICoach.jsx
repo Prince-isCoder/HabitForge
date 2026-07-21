@@ -101,7 +101,7 @@ const AICoach = () => {
   };
 
   return (
-    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6">
+    <div className="font-['DM_Sans',_sans-serif] bg-gradient-to-br from-background via-surface to-background min-h-screen flex items-center justify-center p-6 transition-colors duration-200">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
@@ -222,11 +222,11 @@ const AICoach = () => {
           @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px] text-right;
         }
 
-        .msg-label {
+        .msg-grid-label {
           @apply text-[11px] font-medium tracking-widest uppercase mb-1 opacity-50 text-textMuted;
         }
 
-        .msg-label.right { text-align: right; }
+        .msg-grid-label.right { text-align: right; }
 
         .typing-row {
           display: flex;
@@ -305,7 +305,7 @@ const AICoach = () => {
         {/* Header */}
         <div className="coach-header">
           <div className="header-icon-wrap">
-            <Sparkles size={20} color="#fff" />
+            <Sparkles size={20} className="text-primaryContent" />
           </div>
           <div style={{ flex: 1 }}>
             <div className="header-title">AI Coach</div>
@@ -330,11 +330,11 @@ const AICoach = () => {
               <div className={cn("msg-avatar", c.role === "user" ? "user-av" : "ai")}>
                 {c.role === "user"
                   ? <User size={15} className="text-textMuted/60" />
-                  : <Bot size={15} color="#fff" />
+                  : <Bot size={15} className="text-primaryContent" />
                 }
               </div>
               <div>
-                <div className={cn("msg-label", c.role === "user" ? "right" : "")}>
+                <div className={cn("msg-grid-label", c.role === "user" ? "right" : "")}>
                   {c.role === "user" ? "You" : "Coach"}
                 </div>
                 <div className={cn("msg-bubble", c.role === "user" ? "user-bubble" : "ai-bubble")}>
@@ -347,10 +347,10 @@ const AICoach = () => {
           {loading && (
             <div className="typing-row">
               <div className="msg-avatar ai">
-                <Bot size={15} color="#fff" />
+                <Bot size={15} className="text-primaryContent" />
               </div>
               <div>
-                <div className="msg-label">Coach</div>
+                <div className="msg-grid-label">Coach</div>
                 <div className="typing-bubble">
                   <div className="typing-dot" />
                   <div className="typing-dot" />
@@ -381,7 +381,7 @@ const AICoach = () => {
             disabled={loading || !message.trim()}
             title="Send message"
           >
-            <Send size={18} color="#fff" />
+            <Send size={18} className="text-primaryContent" />
           </button>
         </div>
 
