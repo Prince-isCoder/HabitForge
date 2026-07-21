@@ -2,12 +2,31 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
+const getInitialThemeMode = () => {
+  return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'system';
+};
+
+const getDerivedTheme = (mode) => {
+  if (mode === 'system') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return mode;
+};
+
 /* eslint-disable react-refresh/only-export-components */
 export const ThemeProvider = ({ children }) => {
-  const [themeMode, setThemeMode] = useState(() => {
-    return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'dark';
+  const [themeMode, setThemeMode] = useState(() => getInitialThemeMode());
+  const [theme, setTheme] = useState(() => {
+    const mode = getInitialThemeMode();
+    const visualTheme = getDerivedTheme(mode);
+    const root = window.document.documentElement;
+    if (visualTheme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    return visualTheme;
   });
-  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
 
   useEffect(() => {
     const root = window.document.documentElement;

@@ -17,7 +17,7 @@ const Layout = () => {
         <TopNavbar />
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-background relative z-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+        <main className="flex-1 overflow-y-auto bg-background relative z-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent transition-colors duration-200">
           <Outlet />
         </main>
 
