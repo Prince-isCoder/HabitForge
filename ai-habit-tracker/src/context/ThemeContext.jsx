@@ -5,9 +5,27 @@ const ThemeContext = createContext();
 /* eslint-disable react-refresh/only-export-components */
 export const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState(() => {
-    return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'dark';
+    return localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'system';
   });
-  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
+
+  const [theme, setTheme] = useState(() => {
+    const initialMode = localStorage.getItem('themeMode') || localStorage.getItem('theme') || 'system';
+    let visualTheme = initialMode;
+    if (initialMode === 'system') {
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      visualTheme = systemPrefersDark ? 'dark' : 'light';
+    }
+    // Set immediate class on initial load to avoid rendering flashes
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement;
+      if (visualTheme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+    return visualTheme;
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
