@@ -108,12 +108,12 @@ const AICoach = () => {
         .coach-card {
           width: 100%;
           max-width: 720px;
-          @apply bg-surfaceLight/20 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
+          @apply bg-surface border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
         }
 
         .coach-header {
           padding: 20px 28px;
-          @apply border-b border-border/40 bg-gradient-to-r from-primary/5 to-transparent flex items-center gap-3.5;
+          @apply border-b border-border/40 bg-gradient-to-r from-primary/5 to-transparent dark:from-primary/10 flex items-center gap-3.5;
         }
 
         .header-icon-wrap {
@@ -164,13 +164,13 @@ const AICoach = () => {
           align-items: center;
           justify-content: center;
           gap: 12px;
-          @apply text-textMuted/40 text-[13px] font-normal tracking-wide;
+          @apply text-textMuted/60 dark:text-textMuted/40 text-[13px] font-normal tracking-wide;
         }
 
         .empty-icon {
           width: 48px;
           height: 48px;
-          @apply bg-primary/5 border border-primary/10 rounded-2xl flex items-center justify-center;
+          @apply bg-primary/10 dark:bg-primary/5 border border-primary/20 dark:border-primary/10 rounded-2xl flex items-center justify-center;
         }
 
         .msg-row {
@@ -202,7 +202,7 @@ const AICoach = () => {
         }
 
         .msg-avatar.user-av {
-          @apply bg-surfaceLight/50 border border-border/50;
+          @apply bg-surfaceLight border border-border/50;
         }
 
         .msg-bubble {
@@ -215,11 +215,11 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          @apply bg-primary/5 border border-primary/10 text-text rounded-tl-[4px];
+          @apply bg-primary/10 dark:bg-primary/5 border border-primary/20 dark:border-primary/10 text-text rounded-tl-[4px];
         }
 
         .msg-bubble.user-bubble {
-          @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px] text-right;
+          @apply bg-surfaceLight border border-border/50 text-text rounded-tr-[4px] text-right;
         }
 
         .msg-label {
@@ -256,12 +256,12 @@ const AICoach = () => {
 
         .input-area {
           padding: 18px 28px 24px;
-          @apply border-t border-border/40 bg-surface/30 flex gap-3 items-end;
+          @apply border-t border-border/40 bg-surface/50 dark:bg-surface/30 flex gap-3 items-end;
         }
 
         .input-wrapper {
           flex: 1;
-          @apply bg-surfaceLight/50 border border-border/50 rounded-2xl overflow-hidden transition-all;
+          @apply bg-surfaceLight border border-border/50 rounded-2xl overflow-hidden transition-all;
         }
 
         .input-wrapper:focus-within {
@@ -276,7 +276,7 @@ const AICoach = () => {
           @apply text-text text-sm font-normal p-[13px_16px] resize-none leading-relaxed;
         }
 
-        .chat-input::placeholder { @apply text-textMuted/40; }
+        .chat-input::placeholder { @apply text-textMuted/50 dark:text-textMuted/40; }
 
         .send-btn {
           width: 46px;
