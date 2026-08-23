@@ -108,7 +108,7 @@ const AICoach = () => {
         .coach-card {
           width: 100%;
           max-width: 720px;
-          @apply bg-surfaceLight/20 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
+          @apply bg-surface/50 border border-border/50 rounded-[24px] overflow-hidden backdrop-blur-xl shadow-2xl;
         }
 
         .coach-header {
@@ -151,6 +151,7 @@ const AICoach = () => {
           gap: 18px;
           scrollbar-width: thin;
           scrollbar-color: var(--primary) transparent;
+          @apply bg-background/20;
         }
 
         .chat-area::-webkit-scrollbar { width: 4px; }
@@ -215,11 +216,11 @@ const AICoach = () => {
         }
 
         .msg-bubble.ai-bubble {
-          @apply bg-primary/5 border border-primary/10 text-text rounded-tl-[4px];
+          @apply bg-primary/10 border border-primary/20 text-text rounded-tl-[4px];
         }
 
         .msg-bubble.user-bubble {
-          @apply bg-surfaceLight/50 border border-border/50 text-text rounded-tr-[4px] text-right;
+          @apply bg-surface border border-border text-text rounded-tr-[4px] text-right shadow-sm;
         }
 
         .msg-label {
