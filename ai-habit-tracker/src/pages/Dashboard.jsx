@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDashboardData, getCalendar } from "../services/api";
-import { Zap, Brain, Flame, TrendingUp, Plus, LayoutGrid, Calendar } from "lucide-react";
+import { Zap, Brain, Flame, TrendingUp, Plus, LayoutGrid, Calendar, Bot } from "lucide-react";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
