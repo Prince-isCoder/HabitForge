@@ -17,7 +17,7 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
 
         {/* 🔓 PUBLIC — both /login and /signup use same AuthPage */}
